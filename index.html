@@ -1,0 +1,400 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quantum Sandbox</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="logo-favicon-32x32.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="dark">
+  <div class="app" id="appRoot">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark">
+          <img src="quantum-sandbox-logo.png" alt="Quantum Sandbox logo" />
+        </div>
+        <div>
+          <h1>Quantum Sandbox</h1>
+          <p>An Interactive Quantum Circuit Playground</p>
+        </div>
+      </div>
+      <div class="mode-switcher" id="modeSwitcher" role="group" aria-label="Simulator mode">
+        <button class="mode-btn active" data-mode="basic">Basic</button>
+        <button class="mode-btn" data-mode="advanced">Advanced</button>
+        <button class="mode-btn" data-mode="expert">Expert</button>
+      </div>
+      <div class="top-actions">
+        <button id="restoreBtn" class="btn btn-soft restore-btn" title="Restore your previous session — reloads saved gates, qubit count, and circuit depth" hidden>
+          <i class="fa-solid fa-clock-rotate-left"></i>
+          <span>Restore Circuit</span>
+        </button>
+        <button id="undoBtn" class="btn btn-soft icon-btn undo-btn" aria-label="Undo" title="Undo">
+          <i class="fa-solid fa-rotate-left"></i>
+        </button>
+        <button id="redoBtn" class="btn btn-soft icon-btn redo-btn" aria-label="Redo" title="Redo">
+          <i class="fa-solid fa-rotate-right"></i>
+        </button>
+        <button id="guideBtn" class="btn btn-soft">Guide</button>
+        <button id="themeBtn" class="btn btn-soft icon-btn" aria-label="Toggle theme" title="Toggle theme">
+          <i id="themeIcon" class="fa-solid fa-sun"></i>
+        </button>
+        <button id="importJsonBtn" class="btn btn-soft" title="Import a previously exported JSON circuit">
+          <i class="fa-solid fa-upload"></i>
+          <span>Import</span>
+        </button>
+        <input type="file" id="importJsonFile" accept=".json" style="display:none" />
+        <button id="exportBtn" class="btn btn-primary">
+          <i class="fa-solid fa-download"></i>
+          <span>Export</span>
+        </button>
+        <div id="exportMenu" class="export-menu" aria-hidden="true">
+          <button id="exportImageBtn" class="btn btn-soft full">
+            <i class="fa-solid fa-image"></i>
+            <span>Download Image</span>
+          </button>
+          <button id="exportJsonBtn" class="btn btn-soft full">
+            <i class="fa-solid fa-file-code"></i>
+            <span>Download JSON</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="layout">
+      <aside class="panel left-panel">
+        <div class="panel-head">
+          <h2>Gate Library</h2>
+          <p>Drag or click to add</p>
+        </div>
+        <div class="left-controls">
+          <label class="control-label" for="presetSelect">Preset</label>
+          <select id="presetSelect" class="preset-select">
+            <option value="ZERO">|0⟩</option>
+            <option value="ONE">|1⟩</option>
+            <option value="PLUS">|+⟩</option>
+            <option value="MINUS">|-⟩</option>
+            <option value="PLUS_I">|i⟩</option>
+            <option value="MINUS_I">|-i⟩</option>
+          </select>
+          <button id="measureBtn" class="btn btn-soft full">
+            <i class="fa-solid fa-ruler-combined"></i>
+            <span>Measure</span>
+          </button>
+          <button id="resetStateBtn" class="btn btn-soft full">
+            <i class="fa-solid fa-power-off"></i>
+            <span>Reset State</span>
+          </button>
+        </div>
+        <div id="gateLibrary" class="gate-library"></div>
+        <button id="clearBtn" class="btn btn-soft full">Clear Circuit</button>
+      </aside>
+
+      <section class="panel center-panel">
+        <div class="stats" id="statsRow"></div>
+        <div id="stateFormula" class="state-readout mono"></div>
+        <div id="circuitCanvasWrap" class="circuit-wrap">
+          <div id="qubitBadge" class="qubit-badge">|0⟩</div>
+        </div>
+        <div class="explain-box empty" id="gateExplain"></div>
+      </section>
+
+      <aside class="panel right-panel">
+        <div class="panel-head">
+          <h2>Quantum State</h2>
+          <p>Live State Vector and Bloch sphere Visualization</p>
+        </div>
+
+        <div class="state-card state-vector-card">
+          <h3>State Vector <button class="info-btn" data-tip="The state vector shows α and β — the two complex amplitudes of your qubit. The bars below show |α|² and |β|², which are the actual probabilities of measuring |0⟩ or |1⟩." aria-label="What is the state vector?"><i class="fa-solid fa-circle-info"></i></button></h3>
+
+          <div class="amplitude-block">
+            <div class="amplitude-row">
+              <span>|0⟩ α <button class="info-btn info-btn-sm" data-tip="α (alpha) is the amplitude for |0⟩. Its magnitude squared, |α|², gives the probability of measuring 0." aria-label="What is alpha?"><i class="fa-solid fa-circle-info"></i></button></span>
+              <span id="alphaText" class="mono"></span>
+            </div>
+            <div class="bar-track"><div id="alphaBar" class="bar-fill"></div></div>
+          </div>
+
+          <div class="amplitude-block">
+            <div class="amplitude-row">
+              <span>|1⟩ β <button class="info-btn info-btn-sm" data-tip="β (beta) is the amplitude for |1⟩. Its magnitude squared, |β|², gives the probability of measuring 1." aria-label="What is beta?"><i class="fa-solid fa-circle-info"></i></button></span>
+              <span id="betaText" class="mono"></span>
+            </div>
+            <div class="bar-track"><div id="betaBar" class="bar-fill"></div></div>
+          </div>
+        </div>
+
+        <div class="state-card">
+          <h3>Bloch Sphere <button class="info-btn" data-tip="The Bloch sphere is a 3D map of all possible single-qubit states. The arrow's direction encodes both probability and phase. North pole = |0⟩, south pole = |1⟩, equator = superposition." aria-label="What is the Bloch sphere?"><i class="fa-solid fa-circle-info"></i></button></h3>
+          <div id="blochCanvasWrap" class="bloch-wrap"></div>
+          <div id="blochText" class="mono bloch-coords"></div>
+        </div>
+
+        <div class="state-card">
+          <h3>Gate Sequence <button class="info-btn" data-tip="This shows the ordered list of gates applied to your qubit from left to right. Each gate transforms the state — the final state is the result of all gates applied in sequence." aria-label="What is the gate sequence?"><i class="fa-solid fa-circle-info"></i></button></h3>
+          <div id="sequenceText" class="mono sequence">No gates applied yet.</div>
+        </div>
+      </aside>
+    </main>
+
+    <!-- ═══════════ ADVANCED MODE ═══════════ -->
+    <main class="layout layout-advanced" id="layoutAdvanced" hidden>
+      <aside class="panel left-panel" id="advLeftPanel">
+        <div class="panel-head">
+          <h2>Gate Library</h2>
+          <p>Multi-qubit gates + single-qubit</p>
+        </div>
+        <div class="adv-controls">
+          <label class="control-label">Qubits</label>
+          <div class="qubit-count-row">
+            <button class="qubit-count-btn active" data-n="2">2</button>
+            <button class="qubit-count-btn" data-n="3">3</button>
+          </div>
+          <label class="control-label" style="margin-top:8px">Algorithm Preset</label>
+          <select id="advPresetSelect" class="preset-select">
+            <option value="none">— custom —</option>
+            <option value="bell">Bell State (|00⟩+|11⟩)</option>
+            <option value="ghz">GHZ State</option>
+            <option value="swap_test">SWAP Test</option>
+          </select>
+          <button id="advMeasureBtn" class="btn btn-soft full">
+            <i class="fa-solid fa-ruler-combined"></i><span>Measure All</span>
+          </button>
+          <button id="advResetBtn" class="btn btn-soft full">
+            <i class="fa-solid fa-power-off"></i><span>Reset</span>
+          </button>
+        </div>
+        <div id="advGateLibrary" class="gate-library adv-gate-library"></div>
+        <button id="advClearBtn" class="btn btn-soft full">Clear Circuit</button>
+      </aside>
+
+      <section class="panel center-panel" id="advCenterPanel">
+        <div class="stats" id="advStatsRow"></div>
+        <div id="advStateFormula" class="state-readout mono"></div>
+        <div id="advPendingPrompt" class="adv-pending-prompt" aria-live="polite"></div>
+        <div id="advCircuitWrap" class="circuit-wrap adv-circuit-wrap"></div>
+        <div class="explain-box empty" id="advGateExplain"></div>
+      </section>
+
+      <aside class="panel right-panel" id="advRightPanel">
+        <div class="panel-head">
+          <h2>Quantum State</h2>
+          <p>Full statevector + entanglement</p>
+        </div>
+        <div class="state-card" id="advEntanglementCard" style="display:none">
+          <div class="entanglement-badge" id="advEntanglementBadge"></div>
+        </div>
+        <div class="state-card">
+          <h3>Basis State Probabilities <button class="info-btn" data-tip="Each bar shows the probability of measuring that specific combination of all qubits. They always sum to 100%." aria-label="What is this?"><i class="fa-solid fa-circle-info"></i></button></h3>
+          <div id="advProbBars" class="adv-prob-bars"></div>
+        </div>
+        <div class="state-card">
+          <h3>Qubit Bloch Spheres <button class="info-btn" data-tip="Each sphere shows one qubit's state. When qubits are entangled the individual spheres become approximate — they can't fully capture the joint state." aria-label="What is this?"><i class="fa-solid fa-circle-info"></i></button></h3>
+          <div id="advBlochRow" class="adv-bloch-row"></div>
+        </div>
+        <div class="state-card">
+          <h3>Gate Sequence</h3>
+          <div id="advSequenceText" class="mono sequence">No gates applied yet.</div>
+        </div>
+      </aside>
+    </main>
+
+    <!-- ═══════════ EXPERT MODE ═══════════ -->
+    <main class="layout layout-advanced" id="layoutExpert" hidden>
+      <aside class="panel left-panel" id="expLeftPanel">
+        <div class="panel-head">
+          <h2>Gate Library</h2>
+          <p>Full universal gate set</p>
+        </div>
+        <div class="adv-controls">
+          <label class="control-label">Qubits</label>
+          <div class="qubit-control-row" id="expQubitControl">
+            <span class="qubit-info"><span id="expQubitCount">2</span> qubits</span>
+            <button class="qubit-add-btn" id="expQubitAddBtn" title="Add qubit"><i class="fa-solid fa-plus"></i></button>
+            <button class="qubit-remove-btn" id="expQubitRemoveBtn" title="Remove qubit"><i class="fa-solid fa-minus"></i></button>
+          </div>
+          <div class="qubit-error" id="expQubitError"></div>
+          <label class="control-label" style="margin-top:8px">Algorithm Preset</label>
+          <select id="expPresetSelect" class="preset-select">
+            <option value="none">— custom —</option>
+            <option value="bell">Bell State</option>
+            <option value="ghz">GHZ State</option>
+            <option value="qft2">QFT (2-qubit)</option>
+            <option value="teleport">Teleportation</option>
+            <option value="grover2">Grover (2-qubit)</option>
+            <option value="deutsch">Deutsch Algorithm</option>
+          </select>
+          <button id="expMeasureBtn" class="btn btn-soft full">
+            <i class="fa-solid fa-ruler-combined"></i><span>Measure All</span>
+          </button>
+          <button id="expResetBtn" class="btn btn-soft full">
+            <i class="fa-solid fa-power-off"></i><span>Reset</span>
+          </button>
+        </div>
+        <div id="expGateLibrary" class="gate-library adv-gate-library"></div>
+        <button id="expClearBtn" class="btn btn-soft full">Clear Circuit</button>
+      </aside>
+
+      <section class="panel center-panel" id="expCenterPanel">
+        <div class="stats" id="expStatsRow"></div>
+        <div id="expStateFormula" class="state-readout mono"></div>
+        <div id="expPendingPrompt" class="adv-pending-prompt" aria-live="polite"></div>
+        <div id="expCircuitWrap" class="circuit-wrap adv-circuit-wrap"></div>
+        <div class="explain-box empty" id="expGateExplain"></div>
+      </section>
+
+      <aside class="panel right-panel" id="expRightPanel">
+        <div class="panel-head">
+          <h2>Quantum State</h2>
+          <p>Full statevector · phase · entanglement</p>
+        </div>
+        <div class="state-card" id="expEntanglementCard" style="display:none">
+          <div class="entanglement-badge" id="expEntanglementBadge"></div>
+        </div>
+        <div class="state-card">
+          <h3>Basis State Probabilities</h3>
+          <div id="expProbBars" class="adv-prob-bars"></div>
+        </div>
+        <div class="state-card">
+          <h3>Phase Angles <button id="expPhaseUnitToggle" class="btn btn-soft" style="font-size:0.72rem;padding:3px 9px;margin-left:6px;background:linear-gradient(135deg,color-mix(in oklab,var(--accent),transparent 85%) 0%,color-mix(in oklab,var(--accent-2,var(--accent)),transparent 82%) 100%)" title="Toggle between degrees and radians">deg</button></h3>
+          <div id="expPhaseDisplay" class="exp-phase-display"></div>
+        </div>
+        <div class="state-card">
+          <h3>Qubit Bloch Spheres</h3>
+          <div id="expBlochRow" class="adv-bloch-row"></div>
+        </div>
+        <div class="state-card">
+          <h3>Gate Sequence</h3>
+          <div id="expSequenceText" class="mono sequence">No gates applied yet.</div>
+        </div>
+      </aside>
+    </main>
+    <footer class="site-footer">
+      <p>© Quantum Sandbox • Ritayush Suchismita Dey</p>
+    </footer>
+  </div>
+  <div id="gateTooltip" class="gate-tooltip" aria-hidden="true"></div>
+  <div id="infoTooltip" class="gate-tooltip info-tooltip" aria-hidden="true"></div>
+  <div id="actionTooltip" class="gate-tooltip action-tooltip" aria-hidden="true"></div>
+  <div id="depthEditor" class="depth-editor" aria-hidden="true">
+    <h4>Edit Circuit Depth</h4>
+    <p>Choose a value between 1 and 16.</p>
+    <input id="depthInput" type="number" min="1" max="16" step="1" />
+    <div class="depth-actions">
+      <button id="depthCancelBtn" class="btn btn-soft">Cancel</button>
+      <button id="depthSaveBtn" class="btn btn-primary">Save</button>
+    </div>
+  </div>
+  <div id="advDepthEditor" class="depth-editor" aria-hidden="true">
+    <h4>Edit Circuit Depth</h4>
+    <p>Choose a value between 1 and 32.</p>
+    <input id="advDepthInput" type="number" min="1" max="32" step="1" />
+    <div class="depth-actions">
+      <button id="advDepthCancelBtn" class="btn btn-soft">Cancel</button>
+      <button id="advDepthSaveBtn" class="btn btn-primary">Save</button>
+    </div>
+  </div>
+  <div id="expDepthEditor" class="depth-editor" aria-hidden="true">
+    <h4>Edit Circuit Depth</h4>
+    <p>Choose a value between 1 and 32.</p>
+    <input id="expDepthInput" type="number" min="1" max="32" step="1" />
+    <div class="depth-actions">
+      <button id="expDepthCancelBtn" class="btn btn-soft">Cancel</button>
+      <button id="expDepthSaveBtn" class="btn btn-primary">Save</button>
+    </div>
+  </div>
+  <div id="depthBackdrop" class="depth-backdrop" aria-hidden="true"></div>
+  <div id="depthError" class="depth-error" aria-hidden="true"></div>
+  <div id="advDepthError" class="depth-error" aria-hidden="true"></div>
+  <div id="expDepthError" class="depth-error" aria-hidden="true"></div>
+  <div id="downloadToast" class="download-toast" aria-hidden="true"></div>
+  <div id="guideOverlay" class="guide-overlay" aria-hidden="true">
+    <div class="guide-card">
+      <div id="guideConfetti" class="guide-confetti" aria-hidden="true"></div>
+      <button id="guideCloseBtn" class="btn btn-soft guide-close-btn" aria-label="Close guide">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <div class="guide-body">
+        <div class="guide-pill" id="guideStepLabel"></div>
+        <h3 id="guideTitle"></h3>
+        <div class="guide-progress-track"><div id="guideProgressBar" class="guide-progress-fill"></div></div>
+        <div id="guideContent" class="guide-content"></div>
+      </div>
+      <div class="guide-nav">
+        <button id="guidePrevBtn" class="btn btn-soft icon-btn" aria-label="Previous slide">
+          <i class="fa-solid fa-arrow-left"></i>
+        </button>
+        <span id="guideCounter" class="mono"></span>
+        <button id="guideNextBtn" class="btn btn-soft icon-btn" aria-label="Next slide">
+          <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- Contact Modal -->
+  <div id="contactModal" class="contact-modal" aria-hidden="true">
+    <div class="contact-card">
+      <button id="contactCloseBtn" class="btn btn-soft guide-close-btn" aria-label="Close contact">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <div class="contact-header">
+        <div class="contact-avatar">
+          <img src="quantum-sandbox-logo.png" alt="Quantum Sandbox logo" />
+        </div>
+        <h3>Get in Touch</h3>
+        <p>Questions, feedback, or just want to chat about quantum computing?</p>
+      </div>
+      <div class="contact-links">
+        <a href="mailto:ritayushsdey@gmail.com" class="contact-link">
+          <i class="fa-solid fa-envelope"></i>
+          <div>
+            <strong>Email</strong>
+            <span>ritayushsdey@gmail.com</span>
+          </div>
+          <i class="fa-solid fa-arrow-right contact-link-arrow"></i>
+        </a>
+        <a href="https://www.instagram.com/ritayush_dey" target="_blank" rel="noopener" class="contact-link">
+          <i class="fa-brands fa-instagram"></i>
+          <div>
+            <strong>Instagram</strong>
+            <span>@ritayush_dey</span>
+          </div>
+          <i class="fa-solid fa-arrow-right contact-link-arrow"></i>
+        </a>
+        <a href="https://www.linkedin.com/in/ritayushsdey/" target="_blank" rel="noopener" class="contact-link">
+          <i class="fa-brands fa-linkedin"></i>
+          <div>
+            <strong>LinkedIn</strong>
+            <span>ritayushsdey</span>
+          </div>
+          <i class="fa-solid fa-arrow-right contact-link-arrow"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+  <!-- Floating Contact Button -->
+  <button id="contactFab" class="contact-fab" aria-label="Contact me" title="Contact me">
+    <i class="fa-solid fa-envelope"></i>
+  </button>
+
+  <div id="exportOverlay" class="export-overlay" aria-hidden="true">
+    <div class="export-card">
+      <i id="exportOverlayIcon" class="fa-solid fa-image"></i>
+      <h3 id="exportOverlayTitle">Your circuit is being exported to an image</h3>
+      <p id="exportOverlayText">Please wait a moment...</p>
+      <button id="exportCancelBtn" class="btn btn-soft">
+        <i class="fa-solid fa-xmark"></i>
+        <span>Cancel</span>
+      </button>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.9.4/lib/p5.min.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node --check \"c:\\\\System Files\\\\School\\\\Student Portfolio\\\\Impact Projects\\\\Quantum Sandbox\\\\quantum-sandbox-main\\\\main.js\")",
+      "Bash(python3 -c ' *)",
+      "Bash(powershell -Command 'Get-Content '\\\\''C:\\\\Users\\\\Ritayush\\\\.claude\\\\projects\\\\c--System-Files-School-Student-Portfolio-Impact-Projects-Quantum-Sandbox-quantum-sandbox-main\\\\8d33ca00-d9c4-4e36-94f9-13317101794b.jsonl'\\\\'' | Select-Object -Last 50 | ForEach-Object { $_ | ConvertFrom-Json | Select-Object -ExpandProperty content -ErrorAction SilentlyContinue } | Where-Object { $_ -is [string] } | Select-Object -Last 20')",
+      "Bash(powershell -Command ' *)"
+    ]
+  }
+}
