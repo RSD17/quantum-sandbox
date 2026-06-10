@@ -1,0 +1,13 @@
+# Chrome automation profiles
+__chrome_profile*/
+
+# CDP / testing artifacts
+__cdp_test*.mjs
+
+# Claude
+.claude/
+
+# Common junk
+*.log
+.DS_Store
+Thumbs.db

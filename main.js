@@ -1144,7 +1144,7 @@ function addGateToFirstEmpty(gateType) {
 }
 
 function clearCircuit() {
-  if (circuit.some(Boolean) && !confirm("Clear the circuit? This removes all gates. (You can undo with Ctrl+Z.)")) return;
+  if (circuit.some(Boolean) && !confirm("Clear the circuit? This removes all gates")) return;
   pushHistory();
   circuit.fill(null);
   selectedSlot = null;
@@ -1715,9 +1715,9 @@ async function exportImage() {
     ctx.fillText("Snapshot Metadata", rightX + 12, metaY + 24);
     ctx.fillStyle = muted;
     ctx.font = "500 12px 'IBM Plex Mono'";
-    ctx.fillText(`Depth: ${circuitSlots}`, rightX + 12, metaY + 48);
-    ctx.fillText(`Gates: ${seq.length}`, rightX + 12, metaY + 68);
-    ctx.fillText(`Theme: ${currentTheme}`, rightX + 12, metaY + 88);
+    ctx.fillText(`Initial state: ${initialStateLabel}`, rightX + 12, metaY + 48);
+    ctx.fillText(`Depth: ${circuitSlots}`, rightX + 12, metaY + 68);
+    ctx.fillText(`Gates: ${seq.length}  ·  Theme: ${currentTheme}`, rightX + 12, metaY + 88);
 
     const link = document.createElement("a");
     link.download = `quantum-sandbox-${Date.now()}.png`;
@@ -1731,7 +1731,7 @@ async function exportImage() {
 }
 
 async function exportImageAdvanced() {
-  if (advCircuit.length === 0) { showDownloadToast("Nothing on the canvas to export."); return; }
+  if (advGateCount() === 0) { showDownloadToast("Nothing on the canvas to export."); return; }
   if (!advSketch || exportInProgress) return;
   exportInProgress = true;
   currentExportSession = { cancelled: false, timer: null, resolveWait: null };
@@ -1767,10 +1767,13 @@ async function exportImageAdvanced() {
     const probCardH    = 28 + (1 << n) * 28 + 16;
     const blochCardH   = advBlochSketches.length > 0 ? 180 + 36 : 0;
     const phaseCardH   = advMode === "expert" ? 28 + advSV.filter(z => cAbs2(z) >= 0.001).length * 28 + 16 : 0;
-    const metaCardH    = 100;
+    const initialStates = advQubitInitStates.slice(0, n).map((state, qubit) => `Q${qubit} ${state}`);
+    const initCardLines = Math.max(1, Math.ceil(initialStates.length / 2));
+    const initCardH     = 28 + initCardLines * 20 + 18;
+    const metaCardH     = 116;
 
     const leftH  = topH + circuitCardH + gap + seqCardH + margin;
-    const rightH = topH + probCardH + gap + (blochCardH > 0 ? blochCardH + gap : 0) + (phaseCardH > 0 ? phaseCardH + gap : 0) + metaCardH + margin;
+    const rightH = topH + initCardH + gap + probCardH + gap + (blochCardH > 0 ? blochCardH + gap : 0) + (phaseCardH > 0 ? phaseCardH + gap : 0) + metaCardH + margin;
     const totalH = Math.max(leftH, rightH);
     const totalW = margin * 2 + mainW + gap + sideW;
 
@@ -1828,7 +1831,7 @@ async function exportImageAdvanced() {
     ctx.fillStyle = text; ctx.font = "600 13px Space Grotesk";
     ctx.fillText("Gate Sequence", leftX + 12, seqY + 22);
     ctx.fillStyle = muted; ctx.font = "500 11px 'IBM Plex Mono'";
-    const filledSteps = advCircuit.filter(Boolean);
+    const filledSteps = advFlattenCircuit();
     const seqStr = filledSteps.length
       ? filledSteps.map(s => s.qubit2 !== undefined ? `${s.gate}(Q${s.qubit}→Q${s.qubit2})` : `${s.gate}(Q${s.qubit})`).join(" → ")
       : "No gates applied";
@@ -1842,6 +1845,21 @@ async function exportImageAdvanced() {
       } else { line = test; }
     }
     if (line) ctx.fillText(line, leftX + 12, ly);
+
+    drawCard(rightX, rightY, sideW, initCardH);
+    ctx.fillStyle = text;
+    ctx.font = "600 13px Space Grotesk";
+    ctx.fillText("Initial Qubit States", rightX + 12, rightY + 22);
+    ctx.fillStyle = muted;
+    ctx.font = "500 11px 'IBM Plex Mono'";
+    for (let i = 0; i < initialStates.length; i += 2) {
+      const rowY = rightY + 42 + Math.floor(i / 2) * 20;
+      const leftState = initialStates[i];
+      const rightState = initialStates[i + 1];
+      ctx.fillText(leftState, rightX + 12, rowY);
+      if (rightState) ctx.fillText(rightState, rightX + sideW / 2, rowY);
+    }
+    rightY += initCardH + gap;
 
     // Basis state probabilities card
     drawCard(rightX, rightY, sideW, probCardH);
@@ -1900,8 +1918,9 @@ async function exportImageAdvanced() {
     ctx.fillText("Metadata", rightX + 12, rightY + 22);
     ctx.fillStyle = muted; ctx.font = "500 11px 'IBM Plex Mono'";
     ctx.fillText(`Mode: ${advMode}`, rightX + 12, rightY + 46);
-    ctx.fillText(`Qubits: ${n}  ·  Gates: ${advCircuit.length}`, rightX + 12, rightY + 64);
-    ctx.fillText(`Entangled: ${entangled ? "yes" : "no"}`, rightX + 12, rightY + 82);
+    ctx.fillText(`Qubits: ${n}  ·  Gates: ${advGateCount()}`, rightX + 12, rightY + 64);
+    ctx.fillText(`Depth: ${advCircuitSlots}  ·  Theme: ${currentTheme}`, rightX + 12, rightY + 82);
+    ctx.fillText(`Entangled: ${entangled ? "yes" : "no"}`, rightX + 12, rightY + 100);
 
     const link = document.createElement("a");
     link.download = `quantum-sandbox-${advMode}-${Date.now()}.png`;
@@ -1950,7 +1969,7 @@ async function exportJson() {
 }
 
 async function exportJsonAdvanced() {
-  if (advCircuit.length === 0) { showDownloadToast("Nothing on the canvas to export."); return; }
+  if (advGateCount() === 0) { showDownloadToast("Nothing on the canvas to export."); return; }
   if (exportInProgress) return;
   exportInProgress = true;
   currentExportSession = { cancelled: false, timer: null, resolveWait: null };
@@ -1969,8 +1988,10 @@ async function exportJsonAdvanced() {
       exported_at: new Date().toISOString(),
       mode: advMode,
       num_qubits: n,
+      depth: advCircuitSlots,
       qubitInitStates: advQubitInitStates.slice(0, n),
-      circuit: advCircuit.filter(Boolean).map(s => ({ ...s })),
+      circuit_columns: advCloneCircuit(),
+      circuit: advFlattenCircuit().map(s => ({ ...s })),
       statevector: advSV.map((z, i) => ({
         basis: basisLabel(i, n),
         index: i,
@@ -2001,7 +2022,7 @@ async function exportJsonAdvanced() {
 }
 
 async function exportJsonExpert() {
-  if (advCircuit.length === 0) { showDownloadToast("Nothing on the canvas to export."); return; }
+  if (advGateCount() === 0) { showDownloadToast("Nothing on the canvas to export."); return; }
   if (exportInProgress) return;
   exportInProgress = true;
   currentExportSession = { cancelled: false, timer: null, resolveWait: null };
@@ -2044,8 +2065,10 @@ async function exportJsonExpert() {
       exported_at: new Date().toISOString(),
       mode: "expert",
       num_qubits: n,
+      depth: advCircuitSlots,
       qubitInitStates: advQubitInitStates.slice(0, n),
-      circuit: advCircuit.filter(Boolean).map(s => ({ ...s })),
+      circuit_columns: advCloneCircuit(),
+      circuit: advFlattenCircuit().map(s => ({ ...s })),
       statevector,
       entangled,
       qubit_phases,
@@ -2169,18 +2192,30 @@ function importCircuitFromJson(data) {
     if (currentMode !== "basic") switchMode("basic");
 
     const depth = Number.isInteger(data.depth) && data.depth >= 1 && data.depth <= 16 ? data.depth : 8;
-    circuitSlots = depth;
-    circuit = new Array(circuitSlots).fill(null);
+    setCircuitDepth(depth, false);
+    const rebuilt = new Array(circuitSlots).fill(null);
     data.circuit.forEach((g, i) => {
-      if (i < circuitSlots && g && typeof g === "string" && GATES[g]) circuit[i] = g;
-      else if (i < circuitSlots && g && g.gate && GATES[g.gate]) circuit[i] = g.gate;
+      if (i < circuitSlots && g && typeof g === "string" && GATES[g]) rebuilt[i] = g;
+      else if (i < circuitSlots && g && g.gate && GATES[g.gate]) rebuilt[i] = g.gate;
     });
+    circuit = rebuilt;
 
-    if (data.initial_state_label && typeof data.initial_state_label === "string") {
-      initialStateLabel = data.initial_state_label;
-      const preset = { "|0⟩":"ZERO","|1⟩":"ONE","|+⟩":"PLUS","|-⟩":"MINUS","|i⟩":"PLUS_I","|-i⟩":"MINUS_I" }[data.initial_state_label];
-      if (preset) applyPreset(preset);
+    const presetMap = { "|0⟩":"ZERO","|1⟩":"ONE","|+⟩":"PLUS","|-⟩":"MINUS","|i⟩":"PLUS_I","|-i⟩":"MINUS_I" };
+    const preset = typeof data.initial_state_label === "string" ? presetMap[data.initial_state_label] : null;
+    if (data.initial_state && data.initial_state.alpha && data.initial_state.beta) {
+      initialState = normalizeState({
+        alpha: toComplex(data.initial_state.alpha),
+        beta: toComplex(data.initial_state.beta)
+      });
+      initialStateLabel = typeof data.initial_state_label === "string" ? data.initial_state_label : (preset ? presetToLabel(preset) : "|ψ⟩");
+    } else if (preset) {
+      initialState = normalizeState(presetToState(preset));
+      initialStateLabel = presetToLabel(preset);
     }
+    presetSelect.value = preset || "ZERO";
+    qubitBadge.textContent = initialStateLabel;
+    selectedSlot = null;
+    setExplain(null);
     recomputeState();
     showDownloadToast("Circuit imported successfully.");
     return;
@@ -2198,10 +2233,28 @@ function importCircuitFromJson(data) {
 
   // Wait for mode switch to settle then load circuit
   setTimeout(() => {
-    advNumQubits = n;
-    advCircuit = data.circuit
+    const importedColumns = Array.isArray(data.circuit_columns)
+      ? data.circuit_columns.map(column => {
+          const steps = Array.isArray(column) ? column : (column ? [column] : []);
+          const normalized = steps
+            .filter(step => step && step.gate && MQ_GATES[step.gate])
+            .map(step => ({ ...step }));
+          return normalized.length ? normalized : null;
+        })
+      : null;
+    const fallbackColumns = data.circuit
       .filter(s => s && s.gate && MQ_GATES[s.gate])
-      .map(s => ({ ...s }));
+      .map(s => [{ ...s }]);
+    const importedDepth = Number.isInteger(data.depth) && data.depth >= 1 && data.depth <= 32
+      ? data.depth
+      : (importedColumns?.length || data.circuit.length || ADV_DEFAULT_DEPTH);
+
+    advNumQubits = n;
+    advCircuitSlots = Math.max(1, importedDepth);
+    advCircuit = importedColumns ? importedColumns.slice(0, advCircuitSlots) : fallbackColumns.slice(0, advCircuitSlots);
+    if (advCircuit.length < advCircuitSlots) {
+      advCircuit = advCircuit.concat(new Array(advCircuitSlots - advCircuit.length).fill(null));
+    }
     advQubitInitStates = (Array.isArray(data.qubitInitStates) && data.qubitInitStates.length === n)
       ? data.qubitInitStates.map(k => QUBIT_INIT_PRESETS[k] ? k : "|0⟩")
       : Array(n).fill("|0⟩");
@@ -2507,7 +2560,7 @@ const SV = (() => {
     return { x: rx, y: ry, z: rz };
   }
 
-  // Schmidt rank > 1 ⟹ entangled (bipartition: qubit 0 vs rest)
+  // Schmidt rank > 1: entangled (bipartition: qubit 0 vs rest)
   function isEntangled(sv, n) {
     if (n < 2) return false;
     const dimA = 2, dimB = 1 << (n - 1);
@@ -2576,17 +2629,109 @@ const QUBIT_INIT_PRESETS = {
 let advMode = "advanced"; // "advanced" | "expert"
 let advNumQubits = 2;
 let advQubitInitStates = ["|0⟩", "|0⟩"];
-let advCircuit  = [];   // array of {gate, qubit, qubit2?, qubit3?}
+let advCircuit  = [];   // array of columns; each column is null or an array of gate steps
 let advCircuitSlots = 8;
 let advSV       = SV.initZero(2);
 let advSketch   = null;
 let advBlochSketches = [];
+
+// Per-mode circuit snapshots — keeps Advanced and Expert state (incl. depth) independent
+// of one another across mode switches within the same session.
+let advModeStates = { advanced: null, expert: null };
+
+function advNormalizeCircuitColumn(column) {
+  if (!column) return null;
+  const steps = (Array.isArray(column) ? column : [column])
+    .filter(step => step && step.gate && MQ_GATES[step.gate])
+    .map(step => ({ ...step }));
+  return steps.length ? steps : null;
+}
+
+function advCloneCircuit(circuit = advCircuit) {
+  return circuit.map(column => {
+    const normalized = advNormalizeCircuitColumn(column);
+    return normalized ? normalized.map(step => ({ ...step })) : null;
+  });
+}
+
+function advColumnSteps(column) {
+  return advNormalizeCircuitColumn(column) || [];
+}
+
+function advFlattenCircuit(circuit = advCircuit) {
+  return circuit.flatMap(column => advColumnSteps(column));
+}
+
+function advGateQubits(step) {
+  return [step.qubit, step.qubit2, step.qubit3].filter(Number.isInteger);
+}
+
+function advColumnOccupiesQubit(column, qubit) {
+  return advColumnSteps(column).some(step => advGateQubits(step).includes(qubit));
+}
+
+function advCanPlaceStepInColumn(index, step, circuit = advCircuit) {
+  if (index < 0 || index >= advCircuitSlots) return false;
+  const targetQubits = advGateQubits(step);
+  if (targetQubits.length === 0 || targetQubits.some(q => q < 0 || q >= advNumQubits)) return false;
+  return advColumnSteps(circuit[index]).every(existing =>
+    advGateQubits(existing).every(q => !targetQubits.includes(q))
+  );
+}
+
+function advFindSingleStepIndex(index, qubit, circuit = advCircuit) {
+  return advColumnSteps(circuit[index]).findIndex(step => step.qubit === qubit && MQ_GATES[step.gate]?.kind === "single");
+}
+
+function advFindPlacementColumn(step, startIndex = 0, circuit = advCircuit) {
+  for (let i = Math.max(0, startIndex); i < advCircuitSlots; i++) {
+    if (advCanPlaceStepInColumn(i, step, circuit)) return i;
+  }
+  return -1;
+}
+
+function advInsertStepAtColumn(index, step) {
+  const steps = advColumnSteps(advCircuit[index]).map(existing => ({ ...existing }));
+  steps.push({ ...step });
+  advCircuit[index] = steps;
+}
+
+function advRemoveStepAtColumn(index, stepIndex) {
+  const steps = advColumnSteps(advCircuit[index]).map(step => ({ ...step }));
+  if (stepIndex < 0 || stepIndex >= steps.length) return null;
+  const [removed] = steps.splice(stepIndex, 1);
+  advCircuit[index] = steps.length ? steps : null;
+  return removed;
+}
+
+function advGateCount(circuit = advCircuit) {
+  return advFlattenCircuit(circuit).length;
+}
+
+function advCaptureModeState() {
+  return {
+    numQubits: advNumQubits,
+    qubitInitStates: advQubitInitStates.slice(),
+    circuit: advCloneCircuit(),
+    circuitSlots: advCircuitSlots,
+    sv: SV.clone(advSV)
+  };
+}
+
+function advRestoreModeState(state) {
+  advNumQubits = state.numQubits;
+  advQubitInitStates = state.qubitInitStates.slice();
+  advCircuit = advCloneCircuit(state.circuit || []);
+  advCircuitSlots = state.circuitSlots;
+  advSV = SV.clone(state.sv);
+}
 let advDragState = { 
   active: false, 
   started: false, 
   type: null, 
   fromCircuit: false, 
-  sourceIndex: null, 
+  sourceIndex: null,
+  sourceStepIndex: null,
   gateData: null,
   pointerX: 0, 
   pointerY: 0, 
@@ -2596,6 +2741,21 @@ let advDragState = {
   snapQubits: null,
   snapEase: 0 
 };
+
+function advResetDragState() {
+  advDragState.active = false;
+  advDragState.started = false;
+  advDragState.type = null;
+  advDragState.fromCircuit = false;
+  advDragState.sourceIndex = null;
+  advDragState.sourceStepIndex = null;
+  advDragState.gateData = null;
+  advDragState.snapIndex = null;
+  advDragState.snapQubits = null;
+  advDragState.snapEase = 0;
+  advHideDragGhost();
+  document.body.style.cursor = "default";
+}
 
 // Pending gate placement (for multi-qubit: pick control then target)
 let advPending = null; // { gateKey, step:0 }
@@ -2630,7 +2790,8 @@ const advRedoStack = [];
 function advSnapshotCurrent() {
   return {
     numQubits: advNumQubits,
-    circuit: advCircuit.map(s => s ? { ...s } : null),
+    circuit: advCloneCircuit(),
+    circuitSlots: advCircuitSlots,
     sv: SV.clone(advSV),
     qubitInitStates: advQubitInitStates.slice()
   };
@@ -2645,7 +2806,8 @@ function advPushHistory() {
 
 function advApplySnapshot(snap) {
   advNumQubits = snap.numQubits;
-  advCircuit = snap.circuit.map(s => s ? { ...s } : null);
+  advCircuit = advCloneCircuit(snap.circuit || []);
+  advCircuitSlots = Number.isInteger(snap.circuitSlots) ? snap.circuitSlots : Math.max(ADV_DEFAULT_DEPTH, advCircuit.length);
   advSV = SV.clone(snap.sv);
   advQubitInitStates = Array.isArray(snap.qubitInitStates)
     ? snap.qubitInitStates.slice()
@@ -2702,7 +2864,7 @@ function advSessionPayload() {
     mode: advMode,
     numQubits: advNumQubits,
     depth: advCircuitSlots,
-    circuit: advCircuit.filter(Boolean).map(s => ({ ...s })),
+    circuit: advFlattenCircuit().map(s => ({ ...s })),
     qubitInitStates: advQubitInitStates.slice()
   };
 }
@@ -2735,7 +2897,7 @@ function advRestoreFromSession(s) {
 
   advNumQubits = n;
   advCircuit = Array.isArray(s.circuit)
-    ? s.circuit.filter(st => st && st.gate && MQ_GATES[st.gate]).map(st => ({ ...st }))
+    ? s.circuit.filter(st => st && st.gate && MQ_GATES[st.gate]).map(st => [{ ...st }])
     : [];
   advCircuitSlots = Number.isInteger(s.depth) && s.depth >= 1 && s.depth <= 32 ? s.depth : Math.max(ADV_DEFAULT_DEPTH, advCircuit.length);
   if (advCircuit.length < advCircuitSlots) {
@@ -2819,20 +2981,21 @@ function advRecompute() {
     QUBIT_INIT_PRESETS[advQubitInitStates[k]] || QUBIT_INIT_PRESETS["|0⟩"]
   );
   let sv = SV.initFromStates(initVecs);
-  for (const step of advCircuit) {
-    if (!step) continue;
-    const g = step.gate;
-    if (!MQ_GATES[g]) continue;
-    const kind = MQ_GATES[g].kind;
-    if (kind === "single") {
-      sv = SV.applySingle(sv, advNumQubits, step.qubit, MQ_GATES[g].matrix);
-    } else if (kind === "two") {
-      if (g === "CNOT") sv = SV.applyCNOT(sv, advNumQubits, step.qubit, step.qubit2);
-      else if (g === "CZ") sv = SV.applyCZ(sv, advNumQubits, step.qubit, step.qubit2);
-      else if (g === "SWAP") sv = SV.applySWAP(sv, advNumQubits, step.qubit, step.qubit2);
-    } else if (kind === "three") {
-      if (g === "CCNOT") sv = SV.applyToffoli(sv, advNumQubits, step.qubit, step.qubit2, step.qubit3);
-      else if (g === "CSWAP") sv = SV.applyFredkin(sv, advNumQubits, step.qubit, step.qubit2, step.qubit3);
+  for (const column of advCircuit) {
+    for (const step of advColumnSteps(column)) {
+      const g = step.gate;
+      if (!MQ_GATES[g]) continue;
+      const kind = MQ_GATES[g].kind;
+      if (kind === "single") {
+        sv = SV.applySingle(sv, advNumQubits, step.qubit, MQ_GATES[g].matrix);
+      } else if (kind === "two") {
+        if (g === "CNOT") sv = SV.applyCNOT(sv, advNumQubits, step.qubit, step.qubit2);
+        else if (g === "CZ") sv = SV.applyCZ(sv, advNumQubits, step.qubit, step.qubit2);
+        else if (g === "SWAP") sv = SV.applySWAP(sv, advNumQubits, step.qubit, step.qubit2);
+      } else if (kind === "three") {
+        if (g === "CCNOT") sv = SV.applyToffoli(sv, advNumQubits, step.qubit, step.qubit2, step.qubit3);
+        else if (g === "CSWAP") sv = SV.applyFredkin(sv, advNumQubits, step.qubit, step.qubit2, step.qubit3);
+      }
     }
   }
   advSV = sv;
@@ -2905,7 +3068,7 @@ function advUpdateReadouts() {
   // Gate sequence
   const seqEl = document.getElementById(`${prefix}SequenceText`);
   if (seqEl) {
-    const filled = advCircuit.filter(Boolean);
+    const filled = advFlattenCircuit();
     seqEl.textContent = filled.length
       ? filled.map(s => s.qubit2 !== undefined ? `${s.gate}(Q${s.qubit}→Q${s.qubit2})` : `${s.gate}(Q${s.qubit})`).join(" → ")
       : "No gates applied yet.";
@@ -3155,7 +3318,7 @@ function advMountCircuit(wrapId) {
       // Empty slot placeholders
       for (let i = 0; i < DEPTH; i++) {
         for (let q = 0; q < advNumQubits; q++) {
-          if (advCircuit[i]) continue;
+          if (advColumnOccupiesQubit(advCircuit[i], q)) continue;
           const x = stepX(i, g);
           const y = wireY(q);
           p.noFill(); p.stroke(border); p.strokeWeight(1);
@@ -3169,116 +3332,111 @@ function advMountCircuit(wrapId) {
 
       // Filled steps
       for (let i = 0; i < advCircuit.length; i++) {
-        const step = advCircuit[i];
-        if (!step) continue;
-        const gDef = MQ_GATES[step.gate];
-        if (!gDef) continue;
-        const x = stepX(i);
+        for (const step of advColumnSteps(advCircuit[i])) {
+          const gDef = MQ_GATES[step.gate];
+          if (!gDef) continue;
+          const x = stepX(i, g);
 
-        if (gDef.kind === "single") {
-          const y = wireY(step.qubit);
-          p.fill(dark ? "#121c2b" : "#fff"); p.stroke(gDef.color); p.strokeWeight(2);
-          p.rect(x, y-20, g.slotW, 40, 8);
-          p.noStroke(); p.fill(text); p.textAlign(p.CENTER, p.CENTER); p.textSize(13); p.textStyle(p.BOLD);
-          p.text(gDef.label, x + g.slotW/2, y);
-          p.textStyle(p.NORMAL);
-          // Hover remove badge
-          if (p.mouseX >= x && p.mouseX <= x + g.slotW && p.mouseY >= wireY(step.qubit)-20 && p.mouseY <= wireY(step.qubit)+20) {
-            p.fill("#e34d4d"); p.circle(x + g.slotW - 8, wireY(step.qubit)-14, 14);
-            p.fill("#fff"); p.textSize(9); p.text("×", x + g.slotW - 8, wireY(step.qubit)-14);
-          }
-        } else if (gDef.kind === "two") {
-          const yc = wireY(step.qubit);
-          const yt = wireY(step.qubit2);
-          const xm = x + g.slotW / 2;
-          // Vertical connection line
-          p.stroke(gDef.color); p.strokeWeight(2.5);
-          p.line(xm, Math.min(yc,yt), xm, Math.max(yc,yt));
+          if (gDef.kind === "single") {
+            const y = wireY(step.qubit);
+            p.fill(dark ? "#121c2b" : "#fff"); p.stroke(gDef.color); p.strokeWeight(2);
+            p.rect(x, y-20, g.slotW, 40, 8);
+            p.noStroke(); p.fill(text); p.textAlign(p.CENTER, p.CENTER); p.textSize(13); p.textStyle(p.BOLD);
+            p.text(gDef.label, x + g.slotW/2, y);
+            p.textStyle(p.NORMAL);
+            if (p.mouseX >= x && p.mouseX <= x + g.slotW && p.mouseY >= wireY(step.qubit)-20 && p.mouseY <= wireY(step.qubit)+20) {
+              p.fill("#e34d4d"); p.circle(x + g.slotW - 8, wireY(step.qubit)-14, 14);
+              p.fill("#fff"); p.textSize(9); p.text("×", x + g.slotW - 8, wireY(step.qubit)-14);
+            }
+          } else if (gDef.kind === "two") {
+            const yc = wireY(step.qubit);
+            const yt = wireY(step.qubit2);
+            const xm = x + g.slotW / 2;
+            p.stroke(gDef.color); p.strokeWeight(2.5);
+            p.line(xm, Math.min(yc,yt), xm, Math.max(yc,yt));
 
-          if (step.gate === "CNOT") {
-            // Control: filled dot
-            p.fill(gDef.color); p.noStroke(); p.circle(xm, yc, 14);
-            // Target: ⊕ symbol
-            p.noFill(); p.stroke(gDef.color); p.strokeWeight(2);
-            p.circle(xm, yt, 28);
-            p.line(xm-14, yt, xm+14, yt);
-            p.line(xm, yt-14, xm, yt+14);
-          } else if (step.gate === "CZ") {
-            // Both filled dots
-            p.fill(gDef.color); p.noStroke();
-            p.circle(xm, yc, 14); p.circle(xm, yt, 14);
-            // Labels
-            p.fill(text); p.textAlign(p.CENTER, p.CENTER); p.textSize(8);
-            p.text("Z", xm, yt + 16);
-          } else if (step.gate === "SWAP") {
-            // × on each wire
-            p.stroke(gDef.color); p.strokeWeight(2.5);
-            const d = 8;
-            p.line(xm-d,yc-d,xm+d,yc+d); p.line(xm+d,yc-d,xm-d,yc+d);
-            p.line(xm-d,yt-d,xm+d,yt+d); p.line(xm+d,yt-d,xm-d,yt+d);
-          }
-          // Remove badge for two-qubit gates on hover
-          const minY2 = Math.min(wireY(step.qubit), wireY(step.qubit2));
-          const maxY2 = Math.max(wireY(step.qubit), wireY(step.qubit2));
-          if (p.mouseX >= x - 8 && p.mouseX <= x + g.slotW + 8 && p.mouseY >= minY2 - 35 && p.mouseY <= maxY2 + 35) {
-            p.fill("#e34d4d"); p.noStroke(); p.circle(x + g.slotW - 2, minY2 - 20, 16);
-            p.fill("#fff"); p.textSize(10); p.textAlign(p.CENTER, p.CENTER); p.text("×", x + g.slotW - 2, minY2 - 20);
-          }
-        } else if (gDef.kind === "three" && step.qubit2 !== undefined && step.qubit3 !== undefined) {
-          const y0 = wireY(step.qubit);
-          const y1 = wireY(step.qubit2);
-          const y2 = wireY(step.qubit3);
-          const xm = x + g.slotW/2;
-          p.stroke(gDef.color); p.strokeWeight(2);
-          p.line(xm, Math.min(y0,y1,y2), xm, Math.max(y0,y1,y2));
-          if (step.gate === "CCNOT") {
-            p.fill(gDef.color); p.noStroke();
-            p.circle(xm, y0, 14); p.circle(xm, y1, 14);
-            p.noFill(); p.stroke(gDef.color); p.strokeWeight(2);
-            p.circle(xm, y2, 28);
-            p.line(xm-14,y2,xm+14,y2); p.line(xm,y2-14,xm,y2+14);
-          } else if (step.gate === "CSWAP") {
-            p.fill(gDef.color); p.noStroke(); p.circle(xm, y0, 14);
-            const d = 8;
-            p.stroke(gDef.color); p.strokeWeight(2.5);
-            p.line(xm-d,y1-d,xm+d,y1+d); p.line(xm+d,y1-d,xm-d,y1+d);
-            p.line(xm-d,y2-d,xm+d,y2+d); p.line(xm+d,y2-d,xm-d,y2+d);
-          }
-          // Remove badge for three-qubit gates on hover
-          const minY3 = Math.min(wireY(step.qubit), wireY(step.qubit2), wireY(step.qubit3));
-          const maxY3 = Math.max(wireY(step.qubit), wireY(step.qubit2), wireY(step.qubit3));
-          if (p.mouseX >= x - 8 && p.mouseX <= x + SLOT_W + 8 && p.mouseY >= minY3 - 35 && p.mouseY <= maxY3 + 35) {
-            p.fill("#e34d4d"); p.noStroke(); p.circle(x + SLOT_W - 2, minY3 - 20, 16);
-            p.fill("#fff"); p.textSize(10); p.textAlign(p.CENTER, p.CENTER); p.text("×", x + SLOT_W - 2, minY3 - 20);
+            if (step.gate === "CNOT") {
+              p.fill(gDef.color); p.noStroke(); p.circle(xm, yc, 14);
+              p.noFill(); p.stroke(gDef.color); p.strokeWeight(2);
+              p.circle(xm, yt, 28);
+              p.line(xm-14, yt, xm+14, yt);
+              p.line(xm, yt-14, xm, yt+14);
+            } else if (step.gate === "CZ") {
+              p.fill(gDef.color); p.noStroke();
+              p.circle(xm, yc, 14); p.circle(xm, yt, 14);
+              p.fill(text); p.textAlign(p.CENTER, p.CENTER); p.textSize(8);
+              p.text("Z", xm, yt + 16);
+            } else if (step.gate === "SWAP") {
+              p.stroke(gDef.color); p.strokeWeight(2.5);
+              const d = 8;
+              p.line(xm-d,yc-d,xm+d,yc+d); p.line(xm+d,yc-d,xm-d,yc+d);
+              p.line(xm-d,yt-d,xm+d,yt+d); p.line(xm+d,yt-d,xm-d,yt+d);
+            }
+            const minY2 = Math.min(wireY(step.qubit), wireY(step.qubit2));
+            const maxY2 = Math.max(wireY(step.qubit), wireY(step.qubit2));
+            if (p.mouseX >= x - 8 && p.mouseX <= x + g.slotW + 8 && p.mouseY >= minY2 - 35 && p.mouseY <= maxY2 + 35) {
+              p.fill("#e34d4d"); p.noStroke(); p.circle(x + g.slotW - 2, minY2 - 20, 16);
+              p.fill("#fff"); p.textSize(10); p.textAlign(p.CENTER, p.CENTER); p.text("×", x + g.slotW - 2, minY2 - 20);
+            }
+          } else if (gDef.kind === "three" && step.qubit2 !== undefined && step.qubit3 !== undefined) {
+            const y0 = wireY(step.qubit);
+            const y1 = wireY(step.qubit2);
+            const y2 = wireY(step.qubit3);
+            const xm = x + g.slotW/2;
+            p.stroke(gDef.color); p.strokeWeight(2);
+            p.line(xm, Math.min(y0,y1,y2), xm, Math.max(y0,y1,y2));
+            if (step.gate === "CCNOT") {
+              p.fill(gDef.color); p.noStroke();
+              p.circle(xm, y0, 14); p.circle(xm, y1, 14);
+              p.noFill(); p.stroke(gDef.color); p.strokeWeight(2);
+              p.circle(xm, y2, 28);
+              p.line(xm-14,y2,xm+14,y2); p.line(xm,y2-14,xm,y2+14);
+            } else if (step.gate === "CSWAP") {
+              p.fill(gDef.color); p.noStroke(); p.circle(xm, y0, 14);
+              const d = 8;
+              p.stroke(gDef.color); p.strokeWeight(2.5);
+              p.line(xm-d,y1-d,xm+d,y1+d); p.line(xm+d,y1-d,xm-d,y1+d);
+              p.line(xm-d,y2-d,xm+d,y2+d); p.line(xm+d,y2-d,xm-d,y2+d);
+            }
+            const minY3 = Math.min(wireY(step.qubit), wireY(step.qubit2), wireY(step.qubit3));
+            const maxY3 = Math.max(wireY(step.qubit), wireY(step.qubit2), wireY(step.qubit3));
+            if (p.mouseX >= x - 8 && p.mouseX <= x + g.slotW + 8 && p.mouseY >= minY3 - 35 && p.mouseY <= maxY3 + 35) {
+              p.fill("#e34d4d"); p.noStroke(); p.circle(x + g.slotW - 2, minY3 - 20, 16);
+              p.fill("#fff"); p.textSize(10); p.textAlign(p.CENTER, p.CENTER); p.text("×", x + g.slotW - 2, minY3 - 20);
+            }
           }
         }
       }
 
       // Pending placement indicator
       if (advPending) {
+        const pendingCol = advCircuit.findIndex((column, index) =>
+          index < advCircuitSlots && advColumnSteps(column).length < advNumQubits
+        );
+        const pendingX = stepX(pendingCol === -1 ? Math.max(0, advCircuitSlots - 1) : pendingCol, g);
         p.noFill(); p.stroke(accent); p.strokeWeight(2);
         p.drawingContext.setLineDash([5,3]);
         for (let q = 0; q < advNumQubits; q++) {
-          p.rect(stepX(advCircuit.length), wireY(q)-20, SLOT_W, 40, 8);
+          p.rect(pendingX, wireY(q)-20, g.slotW, 40, 8);
         }
         p.drawingContext.setLineDash([]);
         p.fill(accent); p.noStroke(); p.textAlign(p.CENTER, p.TOP); p.textSize(10);
-        p.text(`${advPending.step === 0 ? "Pick control" : advPending.step === 1 ? "Pick target" : "Pick target 2"} →`, 
-               stepX(advCircuit.length) + SLOT_W/2, 4);
+        p.text(`${advPending.step === 0 ? "Pick control" : advPending.step === 1 ? "Pick target" : "Pick target 2"} →`,
+               pendingX + g.slotW/2, 4);
       }
-      
+
       // Drag snap visualization
       if (advDragState.active && advDragState.started && advDragState.snapIndex !== null && advDragState.snapQubits) {
         advDragState.snapEase = Math.min(1, advDragState.snapEase + 0.16);
-        
+
         for (const q of advDragState.snapQubits) {
-          const x = stepX(advDragState.snapIndex);
+          const x = stepX(advDragState.snapIndex, g);
           const y = wireY(q);
           const inflate = 14 * advDragState.snapEase;
           p.noFill();
           p.stroke(accent);
           p.strokeWeight(2);
-          p.rect(x - inflate/2, y - 20 - inflate/2, SLOT_W + inflate, 40 + inflate, 12);
+          p.rect(x - inflate/2, y - 20 - inflate/2, g.slotW + inflate, 40 + inflate, 12);
         }
       } else if (advDragState.snapEase > 0) {
         advDragState.snapEase = Math.max(0, advDragState.snapEase - 0.14);
@@ -3286,89 +3444,90 @@ function advMountCircuit(wrapId) {
     };
 
     p.mousePressed = () => {
+      const g = geometry();
       // Handle gateway drag initiation from circuit
       for (let i = 0; i < advCircuit.length; i++) {
-        const step = advCircuit[i];
-        if (!step) continue;
-        const gDef = MQ_GATES[step.gate];
-        if (!gDef) continue;
+        const columnSteps = advColumnSteps(advCircuit[i]);
+        for (let stepIndex = columnSteps.length - 1; stepIndex >= 0; stepIndex--) {
+          const step = columnSteps[stepIndex];
+          const gDef = MQ_GATES[step.gate];
+          if (!gDef) continue;
 
-        let hitBox = null;
-        if (gDef.kind === "single") {
-          const x = stepX(i);
-          const y = wireY(step.qubit);
-          hitBox = { x: x - 4, y: y - 24, w: SLOT_W + 8, h: 48 };
-        } else if (gDef.kind === "two") {
-          const yc = wireY(step.qubit);
-          const yt = wireY(step.qubit2);
-          const x = stepX(i);
-          const minY = Math.min(yc, yt);
-          const maxY = Math.max(yc, yt);
-          hitBox = { x: x - 8, y: minY - 35, w: SLOT_W + 16, h: maxY - minY + 70 };
-        } else if (gDef.kind === "three") {
-          const y0 = wireY(step.qubit);
-          const y1 = wireY(step.qubit2);
-          const y2 = wireY(step.qubit3);
-          const x = stepX(i);
-          const minY = Math.min(y0, y1, y2);
-          const maxY = Math.max(y0, y1, y2);
-          hitBox = { x: x - 8, y: minY - 35, w: SLOT_W + 16, h: maxY - minY + 70 };
-        }
+          let hitBox = null;
+          if (gDef.kind === "single") {
+            const x = stepX(i, g);
+            const y = wireY(step.qubit);
+            hitBox = { x: x - 4, y: y - 24, w: g.slotW + 8, h: 48 };
+          } else if (gDef.kind === "two") {
+            const yc = wireY(step.qubit);
+            const yt = wireY(step.qubit2);
+            const x = stepX(i, g);
+            const minY = Math.min(yc, yt);
+            const maxY = Math.max(yc, yt);
+            hitBox = { x: x - 8, y: minY - 35, w: g.slotW + 16, h: maxY - minY + 70 };
+          } else if (gDef.kind === "three") {
+            const y0 = wireY(step.qubit);
+            const y1 = wireY(step.qubit2);
+            const y2 = wireY(step.qubit3);
+            const x = stepX(i, g);
+            const minY = Math.min(y0, y1, y2);
+            const maxY = Math.max(y0, y1, y2);
+            hitBox = { x: x - 8, y: minY - 35, w: g.slotW + 16, h: maxY - minY + 70 };
+          }
 
-        if (!hitBox) continue;
-        const inBox = p.mouseX >= hitBox.x && p.mouseX <= hitBox.x + hitBox.w &&
-                      p.mouseY >= hitBox.y && p.mouseY <= hitBox.y + hitBox.h;
-        if (!inBox) continue;
+          if (!hitBox) continue;
+          const inBox = p.mouseX >= hitBox.x && p.mouseX <= hitBox.x + hitBox.w &&
+                        p.mouseY >= hitBox.y && p.mouseY <= hitBox.y + hitBox.h;
+          if (!inBox) continue;
 
-        // Check if clicking on remove button
-        if (gDef.kind === "single") {
-          const x = stepX(i);
-          const y = wireY(step.qubit);
-          const inRemove = p.mouseX >= x + SLOT_W - 15 && p.mouseX <= x + SLOT_W - 1 &&
-                           p.mouseY >= y - 21 && p.mouseY <= y - 7;
-          if (inRemove) {
-            advPushHistory();
-            advCircuit.splice(i, 1);
-            advRecompute();
-            advResetPresetDropdown();
+          if (gDef.kind === "single") {
+            const x = stepX(i, g);
+            const y = wireY(step.qubit);
+            const inRemove = p.mouseX >= x + g.slotW - 15 && p.mouseX <= x + g.slotW - 1 &&
+                             p.mouseY >= y - 21 && p.mouseY <= y - 7;
+            if (inRemove) {
+              advPushHistory();
+              advRemoveStepAtColumn(i, stepIndex);
+              advRecompute();
+              advResetPresetDropdown();
+              return;
+            }
+          }
+          if (gDef.kind === "two") {
+            const minYr = Math.min(wireY(step.qubit), wireY(step.qubit2));
+            const inRem2 = p.mouseX >= stepX(i, g) + g.slotW - 10 && p.mouseX <= stepX(i, g) + g.slotW + 6 &&
+                           p.mouseY >= minYr - 28 && p.mouseY <= minYr - 12;
+            if (inRem2) { advPushHistory(); advRemoveStepAtColumn(i, stepIndex); advRecompute(); advResetPresetDropdown(); return; }
+          }
+          if (gDef.kind === "three") {
+            const minYr3 = Math.min(wireY(step.qubit), wireY(step.qubit2), wireY(step.qubit3));
+            const inRem3 = p.mouseX >= stepX(i, g) + g.slotW - 10 && p.mouseX <= stepX(i, g) + g.slotW + 6 &&
+                           p.mouseY >= minYr3 - 28 && p.mouseY <= minYr3 - 12;
+            if (inRem3) { advPushHistory(); advRemoveStepAtColumn(i, stepIndex); advRecompute(); advResetPresetDropdown(); return; }
+          }
+
+          if (gDef.kind !== "single") {
+            advShowDepthError("Multi-qubit gates can't be dragged. Click a gate in the library and follow the on-canvas instructions to place it.");
             return;
           }
-        }
-        if (gDef.kind === "two") {
-          const minYr = Math.min(wireY(step.qubit), wireY(step.qubit2));
-          const inRem2 = p.mouseX >= stepX(i) + SLOT_W - 10 && p.mouseX <= stepX(i) + SLOT_W + 6 &&
-                         p.mouseY >= minYr - 28 && p.mouseY <= minYr - 12;
-          if (inRem2) { advPushHistory(); advCircuit.splice(i, 1); advRecompute(); advResetPresetDropdown(); return; }
-        }
-        if (gDef.kind === "three") {
-          const minYr3 = Math.min(wireY(step.qubit), wireY(step.qubit2), wireY(step.qubit3));
-          const inRem3 = p.mouseX >= stepX(i) + SLOT_W - 10 && p.mouseX <= stepX(i) + SLOT_W + 6 &&
-                         p.mouseY >= minYr3 - 28 && p.mouseY <= minYr3 - 12;
-          if (inRem3) { advPushHistory(); advCircuit.splice(i, 1); advRecompute(); advResetPresetDropdown(); return; }
-        }
 
-        // Check if multi-qubit gate - prevent dragging
-        if (gDef.kind !== "single") {
-          advShowDepthError("Multi-qubit gates cannot be dragged. Use the gate library to place them.");
+          advDragState.active = true;
+          advDragState.started = false;
+          advDragState.type = step.gate;
+          advDragState.fromCircuit = true;
+          advDragState.sourceIndex = i;
+          advDragState.sourceStepIndex = stepIndex;
+          advDragState.gateData = { ...step };
+          advDragState.downX = p.mouseX;
+          advDragState.downY = p.mouseY;
+          advDragState.pointerX = p.canvas.getBoundingClientRect().left + p.mouseX;
+          advDragState.pointerY = p.canvas.getBoundingClientRect().top + p.mouseY;
+
+          const qubits = [step.qubit];
+          advShowDragGhost(step.gate, advDragState.pointerX, advDragState.pointerY, qubits);
+          advRemoveStepAtColumn(i, stepIndex);
           return;
         }
-
-        // Start drag operation (only for single-qubit gates)
-        advDragState.active = true;
-        advDragState.started = false;
-        advDragState.type = step.gate;
-        advDragState.fromCircuit = true;
-        advDragState.sourceIndex = i;
-        advDragState.gateData = { ...step };
-        advDragState.downX = p.mouseX;
-        advDragState.downY = p.mouseY;
-        advDragState.pointerX = p.canvas.getBoundingClientRect().left + p.mouseX;
-        advDragState.pointerY = p.canvas.getBoundingClientRect().top + p.mouseY;
-        
-        const qubits = [step.qubit];
-        advShowDragGhost(step.gate, advDragState.pointerX, advDragState.pointerY, qubits);
-        advCircuit.splice(i, 1);
-        return;
       }
 
       // Qubit wire click for pending gate
@@ -3390,28 +3549,31 @@ function advHandlePendingClick(qubit) {
   if (!advPending) return;
   const gDef = MQ_GATES[advPending.gateKey];
 
-  if (gDef.kind === "single") {
+  const placePendingStep = (step, gateKey) => {
+    const targetColumn = advFindPlacementColumn(step);
+    if (targetColumn === -1) {
+      advShowDepthError("No compatible slot is available at the current depth.");
+      return false;
+    }
     advPushHistory();
-    advCircuit.push({ gate: advPending.gateKey, qubit });
+    advInsertStepAtColumn(targetColumn, step);
     advPending = null;
     advHidePendingPrompt();
     advResetPresetDropdown();
     advRecompute();
-    advSetExplain(advCircuit[advCircuit.length-1]?.gate);
+    advSetExplain(gateKey);
+    return true;
+  };
+
+  if (gDef.kind === "single") {
+    placePendingStep({ gate: advPending.gateKey, qubit }, advPending.gateKey);
   } else if (gDef.kind === "two") {
     if (advPending.step === 0) {
       advPending.ctrl = qubit;
       advPending.step = 1;
     } else {
       if (qubit !== advPending.ctrl) {
-        advPushHistory();
-        advCircuit.push({ gate: advPending.gateKey, qubit: advPending.ctrl, qubit2: qubit });
-        const g = advPending.gateKey;
-        advPending = null;
-        advHidePendingPrompt();
-        advResetPresetDropdown();
-        advRecompute();
-        advSetExplain(g);
+        placePendingStep({ gate: advPending.gateKey, qubit: advPending.ctrl, qubit2: qubit }, advPending.gateKey);
       }
     }
   } else if (gDef.kind === "three") {
@@ -3421,14 +3583,7 @@ function advHandlePendingClick(qubit) {
       if (qubit !== advPending.ctrl) { advPending.ctrl2 = qubit; advPending.step = 2; }
     } else {
       if (qubit !== advPending.ctrl && qubit !== advPending.ctrl2) {
-        advPushHistory();
-        advCircuit.push({ gate: advPending.gateKey, qubit: advPending.ctrl, qubit2: advPending.ctrl2, qubit3: qubit });
-        const g = advPending.gateKey;
-        advPending = null;
-        advHidePendingPrompt();
-        advResetPresetDropdown();
-        advRecompute();
-        advSetExplain(g);
+        placePendingStep({ gate: advPending.gateKey, qubit: advPending.ctrl, qubit2: advPending.ctrl2, qubit3: qubit }, advPending.gateKey);
       }
     }
   }
@@ -3451,6 +3606,20 @@ function advCreateLibrary(containerId, keys) {
 
     // Drag support from library
     item.addEventListener("mousedown", (e) => {
+      if (gDef.kind !== "single") {
+        advDragState.active = true;
+        advDragState.started = false;
+        advDragState.type = k;
+        advDragState.fromCircuit = false;
+        advDragState.sourceIndex = null;
+        advDragState.downX = e.clientX;
+        advDragState.downY = e.clientY;
+        advDragState.pointerX = e.clientX;
+        advDragState.pointerY = e.clientY;
+        advShowDragGhost(k, e.clientX, e.clientY);
+        document.body.style.cursor = "grabbing";
+        return;
+      }
       advDragState.active = true;
       advDragState.started = false;
       advDragState.type = k;
@@ -3468,7 +3637,13 @@ function advCreateLibrary(containerId, keys) {
       if (advDragState.started) return;
       if (gDef.kind === "single") {
         if (advNumQubits === 1) {
-          advCircuit.push({ gate: k, qubit: 0 });
+          const targetColumn = advFindPlacementColumn({ gate: k, qubit: 0 });
+          if (targetColumn === -1) {
+            advShowDepthError("No compatible slot is available at the current depth.");
+            return;
+          }
+          advPushHistory();
+          advInsertStepAtColumn(targetColumn, { gate: k, qubit: 0 });
           advRecompute();
           advSetExplain(k);
         } else {
@@ -3526,27 +3701,27 @@ function advDescribeImpact(gateKey) {
   const maxP = Math.max(...probs);
   switch (gateKey) {
     case "X": {
-      const last = advCircuit.filter(Boolean).slice().reverse().find(s => s.gate === "X");
+      const last = advFlattenCircuit().slice().reverse().find(s => s.gate === "X");
       return `Flipped qubit Q${last?.qubit ?? "?"} — a quantum NOT. If it was |0⟩ it is now |1⟩, and vice versa.`;
     }
     case "Y": {
-      const last = advCircuit.filter(Boolean).slice().reverse().find(s => s.gate === "Y");
+      const last = advFlattenCircuit().slice().reverse().find(s => s.gate === "Y");
       return `Applied Pauli-Y to Q${last?.qubit ?? "?"} — both a bit flip and a phase flip. This introduces an imaginary phase factor that affects future interference.`;
     }
     case "Z": {
-      const last = advCircuit.filter(Boolean).slice().reverse().find(s => s.gate === "Z");
+      const last = advFlattenCircuit().slice().reverse().find(s => s.gate === "Z");
       return `Phase-flipped |1⟩ of Q${last?.qubit ?? "?"}. If the qubit was in superposition, the relative phase between |0⟩ and |1⟩ just flipped by 180°.`;
     }
     case "S": {
-      const last = advCircuit.filter(Boolean).slice().reverse().find(s => s.gate === "S");
+      const last = advFlattenCircuit().slice().reverse().find(s => s.gate === "S");
       return `Applied 90° phase rotation (S gate) to |1⟩ of Q${last?.qubit ?? "?"}. Incrementally rotates phase — two S gates equal one Z gate.`;
     }
     case "T": {
-      const last = advCircuit.filter(Boolean).slice().reverse().find(s => s.gate === "T");
+      const last = advFlattenCircuit().slice().reverse().find(s => s.gate === "T");
       return `Applied 45° phase rotation (T gate) to |1⟩ of Q${last?.qubit ?? "?"}. The finest phase increment in the standard gate set — critical for fault-tolerant algorithms.`;
     }
     case "H": {
-      const last = advCircuit.filter(Boolean).slice().reverse().find(s => s.gate === "H");
+      const last = advFlattenCircuit().slice().reverse().find(s => s.gate === "H");
       return `Put Q${last?.qubit ?? "?"} into superposition.${entangled ? " Combined with entanglement, this qubit is now part of a complex joint state." : " The qubit now has equal probability of measuring |0⟩ or |1⟩."}`;
     }
     case "CNOT": return entangled
@@ -3563,7 +3738,7 @@ function advDescribeImpact(gateKey) {
 }
 
 function advDetectPattern() {
-  const seq = advCircuit.filter(Boolean).map(s => s.gate).join(",");
+  const seq = advFlattenCircuit().map(s => s.gate).join(",");
   const entangled = SV.isEntangled(advSV, advNumQubits);
   const probs = SV.probs(advSV);
   const n = advNumQubits;
@@ -3646,7 +3821,7 @@ function advSetCircuitDepth(nextDepth, wrapId = null) {
     }
   } else if (val < currentDepth) {
     advCircuit = advCircuit.slice(0, val);
-    if (advCircuit.filter(Boolean).length === 0) advSetExplain(null);
+    if (advGateCount() === 0) advSetExplain(null);
   }
 
   advCircuitSlots = val;
@@ -3740,10 +3915,10 @@ function advLoadPreset(key) {
   }
   const preset = ALG_PRESETS[key];
   advSetQubits(preset.n);
-  advCircuit = preset.steps.map(s => ({...s}));
+  advCircuit = preset.steps.map(s => [{...s}]);
   advCircuitSlots = advCircuit.length;
   advRecompute();
-  const lastGate = advCircuit[advCircuit.length-1]?.gate;
+  const lastGate = advFlattenCircuit().slice(-1)[0]?.gate;
   if (lastGate) advSetExplain(lastGate);
 }
 
@@ -3758,7 +3933,7 @@ function advMeasureAll() {
   advPushHistory();
   const { sv, bits } = SV.measureAll(advSV, advNumQubits);
   advSV = sv;
-  advCircuit = [];
+  advCircuit = new Array(advCircuitSlots || ADV_DEFAULT_DEPTH).fill(null);
   advPending = null;
   advHidePendingPrompt();
   const prefix = advMode === "expert" ? "exp" : "adv";
@@ -3969,6 +4144,13 @@ let currentMode = "basic";
 
 function switchMode(mode) {
   if (mode === currentMode) return;
+
+  // Snapshot the outgoing Advanced/Expert circuit so each mode keeps its own
+  // independent depth, qubit count, gates and statevector across switches.
+  if (currentMode === "advanced" || currentMode === "expert") {
+    advModeStates[currentMode] = advCaptureModeState();
+  }
+
   currentMode = mode;
   advMode = mode; // "advanced" or "expert" (ignored for basic)
 
@@ -4000,10 +4182,18 @@ function switchMode(mode) {
     const wrapId = mode === "expert" ? "expCircuitWrap" : "advCircuitWrap";
     const libId  = mode === "expert" ? "expGateLibrary"  : "advGateLibrary";
     const keys   = mode === "expert" ? EXPERT_GATE_KEYS : ADVANCED_GATE_KEYS;
-    advNumQubits = 2;
-    advCircuit   = new Array(ADV_DEFAULT_DEPTH).fill(null);
-    advQubitInitStates = ["|0⟩", "|0⟩"];
-    advSV        = SV.initZero(2);
+
+    // Re-enter this mode with its own remembered circuit (depth included);
+    // start fresh only the first time this mode is visited in the session.
+    if (advModeStates[mode]) {
+      advRestoreModeState(advModeStates[mode]);
+    } else {
+      advNumQubits = 2;
+      advCircuit   = new Array(ADV_DEFAULT_DEPTH).fill(null);
+      advCircuitSlots = ADV_DEFAULT_DEPTH;
+      advQubitInitStates = ["|0⟩", "|0⟩"];
+      advSV        = SV.initZero(2);
+    }
     advPending   = null;
     advHidePendingPrompt();
     advBlochSketches.forEach(s=>s.remove());
@@ -4060,6 +4250,15 @@ document.addEventListener("mousemove", (e) => {
   
   const moved = Math.hypot(e.clientX - advDragState.downX, e.clientY - advDragState.downY);
   if (moved > 6) advDragState.started = true;
+
+  if (advDragState.started && !advDragState.fromCircuit && advDragState.type) {
+    const gDef = MQ_GATES[advDragState.type];
+    if (gDef?.kind !== "single") {
+      advShowDepthError("Multi-qubit gates can't be dragged. Click a gate in the library and follow the on-canvas instructions to place it.");
+      advResetDragState();
+      return;
+    }
+  }
   
   // Find snap target when over the circuit canvas
   if (advDragState.started && advDragState.type) {
@@ -4117,7 +4316,11 @@ document.addEventListener("mousemove", (e) => {
         }
       }
       
-      if (closestQDist < 50) {
+      const replacementIndex = advFindSingleStepIndex(bestStepIndex, closestQ);
+      if (closestQDist < 50 && (
+        advCanPlaceStepInColumn(bestStepIndex, { gate: advDragState.type, qubit: closestQ }) ||
+        replacementIndex !== -1
+      )) {
         advDragState.snapIndex = bestStepIndex;
         advDragState.snapQubits = [closestQ];
       }
@@ -4152,15 +4355,40 @@ document.addEventListener("mouseup", () => {
   
   if (canPlace) {
     const gDef = MQ_GATES[placedType];
-    advPushHistory();
-
     if (gDef.kind === "single") {
-      advCircuit.splice(advDragState.snapIndex, 0, {
-        gate: placedType,
-        qubit: advDragState.snapQubits[0]
-      });
+      const targetQubit = advDragState.snapQubits[0];
+      const targetIndex = advDragState.snapIndex;
+      const replacementIndex = advFindSingleStepIndex(targetIndex, targetQubit);
+      const droppingBackToOrigin = advDragState.fromCircuit &&
+        originalData &&
+        advDragState.sourceIndex === targetIndex &&
+        originalData.qubit === targetQubit &&
+        replacementIndex === -1;
+
+      if (droppingBackToOrigin) {
+        advInsertStepAtColumn(targetIndex, { ...originalData });
+      } else {
+        advPushHistory();
+        let displaced = null;
+        if (replacementIndex !== -1) {
+          displaced = advRemoveStepAtColumn(targetIndex, replacementIndex);
+        }
+
+        const placedStep = advDragState.fromCircuit && originalData
+          ? { ...originalData, qubit: targetQubit }
+          : { gate: placedType, qubit: targetQubit };
+        advInsertStepAtColumn(targetIndex, placedStep);
+
+        if (advDragState.fromCircuit && displaced && originalData && advDragState.sourceIndex !== null) {
+          advInsertStepAtColumn(advDragState.sourceIndex, {
+            ...displaced,
+            qubit: originalData.qubit
+          });
+        }
+      }
     } else {
-      advCircuit.splice(advDragState.snapIndex, 0, originalData);
+      advPushHistory();
+      advInsertStepAtColumn(advDragState.snapIndex, originalData);
     }
 
     advRecompute();
@@ -4169,24 +4397,15 @@ document.addEventListener("mouseup", () => {
   } else if (advDragState.fromCircuit && originalData) {
     // Drag was incomplete - restore the gate to circuit
     if (advDragState.sourceIndex !== null) {
-      advCircuit.splice(advDragState.sourceIndex, 0, originalData);
+      advInsertStepAtColumn(advDragState.sourceIndex, originalData);
     } else {
-      advCircuit.push(originalData);
+      const restoreColumn = advFindPlacementColumn(originalData);
+      if (restoreColumn !== -1) advInsertStepAtColumn(restoreColumn, originalData);
     }
     advRecompute();
   }
   
-  advDragState.active = false;
-  advDragState.started = false;
-  advDragState.type = null;
-  advDragState.fromCircuit = false;
-  advDragState.sourceIndex = null;
-  advDragState.gateData = null;
-  advDragState.snapIndex = null;
-  advDragState.snapQubits = null;
-  advDragState.snapEase = 0;
-  advHideDragGhost();
-  document.body.style.cursor = "default";
+  advResetDragState();
 });
 
 /* Bind qubit count buttons (Advanced mode) */
@@ -4256,11 +4475,11 @@ document.getElementById("expMeasureBtn")?.addEventListener("click", advMeasureAl
 document.getElementById("advResetBtn")?.addEventListener("click", () => { advSetQubits(advNumQubits); advSetExplain(null); advUpdateReadouts(); });
 document.getElementById("expResetBtn")?.addEventListener("click",  () => { advSetQubits(advNumQubits); advSetExplain(null); advUpdateReadouts(); });
 document.getElementById("advClearBtn")?.addEventListener("click",  () => {
-  if ((advCircuitSlots || ADV_DEFAULT_DEPTH) > 0 && !confirm("Clear the circuit? This removes all gates. (You can undo with Ctrl+Z.)")) return;
+  if (advGateCount() > 0 && !confirm("Clear the circuit? This removes all gates. (You can undo with Ctrl+Z.)")) return;
   advPushHistory(); advCircuit = new Array(advCircuitSlots || ADV_DEFAULT_DEPTH).fill(null); advPending=null; advHidePendingPrompt(); advSetExplain(null); advRecompute();
 });
 document.getElementById("expClearBtn")?.addEventListener("click",  () => {
-  if ((advCircuitSlots || ADV_DEFAULT_DEPTH) > 0 && !confirm("Clear the circuit? This removes all gates. (You can undo with Ctrl+Z.)")) return;
+  if (advGateCount() > 0 && !confirm("Clear the circuit? This removes all gates. (You can undo with Ctrl+Z.)")) return;
   advPushHistory(); advCircuit = new Array(advCircuitSlots || ADV_DEFAULT_DEPTH).fill(null); advPending=null; advHidePendingPrompt(); advSetExplain(null); advRecompute();
 });
 
