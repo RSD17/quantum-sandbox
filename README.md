@@ -81,7 +81,7 @@ Observe quantum amplitudes in real time.
 
 | Gate | Description           |
 | ---- | --------------------- |
-| X    | Pauli-X (Quantum NOT) |
+| X    | Pauli-X               |
 | Y    | Pauli-Y               |
 | Z    | Pauli-Z               |
 | H    | Hadamard              |
