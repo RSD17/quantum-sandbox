@@ -3919,7 +3919,7 @@ function advSetExplain(gateKey) {
     <p>${gDef.explain}</p>
     ${patternHTML}
     <div class="circuit-impact">
-      <div class="circuit-impact-label"><i class="fa-solid fa-bolt-lightning"></i> What this did to your circuit</div>
+      <div class="circuit-impact-label">What this did to your circuit</div>
       <p class="circuit-impact-body">${advDescribeImpact(gateKey)}</p>
     </div>`;
 }
