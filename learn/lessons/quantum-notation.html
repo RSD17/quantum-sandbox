@@ -377,16 +377,16 @@
     <!-- Interactive: amplitude calculator -->
     <div class="amp-calc">
       <div class="notation-label"><i class="fa-solid fa-calculator"></i> Amplitude explorer: adjust α and β, see the probabilities</div>
-      <p style="font-size:0.88rem;color:var(--muted);margin:0 0 14px">Here we use magnitudes (0 to 1) for simplicity. In the full math, α and β are complex numbers, but probabilities always come from squaring the magnitude.</p>
+      <p style="font-size:0.88rem;color:var(--muted);margin:0 0 14px">Here we use magnitudes (0 to 1) for simplicity. In the full math, α and β are complex numbers, but probabilities always come from squaring the magnitude. Drag either slider: the other adjusts automatically so |α|² + |β|² always stays exactly 1, just as real quantum amplitudes must.</p>
 
       <div class="amp-sliders">
         <div class="amp-slider-group">
           <div class="amp-slider-label alpha">|α| (magnitude of alpha)</div>
-          <input type="range" id="alphaSlider" min="0" max="100" value="71" aria-label="Alpha magnitude" />
+          <input type="range" id="alphaSlider" min="0" max="1000" step="1" value="707" aria-label="Alpha magnitude" />
         </div>
         <div class="amp-slider-group">
           <div class="amp-slider-label beta">|β| (magnitude of beta)</div>
-          <input type="range" id="betaSlider" min="0" max="100" value="71" aria-label="Beta magnitude" />
+          <input type="range" id="betaSlider" min="0" max="1000" step="1" value="707" aria-label="Beta magnitude" />
         </div>
       </div>
 
@@ -403,8 +403,8 @@
         </div>
       </div>
 
-      <div class="state-eq-display" id="stateEqDisplay">|ψ⟩ = 0.71·|0⟩ + 0.71·|1⟩</div>
-      <div class="amp-norm-note" id="normNote">|α|² + |β|² = 1.00 ✓. Valid quantum state</div>
+      <div class="state-eq-display" id="stateEqDisplay">|ψ⟩ = 0.707·|0⟩ + 0.707·|1⟩</div>
+      <div class="amp-norm-note" id="normNote">|α|² + |β|² = 1.000 ✓. Valid quantum state</div>
     </div>
 
     <section class="lesson-section">
@@ -559,17 +559,13 @@
       var stateEq     = document.getElementById("stateEqDisplay");
       var normNote    = document.getElementById("normNote");
 
-      function fmt(v) { return v.toFixed(2); }
+      function fmt(v) { return v.toFixed(3); }
 
-      function update() {
-        var a = Number(alphaSlider.value) / 100;
-        var b = Number(betaSlider.value) / 100;
-        var pA = a * a;
-        var pB = b * b;
-        var total = Math.round((pA + pB) * 100) / 100;
-
-        var pAp = Math.round(pA * 100);
-        var pBp = Math.round(pB * 100);
+      // Renders the read-outs for a given (a, b) pair. Does NOT touch the
+      // sliders, so it's safe to call from either slider's own handler.
+      function render(a, b) {
+        var pAp = Math.round(a * a * 100);
+        var pBp = Math.round(b * b * 100);
 
         alphaProb.textContent = pAp + "%";
         betaProb.textContent  = pBp + "%";
@@ -577,20 +573,33 @@
         betaProbBar.style.width  = pBp + "%";
 
         stateEq.textContent = "|ψ⟩ = " + fmt(a) + "·|0⟩ + " + fmt(b) + "·|1⟩";
-
-        var normVal = Math.round((pA + pB) * 100) / 100;
-        if (Math.abs(normVal - 1) < 0.01) {
-          normNote.textContent = "|α|² + |β|² = " + normVal.toFixed(2) + " ✓. Valid quantum state";
-          normNote.className = "amp-norm-note valid";
-        } else {
-          normNote.textContent = "|α|² + |β|² = " + normVal.toFixed(2) + " ✗. In reality, this combination is not allowed (must equal exactly 1.00)";
-          normNote.className = "amp-norm-note invalid";
-        }
+        normNote.textContent = "|α|² + |β|² = " + (a * a + b * b).toFixed(3) + " ✓. Valid quantum state";
+        normNote.className = "amp-norm-note valid";
       }
 
-      alphaSlider.addEventListener("input", update);
-      betaSlider.addEventListener("input", update);
-      update();
+      // The two amplitudes are not independent: normalization (|α|²+|β|²=1)
+      // means fixing one fixes the other (up to sign, which this demo
+      // ignores). So dragging one slider derives the other from
+      // b = sqrt(1 - a²) directly in full precision — never by rounding
+      // through the dependent slider's own step — which keeps the sum
+      // exactly 1 instead of "almost 1" by luck of slider granularity.
+      function fromAlpha() {
+        var a = Number(alphaSlider.value) / 1000;
+        var b = Math.sqrt(Math.max(0, 1 - a * a));
+        betaSlider.value = Math.round(b * 1000);
+        render(a, b);
+      }
+
+      function fromBeta() {
+        var b = Number(betaSlider.value) / 1000;
+        var a = Math.sqrt(Math.max(0, 1 - b * b));
+        alphaSlider.value = Math.round(a * 1000);
+        render(a, b);
+      }
+
+      alphaSlider.addEventListener("input", fromAlpha);
+      betaSlider.addEventListener("input", fromBeta);
+      fromAlpha();
     })();
   </script>
 </body>
