@@ -1,263 +1,240 @@
 # Quantum Sandbox
 
-An interactive quantum computing playground built with **HTML, CSS, JavaScript, and p5.js**, designed to make quantum mechanics and quantum circuits intuitive through real-time visualization, guided learning, and hands-on experimentation.
+An interactive quantum computing education platform designed to make quantum mechanics intuitive through visualization, experimentation, and guided learning.
+
+Quantum Sandbox allows users to build quantum circuits, observe state evolution in real time, explore entanglement and interference, and experiment with foundational quantum algorithms directly in the browser. Rather than treating quantum computing as a collection of abstract equations, the platform emphasizes visual understanding and hands-on exploration.
+
+Built entirely with HTML, CSS, JavaScript, and p5.js, Quantum Sandbox combines simulation, education, and interactive design into a single learning environment.
 
 ---
 
-## Features
+## Why Quantum Sandbox?
 
-### Three Learning Modes
+Quantum computing is often introduced through dense mathematics and complex notation, making it difficult for beginners to develop intuition for what is actually happening inside a quantum system.
 
-#### Basic Mode
+Quantum Sandbox was created to answer a simple question:
 
-Perfect for learning single-qubit quantum computing fundamentals.
+> What if learners could see quantum mechanics instead of only reading about it?
 
-* Single-qubit circuit builder
-* Real-time state vector visualization
-* Probability amplitude bars
-* Interactive Bloch sphere
-* Quantum state presets
-* Measurement simulation
-* Circuit explanations and educational insights
+The platform transforms concepts such as superposition, phase, interference, measurement, and entanglement into interactive experiences that can be explored visually and experimentally.
 
-#### Advanced Mode
-
-Explore multi-qubit systems and entanglement.
-
-* 2–3 qubit circuits
-* Multi-qubit gate support
-* Entanglement detection and visualization
-* Joint statevector analysis
-* Basis-state probability distributions
-* Bell State preset
-* GHZ State preset
-* SWAP Test preset
-* Individual Bloch spheres for each qubit
-
-#### Expert Mode
-
-Experiment with larger quantum systems and real algorithms.
-
-* Up to 6 qubits
-* Universal quantum gate set
-* Three-qubit gates (Toffoli, Fredkin)
-* Full state-space visualization
-* Phase and interference analysis
-* Quantum algorithm demonstrations
-* GHZ state construction
-* Advanced entanglement exploration
+Whether you are a student encountering quantum computing for the first time or an educator looking for a teaching tool, Quantum Sandbox provides an accessible environment for understanding the foundations of quantum information science.
 
 ---
 
-## Interactive Visualizations
+## Key Features
 
-### State Vector Display
+### Interactive Circuit Builder
 
-Observe quantum amplitudes in real time.
+Design and experiment with quantum circuits directly in the browser.
 
-* Complex amplitudes
-* Measurement probabilities
-* Live normalization
+* Click-to-place and drag-and-drop gate placement
+* Adjustable circuit depth
+* Real-time circuit updates
+* Undo and redo functionality
+* Import and export support
+* Visual circuit editing and reordering
+
+### Real-Time Quantum State Visualization
+
+Observe how every gate transforms the underlying quantum state.
+
+* Statevector visualization
+* Complex amplitude display
+* Measurement probability bars
 * Mathematical state notation
+* Continuous state updates
 
 ### Bloch Sphere Visualization
 
-* Interactive 3D rendering
-* Animated state transitions
-* Phase visualization
-* Real-time updates after every gate operation
+Develop intuition for single-qubit quantum states through geometry.
 
-### Probability Distribution Views
+* Interactive 3D Bloch sphere
+* Real-time state transitions
+* Phase-aware visualization
+* Animated state evolution
 
-* Single-qubit measurement probabilities
-* Multi-qubit basis-state probabilities
-* Entangled state analysis
+### Multi-Qubit Simulation
+
+Explore systems that extend beyond a single qubit.
+
+* Support for up to 6 qubits
+* Multi-qubit statevectors
+* Basis-state probability distributions
+* Entanglement visualization
+* Joint quantum state analysis
 
 ---
 
-## Gate Library
+## Learning Modes
+
+### Basic Mode
+
+Designed for learners who are completely new to quantum computing.
+
+Topics include:
+
+* Qubits
+* Superposition
+* Phase
+* Interference
+* Measurement
+* Quantum gates
+
+### Advanced Mode
+
+Introduces multi-qubit systems and quantum correlations.
+
+Topics include:
+
+* Controlled operations
+* Bell states
+* GHZ states
+* SWAP tests
+* Entanglement
+* Multi-qubit visualization
+
+### Expert Mode
+
+Provides access to larger systems, advanced gates, and algorithm demonstrations.
+
+Topics include:
+
+* Quantum Fourier Transform (QFT)
+* Grover's Search Algorithm
+* Quantum Teleportation
+* Deutsch's Algorithm
+* Advanced entanglement exploration
+* Three-qubit gates
+* Phase and interference analysis
+
+---
+
+## Included Quantum Gates
 
 ### Single-Qubit Gates
 
-| Gate | Description           |
-| ---- | --------------------- |
-| X    | Pauli-X               |
-| Y    | Pauli-Y               |
-| Z    | Pauli-Z               |
-| H    | Hadamard              |
-| S    | Phase-S               |
-| T    | Phase-T               |
-| ID   | Identity              |
+| Gate | Description |
+| ---- | ----------- |
+| X    | Pauli-X     |
+| Y    | Pauli-Y     |
+| Z    | Pauli-Z     |
+| H    | Hadamard    |
+| S    | Phase-S     |
+| T    | Phase-T     |
+| ID   | Identity    |
 
-### Multi-Qubit Gates
+### Two-Qubit Gates
 
 * CNOT
 * CZ
 * SWAP
 
-### Expert Gates
+### Three-Qubit Gates
 
 * Toffoli (CCX)
 * Fredkin (CSWAP)
 
 ---
 
-## Circuit Builder
+## Built-In Learning System
 
-### Create Circuits
+Quantum Sandbox includes a structured learning pathway consisting of lessons, walkthroughs, guided explanations, and interactive examples.
 
-* Click gates to add them
-* Drag and drop gate placement
-* Reorder gates visually
-* Swap gate positions
-* Remove gates directly
-* Adjustable circuit depth
-* Multi-wire circuit construction
+The learning experience progresses from foundational concepts to advanced applications:
 
-### Circuit Insights
+**Classical Bits → Qubits → Superposition → Interference → Entanglement → Quantum Algorithms**
 
-The simulator automatically explains:
+The platform currently includes lessons covering:
 
-* Individual gate effects
-* Circuit patterns
-* State evolution
-* Quantum phenomena being demonstrated
+* Quantum notation
+* Superposition
+* Measurement
+* Interference
+* Entanglement
+* Quantum gates and circuits
+* Quantum hardware
+* Quantum error correction
+* Grover's Algorithm
+* Shor's Algorithm
+* Quantum teleportation
+* Quantum cryptography
+* The future of quantum computing
+
+No prior background in physics or quantum mechanics is required.
 
 ---
 
-## Educational System
+## Example Experiments
 
-### Interactive Guides
-
-Each mode includes a dedicated walkthrough:
-
-* Quantum computing fundamentals
-* Superposition
-* Phase and interference
-* Measurement
-* Entanglement
-* Multi-qubit operations
-* Quantum algorithms
-
-### Guided Examples
-
-Learn by building:
+Use the simulator to build and explore:
 
 * Superposition circuits
 * Bell states
 * GHZ states
 * SWAP tests
-* Quantum algorithm components
+* Quantum teleportation protocols
+* Grover's Search Algorithm
+* Quantum Fourier Transform circuits
+* Custom multi-qubit experiments
+
+The simulator provides contextual explanations and circuit insights throughout the process, helping users connect mathematical operations with physical intuition.
 
 ---
 
-## Presets
+## Import and Export
 
-### Qubit Presets
+### Image Export
 
-* |0⟩
-* |1⟩
-* |+⟩
-* |-⟩
-* |i⟩
-* |-i⟩
+Generate high-quality visual snapshots that include:
 
-### Circuit Presets
-
-* Bell State
-* GHZ State
-* SWAP Test
-
----
-
-## Session Management
-
-### Automatic Persistence
-
-Quantum Sandbox automatically saves:
-
-* Circuit configuration
-* Gate sequence
-* Circuit depth
-* Presets
-* Theme selection
-* Mode configuration
-
-### Restore Circuit
-
-Restore a previous session instantly from local storage.
-
----
-
-## Import & Export
-
-### Export Options
-
-#### Image Export
-
-High-quality visual snapshots including:
-
-* Circuit diagram
+* Circuit diagrams
 * State information
-* Probability bars
+* Probability distributions
 * Bloch sphere visualizations
 
-#### JSON Export
+### JSON Export
 
-Share or archive experiments with:
+Save and share complete experiments, including:
 
-* Circuit layout
-* Gates
-* Circuit depth
+* Circuit layouts
+* Gate sequences
 * Initial states
-* Theme configuration
-* Simulator settings
+* Circuit depth
+* Simulator configuration
 
-### Import
+### JSON Import
 
-Reload previously exported JSON experiments directly into the simulator.
+Reload previously exported experiments and continue where you left off.
 
 ---
 
 ## Productivity Features
 
-### Undo / Redo
+### Session Persistence
+
+Quantum Sandbox automatically saves:
+
+* Circuit configurations
+* Initial states
+* Gate sequences
+* Circuit depth
+* Theme settings
+* Mode preferences
+
+### Undo and Redo
 
 * Full history tracking
 * Up to 200 actions stored
 * Keyboard shortcut support
-
-### Keyboard Shortcuts
-
-| Shortcut             | Action               |
-| -------------------- | -------------------- |
-| Ctrl/Cmd + Z         | Undo                 |
-| Ctrl/Cmd + Y         | Redo                 |
-| Ctrl/Cmd + Shift + Z | Redo                 |
-| Delete               | Remove selected gate |
-| Backspace            | Remove selected gate |
-| ←                    | Select previous gate |
-| →                    | Select next gate     |
-
----
-
-## User Experience
-
-### Themes
-
-* Dark mode
-* Light mode
 
 ### Accessibility
 
 * Keyboard navigation
 * Focus indicators
 * Tooltips
-* Guided onboarding
-
-### Responsive Interface
-
-Designed for modern desktop and laptop browsers.
+* Guided onboarding experiences
+* Responsive interface design
 
 ---
 
@@ -269,28 +246,27 @@ Designed for modern desktop and laptop browsers.
 * p5.js
 * Font Awesome
 
-No frameworks, build tools, or package managers required.
+The project runs entirely in the browser and requires no frameworks, build tools, or package managers.
 
 ---
 
 ## Educational Goals
 
-Quantum Sandbox is designed to help students, educators, and enthusiasts understand:
+Quantum Sandbox aims to make quantum computing:
 
-* Qubits
-* Superposition
-* Phase
-* Interference
-* Measurement
-* Entanglement
-* Quantum gates
-* Multi-qubit systems
-* Quantum algorithms
+* Visual
+* Interactive
+* Accessible
+* Experiment-driven
 
-through immediate visual feedback and experimentation.
+by allowing learners to observe quantum phenomena as they happen and explore concepts through direct experimentation.
+
+The platform is designed for students, educators, STEM clubs, and anyone interested in understanding the principles behind quantum computing.
 
 ---
 
 ## License
 
-Open-source educational project.
+Quantum Sandbox is an open-source educational project. Contributions, feedback, and suggestions are always welcome.
+
+If you find the project useful, consider starring the repository and sharing it with others interested in quantum computing education.
