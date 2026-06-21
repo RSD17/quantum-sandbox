@@ -19,7 +19,7 @@
           <img src="quantum-sandbox-logo.png" alt="Quantum Sandbox logo" />
         </div>
         <div>
-          <h1>Quantum Sandbox (v1.1)</h1>
+          <h1>Quantum Sandbox <span class="version" style="font-size: 0.7em; font-weight: normal;">(v1.2)</span></h1>
           <p>An Interactive Quantum Circuit Playground</p>
         </div>
       </div>
@@ -29,16 +29,14 @@
         <button class="mode-btn" data-mode="expert">Expert</button>
       </div>
       <div class="top-actions">
-        <button id="restoreBtn" class="btn btn-soft restore-btn" title="Restore your previous session — reloads saved gates, qubit count, and circuit depth" hidden>
+        <button id="restoreBtn" class="btn btn-soft restore-btn" title="Restore your previous session: reloads saved gates, qubit count, and circuit depth" hidden>
           <i class="fa-solid fa-clock-rotate-left"></i>
           <span>Restore Circuit</span>
         </button>
-        <button id="undoBtn" class="btn btn-soft icon-btn undo-btn" aria-label="Undo" title="Undo">
-          <i class="fa-solid fa-rotate-left"></i>
-        </button>
-        <button id="redoBtn" class="btn btn-soft icon-btn redo-btn" aria-label="Redo" title="Redo">
-          <i class="fa-solid fa-rotate-right"></i>
-        </button>
+        <a href="learn/index.html" id="learnBtn" class="btn btn-soft" title="Learn the principles of quantum computing step by step">
+          <i class="fa-solid fa-graduation-cap"></i>
+          <span>Learn</span>
+        </a>
         <button id="guideBtn" class="btn btn-soft">Guide</button>
         <button id="themeBtn" class="btn btn-soft icon-btn" aria-label="Toggle theme" title="Toggle theme">
           <i id="themeIcon" class="fa-solid fa-sun"></i>
@@ -68,7 +66,7 @@
     <main class="layout">
       <aside class="panel left-panel">
         <div class="panel-head">
-          <h2>Gate Library</h2>
+          <h2>Gate Library <button class="info-btn" data-tip="This is a practical, commonly-used set of gates, not the full picture. Any unitary matrix is technically a valid quantum gate, so there are infinitely many possible gates - these are simply the ones real circuits are built from most often." aria-label="About this gate set"><i class="fa-solid fa-circle-info"></i></button></h2>
           <p>Drag or click to add</p>
         </div>
         <div class="left-controls">
@@ -91,7 +89,15 @@
           </button>
         </div>
         <div id="gateLibrary" class="gate-library"></div>
-        <button id="clearBtn" class="btn btn-soft full">Clear Circuit</button>
+        <div class="lib-undo-row">
+          <button id="undoBtn" class="btn btn-soft icon-btn undo-btn" aria-label="Undo" title="Undo (Ctrl+Z)">
+            <i class="fa-solid fa-rotate-left"></i>
+          </button>
+          <button id="redoBtn" class="btn btn-soft icon-btn redo-btn" aria-label="Redo" title="Redo (Ctrl+Y)">
+            <i class="fa-solid fa-rotate-right"></i>
+          </button>
+          <button id="clearBtn" class="btn btn-soft" style="flex:1">Clear Circuit</button>
+        </div>
       </aside>
 
       <section class="panel center-panel">
@@ -110,7 +116,7 @@
         </div>
 
         <div class="state-card state-vector-card">
-          <h3>State Vector <button class="info-btn" data-tip="The state vector shows α and β — the two complex amplitudes of your qubit. The bars below show |α|² and |β|², which are the actual probabilities of measuring |0⟩ or |1⟩." aria-label="What is the state vector?"><i class="fa-solid fa-circle-info"></i></button></h3>
+          <h3>State Vector <button class="info-btn" data-tip="The state vector shows α and β: the two complex amplitudes of your qubit. The bars below show |α|² and |β|², which are the actual probabilities of measuring |0⟩ or |1⟩." aria-label="What is the state vector?"><i class="fa-solid fa-circle-info"></i></button></h3>
 
           <div class="amplitude-block">
             <div class="amplitude-row">
@@ -136,7 +142,7 @@
         </div>
 
         <div class="state-card">
-          <h3>Gate Sequence <button class="info-btn" data-tip="This shows the ordered list of gates applied to your qubit from left to right. Each gate transforms the state — the final state is the result of all gates applied in sequence." aria-label="What is the gate sequence?"><i class="fa-solid fa-circle-info"></i></button></h3>
+          <h3>Gate Sequence <button class="info-btn" data-tip="This shows the ordered list of gates applied to your qubit from left to right. Each gate transforms the state; the final state is the result of all gates applied in sequence." aria-label="What is the gate sequence?"><i class="fa-solid fa-circle-info"></i></button></h3>
           <div id="sequenceText" class="mono sequence">No gates applied yet.</div>
         </div>
       </aside>
@@ -146,7 +152,7 @@
     <main class="layout layout-advanced" id="layoutAdvanced" hidden>
       <aside class="panel left-panel" id="advLeftPanel">
         <div class="panel-head">
-          <h2>Gate Library</h2>
+          <h2>Gate Library <button class="info-btn" data-tip="This is a practical, commonly-used set of gates, not the full picture. Any unitary matrix is technically a valid quantum gate, so there are infinitely many possible gates - these are simply the ones real circuits are built from most often." aria-label="About this gate set"><i class="fa-solid fa-circle-info"></i></button></h2>
           <p>Multi-qubit gates + single-qubit</p>
         </div>
         <div class="adv-controls">
@@ -170,7 +176,15 @@
           </button>
         </div>
         <div id="advGateLibrary" class="gate-library adv-gate-library"></div>
-        <button id="advClearBtn" class="btn btn-soft full">Clear Circuit</button>
+        <div class="lib-undo-row">
+          <button id="advUndoBtn" class="btn btn-soft icon-btn undo-btn" aria-label="Undo" title="Undo (Ctrl+Z)">
+            <i class="fa-solid fa-rotate-left"></i>
+          </button>
+          <button id="advRedoBtn" class="btn btn-soft icon-btn redo-btn" aria-label="Redo" title="Redo (Ctrl+Y)">
+            <i class="fa-solid fa-rotate-right"></i>
+          </button>
+          <button id="advClearBtn" class="btn btn-soft" style="flex:1">Clear Circuit</button>
+        </div>
       </aside>
 
       <section class="panel center-panel" id="advCenterPanel">
@@ -194,7 +208,7 @@
           <div id="advProbBars" class="adv-prob-bars"></div>
         </div>
         <div class="state-card">
-          <h3>Qubit Bloch Spheres <button class="info-btn" data-tip="Each sphere shows one qubit's state. When qubits are entangled the individual spheres become approximate — they can't fully capture the joint state." aria-label="What is this?"><i class="fa-solid fa-circle-info"></i></button></h3>
+          <h3>Qubit Bloch Spheres <button class="info-btn" data-tip="Each sphere shows one qubit's state. When qubits are entangled the individual spheres become approximate, which means they can't fully capture the joint state." aria-label="What is this?"><i class="fa-solid fa-circle-info"></i></button></h3>
           <div id="advBlochRow" class="adv-bloch-row"></div>
         </div>
         <div class="state-card">
@@ -208,8 +222,8 @@
     <main class="layout layout-advanced" id="layoutExpert" hidden>
       <aside class="panel left-panel" id="expLeftPanel">
         <div class="panel-head">
-          <h2>Gate Library</h2>
-          <p>Full universal gate set</p>
+          <h2>Gate Library <button class="info-btn" data-tip="'Universal' means these gates are enough to build any quantum computation, not that they are the only gates that exist. Any unitary matrix is a valid quantum gate, so there are infinitely many possible gates in total." aria-label="About this gate set"><i class="fa-solid fa-circle-info"></i></button></h2>
+          <p>A universal gate set (one of infinitely many possible gates)</p>
         </div>
         <div class="adv-controls">
           <label class="control-label">Qubits</label>
@@ -237,7 +251,15 @@
           </button>
         </div>
         <div id="expGateLibrary" class="gate-library adv-gate-library"></div>
-        <button id="expClearBtn" class="btn btn-soft full">Clear Circuit</button>
+        <div class="lib-undo-row">
+          <button id="expUndoBtn" class="btn btn-soft icon-btn undo-btn" aria-label="Undo" title="Undo (Ctrl+Z)">
+            <i class="fa-solid fa-rotate-left"></i>
+          </button>
+          <button id="expRedoBtn" class="btn btn-soft icon-btn redo-btn" aria-label="Redo" title="Redo (Ctrl+Y)">
+            <i class="fa-solid fa-rotate-right"></i>
+          </button>
+          <button id="expClearBtn" class="btn btn-soft" style="flex:1">Clear Circuit</button>
+        </div>
       </aside>
 
       <section class="panel center-panel" id="expCenterPanel">

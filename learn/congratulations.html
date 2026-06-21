@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Course Complete | Quantum Sandbox</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="../logo-favicon-32x32.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="lesson.css" />
+</head>
+<body class="dark">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">
+        <img src="../quantum-sandbox-logo.png" alt="Quantum Sandbox logo" />
+      </div>
+      <div>
+        <h1>Quantum Sandbox</h1>
+        <p>An Interactive Quantum Circuit Playground</p>
+      </div>
+    </div>
+    <div class="top-actions" style="gap:8px">
+      <a href="index.html" class="btn btn-soft">
+        <i class="fa-solid fa-graduation-cap"></i>
+        <span>All Lessons</span>
+      </a>
+      <a href="../index.html" class="btn btn-sandbox-gradient">
+        <i class="fa-solid fa-flask"></i>
+        <span>Go to Sandbox</span>
+      </a>
+      <button id="themeBtn" class="btn btn-soft icon-btn" aria-label="Toggle theme" title="Toggle theme">
+        <i id="themeIcon" class="fa-solid fa-sun"></i>
+      </button>
+    </div>
+  </header>
+
+  <div class="lesson-wrap">
+    <div class="congrats-hero">
+      <i class="fa-solid fa-trophy congrats-icon"></i>
+      <div class="congrats-badge">Course Complete</div>
+      <h1 class="congrats-title">Congratulations!</h1>
+      <p class="congrats-subtitle">You have completed all 16 lessons of Quantum Sandbox, from the basics of superposition through entanglement, real hardware, and the algorithms that are shaping the future of computing.</p>
+      <div class="congrats-score-display" id="congratsScore">
+        <i class="fa-solid fa-star"></i>
+        <span id="scoreText">0 / 160 pts</span>
+      </div>
+    </div>
+
+    <div class="congrats-mastered">
+      <h2>What you have mastered</h2>
+      <ul>
+        <li><i class="fa-solid fa-check-circle"></i> Superposition &amp; state vectors</li>
+        <li><i class="fa-solid fa-check-circle"></i> Quantum measurement</li>
+        <li><i class="fa-solid fa-check-circle"></i> Interference &amp; phase</li>
+        <li><i class="fa-solid fa-check-circle"></i> Entanglement</li>
+        <li><i class="fa-solid fa-check-circle"></i> Gates &amp; quantum circuits</li>
+        <li><i class="fa-solid fa-check-circle"></i> Quantum error correction</li>
+        <li><i class="fa-solid fa-check-circle"></i> Grover's algorithm</li>
+        <li><i class="fa-solid fa-check-circle"></i> Shor's algorithm</li>
+        <li><i class="fa-solid fa-check-circle"></i> Quantum teleportation</li>
+        <li><i class="fa-solid fa-check-circle"></i> Post-quantum cryptography</li>
+      </ul>
+    </div>
+
+    <div class="congrats-actions">
+      <a href="index.html" class="btn btn-soft">
+        <i class="fa-solid fa-list"></i> Review Lessons
+      </a>
+      <a href="../index.html" class="btn btn-sandbox-gradient">
+        <i class="fa-solid fa-flask"></i> Open Sandbox
+      </a>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <p>© Quantum Sandbox • Ritayush Suchismita Dey</p>
+  </footer>
+
+  <script>
+    (function () {
+      var SESSION_KEY = "quantum_sandbox_session_v1";
+      var SCORES_KEY  = "qs_learn_scores";
+
+      function applyTheme(theme) {
+        document.body.classList.toggle("dark", theme === "dark");
+        var icon = document.getElementById("themeIcon");
+        if (icon) icon.className = theme === "dark" ? "fa-solid fa-sun" : "fa-solid fa-moon";
+      }
+      function loadTheme() {
+        try {
+          var s = localStorage.getItem(SESSION_KEY);
+          if (s) { var o = JSON.parse(s); if (o.currentTheme) return o.currentTheme; }
+        } catch (e) {}
+        return "dark";
+      }
+      function saveTheme(t) {
+        try {
+          var s = localStorage.getItem(SESSION_KEY);
+          var o = s ? JSON.parse(s) : {};
+          o.currentTheme = t;
+          localStorage.setItem(SESSION_KEY, JSON.stringify(o));
+        } catch (e) {}
+      }
+      var theme = loadTheme();
+      applyTheme(theme);
+      var btn = document.getElementById("themeBtn");
+      if (btn) btn.addEventListener("click", function () {
+        theme = theme === "dark" ? "light" : "dark";
+        applyTheme(theme);
+        saveTheme(theme);
+      });
+
+      // Show score from localStorage
+      try {
+        var raw = localStorage.getItem(SCORES_KEY);
+        var scores = raw ? JSON.parse(raw) : {};
+        var total = Object.values(scores).reduce(function (s, v) { return s + (v.pts || 0); }, 0);
+        var el = document.getElementById("scoreText");
+        if (el) el.textContent = total + " / 160 pts";
+      } catch (e) {}
+    })();
+  </script>
+</body>
+</html>

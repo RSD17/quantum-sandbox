@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shor's Algorithm | Quantum Sandbox</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="../../logo-favicon-32x32.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="stylesheet" href="../../style.css" />
+  <link rel="stylesheet" href="../lesson.css" />
+</head>
+<body class="dark lesson-page">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">
+        <img src="../../quantum-sandbox-logo.png" alt="Quantum Sandbox logo" />
+      </div>
+      <div>
+        <h1>Quantum Sandbox</h1>
+        <p>An Interactive Quantum Circuit Playground</p>
+      </div>
+    </div>
+    <div class="top-actions" style="gap:8px">
+      <a href="../index.html" class="btn btn-soft">
+        <i class="fa-solid fa-graduation-cap"></i>
+        <span>All Lessons</span>
+      </a>
+      <a href="../../index.html" class="btn btn-soft">
+        <i class="fa-solid fa-flask"></i>
+        <span>Sandbox</span>
+      </a>
+      <button id="themeBtn" class="btn btn-soft icon-btn" aria-label="Toggle theme">
+        <i id="themeIcon" class="fa-solid fa-sun"></i>
+      </button>
+    </div>
+  </header>
+
+  <div class="lesson-wrap">
+    <nav class="lesson-breadcrumb">
+      <a href="../index.html">Learn</a>
+      <span class="sep">/</span>
+      <span>Part 3 - Algorithms</span>
+      <span class="sep">/</span>
+      <span class="current">Shor's Algorithm</span>
+    </nav>
+
+    <div class="lesson-meta">
+      <span class="lesson-part-label">Part 3 - Algorithms</span>
+      <span class="lesson-read-time"><i class="fa-regular fa-clock"></i> 12 min read</span>
+    </div>
+
+    <h1 class="lesson-title">Shor's Algorithm</h1>
+    <p class="lesson-subtitle">The security of most internet encryption depends on one mathematical fact: factoring large numbers is practically impossible for classical computers. Shor's algorithm makes it feasible for quantum computers - and that changes everything about cryptography.</p>
+
+    <section class="lesson-section">
+      <h2>Why factoring matters</h2>
+      <p>When you visit a bank website, send a private message, or make an online payment, your data is protected by encryption. The most widely used public-key encryption systems - RSA, Diffie-Hellman, and elliptic curve cryptography - all rest on the same mathematical assumption: given two large prime numbers multiplied together, it is computationally infeasible to factor the result back into those primes.</p>
+      <p>Multiplying two 300-digit prime numbers takes a fraction of a second. Finding those primes given only the product takes classical computers so long - longer than the age of the universe for large enough numbers - that it is considered practically impossible. The entire security of modern internet infrastructure relies on this asymmetry. It is the same one-way difficulty as mixing two paint colors versus un-mixing them: blending blue and yellow into green takes a second, but staring at the green and recovering the exact original shades of blue and yellow is far harder - the information about the ingredients is still in there, it is just computationally painful to extract.</p>
+      <p>In 1994, Peter Shor published an algorithm showing that a quantum computer could factor large numbers in polynomial time - time that grows as a polynomial in the number of digits, not exponentially. A quantum computer running Shor's algorithm would break RSA encryption. This single algorithm is responsible for much of the urgency around both quantum computing development and post-quantum cryptography research.</p>
+    </section>
+
+    <section class="lesson-section">
+      <h2>Period finding: the core problem</h2>
+      <p>Shor's algorithm does not directly try to factor N. Instead, it reduces factoring to a different problem: finding the <strong>period</strong> of a modular exponential function.</p>
+      <p>Pick a random number a (less than N, and with no common factors with N). Consider the sequence: a¹ mod N, a² mod N, a³ mod N, a⁴ mod N, and so on. This sequence is periodic - it repeats with some period r, much like the hour hand on a clock cycling back to 12: the actual numbers it lands on look unpredictable step to step, but eventually the pattern loops back to where it started, and that loop length is the period. If you can find r, and if r is even, then a^(r/2) + 1 and a^(r/2) − 1 share common factors with N. Those common factors are likely to be the prime factors of N.</p>
+      <p>Classically, finding the period r requires testing many values - roughly as hard as factoring directly. Shor's algorithm uses the Quantum Fourier Transform to find r efficiently in quantum time.</p>
+    </section>
+
+    <section class="lesson-section">
+      <h2>The Quantum Fourier Transform</h2>
+      <p>The Quantum Fourier Transform (QFT) is one of the most important quantum subroutines. It transforms a quantum state by performing a Fourier analysis on the amplitudes - converting from the "value basis" to the "frequency basis," similar to how the classical Fast Fourier Transform (FFT) decomposes a signal into its component frequencies.</p>
+      <p>The QFT can be implemented using O(n²) quantum gates on n qubits. The best classical FFT requires O(n × 2ⁿ) operations - exponentially more. This exponential advantage is what makes Shor's algorithm fast: applying the QFT to the periodic state created by modular exponentiation extracts the period r in polynomial time.</p>
+      <p>The QFT is built from Hadamard gates and controlled phase rotation gates (the S and T gates you have seen in the Sandbox, plus smaller phase rotations). Its circuit structure is beautiful: a cascade of Hadamards and phase shifts applied to each qubit, creating an interference pattern that "peaks" at the frequency of the input periodicity.</p>
+    </section>
+
+    <div class="lesson-demo-callout">
+      <div class="demo-callout-label"><i class="fa-solid fa-flask"></i> Try it in the Sandbox</div>
+      <div class="demo-callout-title">Explore the Quantum Fourier Transform circuit</div>
+      <ol class="demo-steps">
+        <li data-n="1">Open Algorithm Preset and select <strong>QFT (2-qubit)</strong>.</li>
+        <li data-n="2">Examine the circuit. H gates on each qubit, followed by controlled phase rotations.</li>
+        <li data-n="3">Check the probability distribution. Peaks correspond to dominant frequencies in the input.</li>
+        <li data-n="4">Note the phase display. QFT moves information between amplitudes and phases.</li>
+        <li data-n="5">This is a tiny preview. Real Shor's needs hundreds of qubits and millions of gate operations.</li>
+      </ol>
+      <iframe
+        class="lesson-sandbox"
+        src="../../index.html?embed=1&mode=expert"
+        title="Quantum Sandbox - QFT demo"
+        allow="cross-origin-isolated"
+      ></iframe>
+    </div>
+
+    <section class="lesson-section">
+      <h2>Shor's algorithm step by step</h2>
+      <p>The complete algorithm has these phases:</p>
+      <p><strong>1. Classical preprocessing.</strong> Check obvious cases: is N even? (If so, 2 is a factor.) Is N a prime power? (These can be checked classically.) Pick a random a less than N and compute gcd(a, N). If it is not 1, you found a factor - done.</p>
+      <p><strong>2. Quantum period finding.</strong> Prepare a quantum state over superpositions of x values. Apply the modular exponentiation function f(x) = aˣ mod N as a quantum circuit. Apply the QFT. Measure. The result is a multiple of N/r, which reveals r after classical post-processing.</p>
+      <p><strong>3. Classical post-processing.</strong> Use the measured value and number theory to compute r. Check if r is even and aʳ/² ≠ −1 mod N. If so, compute gcd(aʳ/² ± 1, N) to get the prime factors. If the conditions fail, pick a new random a and repeat.</p>
+      <p>The quantum speedup is entirely in step 2. Everything else is classical. The algorithm is probabilistic - it succeeds with high probability and may need to be run a few times, but each run is polynomial time.</p>
+    </section>
+
+    <section class="lesson-section">
+      <h2>What this means for cryptography today</h2>
+      <p>A fault-tolerant quantum computer running Shor's algorithm on RSA-2048 (the current standard) would require roughly 4,000 logical qubits and millions of gate operations. With current error rates, that corresponds to millions of physical qubits - far beyond today's hardware.</p>
+      <p>But the threat is taken seriously now because of a strategy called <strong>"harvest now, decrypt later."</strong> An adversary can record encrypted traffic today and decrypt it when a sufficiently powerful quantum computer becomes available in the future. Long-term secrets - government communications, medical records, financial data - have a long shelf life and may be vulnerable.</p>
+      <p>This is why NIST (the U.S. National Institute of Standards and Technology) standardized new post-quantum cryptographic algorithms in 2024. These are mathematical problems believed to be hard even for quantum computers. The transition to post-quantum cryptography is already underway.</p>
+    </section>
+
+    <div class="lesson-takeaway">
+      <div class="takeaway-label"><i class="fa-solid fa-bolt"></i> Key takeaway</div>
+      <p class="takeaway-text">Shor's algorithm uses the Quantum Fourier Transform to find the period of a modular exponential function, reducing the factoring problem to an efficient quantum computation. It would break RSA and elliptic curve cryptography if run on a fault-tolerant quantum computer - driving urgent development of post-quantum cryptographic standards.</p>
+    </div>
+
+    <div class="lesson-check">
+      <div class="check-label"><i class="fa-solid fa-circle-question"></i> Knowledge check · Question 1 of 4</div>
+      <p class="check-question">Why does RSA encryption rely on multiplying two large primes together rather than some other operation?</p>
+      <div class="check-options">
+        <button class="check-option" data-correct="false">Multiplication is the only arithmetic operation computers can perform quickly.</button>
+        <button class="check-option" data-correct="false">Prime numbers are rare, so attackers can never find them.</button>
+        <button class="check-option" data-correct="false">Multiplying primes always produces a number that is itself prime.</button>
+        <button class="check-option" data-correct="true">Multiplying two large primes is fast, but factoring the result back into those primes is computationally infeasible classically - a one-way asymmetry.</button>
+      </div>
+      <div class="check-feedback">RSA's security depends entirely on this asymmetry: computing the product is easy, but reversing it - factoring - takes classical computers an impractically long time for large enough numbers, similar to how mixing two paint colors is trivial but separating them back out is not.</div>
+    </div>
+
+    <div class="lesson-check">
+      <div class="check-label"><i class="fa-solid fa-circle-question"></i> Knowledge check · Question 2 of 4</div>
+      <p class="check-question">Why is the "harvest now, decrypt later" attack a concern even before large quantum computers exist?</p>
+      <div class="check-options">
+        <button class="check-option" data-correct="false">Classical computers can already use this strategy to break current encryption.</button>
+        <button class="check-option" data-correct="true">Adversaries can record and store encrypted data today, then decrypt it years later once quantum computers are powerful enough.</button>
+        <button class="check-option" data-correct="false">Quantum computers already exist and can partially decrypt most messages.</button>
+        <button class="check-option" data-correct="false">It is not a concern - all encrypted data has an automatic expiry and becomes worthless quickly.</button>
+      </div>
+      <div class="check-feedback">Encrypted communications captured today can be stored for years or decades. When a sufficiently powerful quantum computer eventually arrives, all that stored data becomes readable - so data that needs to remain secret for a long time must be protected now with post-quantum cryptography.</div>
+    </div>
+
+    <div class="lesson-check">
+      <div class="check-label"><i class="fa-solid fa-circle-question"></i> Knowledge check · Question 3 of 4</div>
+      <p class="check-question">What gives the Quantum Fourier Transform its advantage over the classical Fast Fourier Transform in Shor's algorithm?</p>
+      <div class="check-options">
+        <button class="check-option" data-correct="false">The QFT skips the frequency analysis step entirely and reads the period directly off the qubits.</button>
+        <button class="check-option" data-correct="false">The QFT only works for numbers that are already prime.</button>
+        <button class="check-option" data-correct="true">The QFT needs only O(n²) gates on n qubits, compared to the classical FFT's O(n × 2ⁿ) operations - an exponential improvement.</button>
+        <button class="check-option" data-correct="false">The QFT runs on classical hardware, so it avoids quantum error rates altogether.</button>
+      </div>
+      <div class="check-feedback">The QFT's gate count scales polynomially (O(n²)) instead of exponentially (O(n × 2ⁿ)) like the classical FFT. Applying it to the periodic state from modular exponentiation is what lets Shor's algorithm extract the period r in polynomial time.</div>
+    </div>
+
+    <div class="lesson-check">
+      <div class="check-label"><i class="fa-solid fa-circle-question"></i> Knowledge check · Question 4 of 4</div>
+      <p class="check-question">In Shor's algorithm, which part of the process actually requires a quantum computer?</p>
+      <div class="check-options">
+        <button class="check-option" data-correct="true">The period-finding step, where modular exponentiation and the Quantum Fourier Transform are applied to find r.</button>
+        <button class="check-option" data-correct="false">The classical preprocessing step, where you check if N is even or a prime power.</button>
+        <button class="check-option" data-correct="false">The final gcd computation used to extract the prime factors from r.</button>
+        <button class="check-option" data-correct="false">Picking the random number a and checking gcd(a, N).</button>
+      </div>
+      <div class="check-feedback">Only step 2 - quantum period finding - needs a quantum computer. The classical preprocessing and post-processing steps (checking easy cases, computing gcd) run on ordinary hardware; the quantum speedup is entirely confined to finding r efficiently.</div>
+    </div>
+
+    <nav class="lesson-nav">
+      <a href="11-grovers-algorithm.html" class="btn btn-soft">
+        <i class="fa-solid fa-arrow-left"></i> Previous
+      </a>
+      <a href="13-teleportation.html" class="btn btn-primary btn-nav-next">
+        Next: Quantum Teleportation <i class="fa-solid fa-arrow-right"></i>
+      </a>
+    </nav>
+  </div>
+
+  <footer class="site-footer">
+    <p>© Quantum Sandbox • Ritayush Suchismita Dey</p>
+  </footer>
+
+  <script src="../lesson.js"></script>
+</body>
+</html>

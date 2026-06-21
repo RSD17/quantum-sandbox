@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Real Qubits | Quantum Sandbox</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="../../logo-favicon-32x32.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="stylesheet" href="../../style.css" />
+  <link rel="stylesheet" href="../lesson.css" />
+</head>
+<body class="dark lesson-page">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">
+        <img src="../../quantum-sandbox-logo.png" alt="Quantum Sandbox logo" />
+      </div>
+      <div>
+        <h1>Quantum Sandbox</h1>
+        <p>An Interactive Quantum Circuit Playground</p>
+      </div>
+    </div>
+    <div class="top-actions" style="gap:8px">
+      <a href="../index.html" class="btn btn-soft">
+        <i class="fa-solid fa-graduation-cap"></i>
+        <span>All Lessons</span>
+      </a>
+      <a href="../../index.html" class="btn btn-soft">
+        <i class="fa-solid fa-flask"></i>
+        <span>Sandbox</span>
+      </a>
+      <button id="themeBtn" class="btn btn-soft icon-btn" aria-label="Toggle theme">
+        <i id="themeIcon" class="fa-solid fa-sun"></i>
+      </button>
+    </div>
+  </header>
+
+  <div class="lesson-wrap">
+    <nav class="lesson-breadcrumb">
+      <a href="../index.html">Learn</a>
+      <span class="sep">/</span>
+      <span>Part 2 - How They Work</span>
+      <span class="sep">/</span>
+      <span class="current">Real Qubits</span>
+    </nav>
+
+    <div class="lesson-meta">
+      <span class="lesson-part-label">Part 2 - How They Work</span>
+      <span class="lesson-read-time"><i class="fa-regular fa-clock"></i> 9 min read</span>
+    </div>
+
+    <h1 class="lesson-title">Real Qubits</h1>
+    <p class="lesson-subtitle">Superposition and entanglement are abstract concepts - but somewhere they have to be built out of physical matter. How do you actually make a qubit? The answer turns out to be both more varied and more difficult than most people expect.</p>
+
+    <section class="lesson-section">
+      <h2>Any two-level quantum system</h2>
+      <p>A qubit does not have to be a particular type of particle or physical object. It just needs to be a quantum system with exactly two distinct energy levels that you can control and measure. The two levels become |0⟩ and |1⟩. The system must also be isolatable - kept from interacting with its environment - and manipulable with enough precision to apply gates reliably.</p>
+      <p>The challenge is that quantum states are incredibly fragile. The slightest interaction with the environment - a stray magnetic field, a vibration, a thermal photon - can disturb the qubit and destroy its superposition. This loss of quantum coherence is called <strong>decoherence</strong>, and it is the central engineering problem of quantum computing. Think of balancing a pencil on its tip: the slightest nudge - a breath of air, a footstep across the room - knocks it over. A qubit's superposition is balanced just as precariously, except the "nudges" are everywhere, all the time.</p>
+    </section>
+
+    <section class="lesson-section">
+      <h2>Superconducting qubits: the dominant approach</h2>
+      <p>The most widely deployed qubit technology today - used by IBM, Google, and others - is the superconducting qubit. These are tiny circuits made from superconducting metals (often aluminum or niobium) that operate at temperatures colder than outer space: about 15 millikelvin, or roughly 273 degrees below zero Celsius.</p>
+      <p>At such extreme cold, electrical resistance vanishes (that is what "superconducting" means) and quantum effects dominate. A small electronic circuit behaves like an artificial atom with discrete energy levels. Microwave pulses are used to flip the qubit between energy states and create superposition. The whole chip looks something like a miniature printed circuit board, but operating at quantum scales.</p>
+      <p>Superconducting qubits can be manufactured using techniques borrowed from semiconductor fabrication, which makes them scalable in principle. The main drawback is decoherence: these qubits stay coherent for only tens to hundreds of microseconds before environmental noise destroys the state. That might sound like a long time, but a complete quantum algorithm might require millions of operations - leaving very little margin for error. It's a bit like trying to finish a complex recipe in a kitchen where the stove shuts off after a few seconds - you have to work fast and you cannot afford many mistakes.</p>
+    </section>
+
+    <section class="lesson-section">
+      <h2>Trapped ions: precision over scale</h2>
+      <p>Another major approach uses individual atoms - specifically ions (charged atoms) - suspended in space by electromagnetic fields. The two qubit levels are two energy states of the ion's electrons. Laser pulses manipulate the states and create entanglement between ions.</p>
+      <p>Trapped ion qubits tend to have much longer coherence times than superconducting qubits - sometimes seconds or even minutes. They are also more uniform and easier to control precisely. The downside is that they are harder to scale: the ions must be kept in ultra-high vacuum, and as you add more ions to the trap, they interact with each other in ways that become harder to manage - like trying to hold a conversation with one friend across a quiet room, versus trying to hold ten separate conversations at once without any of them bleeding into each other.</p>
+      <p>Companies like IonQ and Honeywell (now Quantinuum) are the main players in this space. The field debate between superconducting and trapped-ion approaches is analogous to the early days of classical computing, when different physical technologies competed before silicon transistors won out.</p>
+    </section>
+
+    <section class="lesson-section">
+      <h2>Photons, neutral atoms, and topological qubits</h2>
+      <p>Several other physical approaches are also being explored. <strong>Photonic qubits</strong> use individual photons - particles of light - as qubits. They are naturally isolated from most environmental noise, can travel at the speed of light, and are suited to quantum communication. But making photons interact with each other (needed for two-qubit gates) is difficult.</p>
+      <p><strong>Neutral atom qubits</strong> (used by companies like Atom Computing and QuEra) trap individual neutral atoms in arrays using laser light. They share some advantages of trapped ions and can be arranged in large grids, making them promising for scaled-up systems.</p>
+      <p><strong>Topological qubits</strong> - the technology Microsoft has pursued - aim to encode quantum information in the topology (the mathematical shape) of quantum states rather than in fragile individual particles. The idea is similar to tying information into a knot in a rope: small jostles can move the rope around, but they cannot undo the knot itself without a deliberate, large-scale change. Theoretically, topological qubits would be much more robust against decoherence, but constructing them has proven extremely difficult and remains experimental.</p>
+    </section>
+
+    <section class="lesson-section">
+      <h2>Decoherence: the universal enemy</h2>
+      <p>Whatever the physical platform, decoherence is the primary obstacle. Every qubit type has a characteristic <strong>coherence time</strong> - how long it maintains its quantum state before errors accumulate. This limits how many gates you can apply before the computation becomes unreliable.</p>
+      <p>Current best superconducting qubits have coherence times of order 100–500 microseconds. Gate operations take around 20–100 nanoseconds each. So in the best case, you can apply thousands of gates per qubit before decoherence corrupts the result. That is sufficient for many experiments but not for the most powerful applications like Shor's algorithm on large numbers, which would need far more error-free operations.</p>
+      <p>This is why quantum error correction - which you will learn about in Lesson 9 - is so critical. It requires using many physical qubits to build a single "logical" qubit that is much more robust, similar to how a single reliable signal can be sent redundantly across many noisy wires so that errors on any one wire get outvoted by the rest. The overhead is significant: current estimates suggest a fault-tolerant logical qubit might require thousands of physical qubits to support it.</p>
+    </section>
+
+    <div class="lesson-takeaway">
+      <div class="takeaway-label"><i class="fa-solid fa-bolt"></i> Key takeaway</div>
+      <p class="takeaway-text">Real qubits are physical quantum systems with two controllable energy levels - most commonly superconducting circuits or trapped ions. Decoherence, the loss of quantum state due to environmental interaction, is the central engineering challenge. Different platforms trade off coherence time, gate speed, and scalability in different ways.</p>
+    </div>
+
+    <div class="lesson-check">
+      <div class="check-label"><i class="fa-solid fa-circle-question"></i> Knowledge check · Question 1 of 3</div>
+      <p class="check-question">What is the minimum requirement for a physical system to serve as a qubit?</p>
+      <div class="check-options">
+        <button class="check-option" data-correct="true">It must be a quantum system with exactly two distinct, controllable and measurable energy levels that can be isolated from its environment.</button>
+        <button class="check-option" data-correct="false">It must be a superconducting circuit cooled to near absolute zero.</button>
+        <button class="check-option" data-correct="false">It must be an individual atom or ion held in an electromagnetic trap.</button>
+        <button class="check-option" data-correct="false">It must be a particle of light that can travel at the speed of light.</button>
+      </div>
+      <div class="check-feedback">A qubit can be built from any two-level quantum system - superconducting circuits, trapped ions, photons, and others are all valid implementations, not requirements.</div>
+    </div>
+
+    <div class="lesson-check">
+      <div class="check-label"><i class="fa-solid fa-circle-question"></i> Knowledge check · Question 2 of 3</div>
+      <p class="check-question">Why do superconducting quantum computers operate at temperatures near absolute zero?</p>
+      <div class="check-options">
+        <button class="check-option" data-correct="false">Cold temperatures make classical processors in the same system run faster.</button>
+        <button class="check-option" data-correct="true">Extreme cold minimizes thermal noise that would cause decoherence, and enables superconductivity which the qubit design requires.</button>
+        <button class="check-option" data-correct="false">The qubits need to be physically small, and cold temperatures shrink them.</button>
+        <button class="check-option" data-correct="false">Room-temperature superconducting materials do not exist yet - any temperature would work theoretically.</button>
+      </div>
+      <div class="check-feedback">At near-absolute zero, thermal energy is so low it cannot disturb the fragile quantum states. The superconducting property itself also requires these temperatures - at higher temperatures, resistance returns and the qubit circuit design breaks down.</div>
+    </div>
+
+    <div class="lesson-check">
+      <div class="check-label"><i class="fa-solid fa-circle-question"></i> Knowledge check · Question 3 of 3</div>
+      <p class="check-question">Why are trapped-ion qubits harder to scale up than superconducting qubits, even though they have longer coherence times?</p>
+      <div class="check-options">
+        <button class="check-option" data-correct="false">Trapped ions cannot be manufactured using any known fabrication technique.</button>
+        <button class="check-option" data-correct="false">Trapped ions lose coherence within nanoseconds once more than two are added to a trap.</button>
+        <button class="check-option" data-correct="true">As more ions are added to a trap, they interact with each other in ways that become increasingly difficult to control, and they require ultra-high vacuum conditions.</button>
+        <button class="check-option" data-correct="false">Trapped ions require microwave pulses that interfere with each other at large scale.</button>
+      </div>
+      <div class="check-feedback">Trapped ions are precise and long-lived, but maintaining ultra-high vacuum and managing growing ion-ion interactions makes adding more ions to a single trap progressively harder.</div>
+    </div>
+
+    <nav class="lesson-nav">
+      <a href="05-entanglement.html" class="btn btn-soft">
+        <i class="fa-solid fa-arrow-left"></i> Previous
+      </a>
+      <a href="07-gates-and-circuits.html" class="btn btn-primary btn-nav-next">
+        Next: Gates and Circuits <i class="fa-solid fa-arrow-right"></i>
+      </a>
+    </nav>
+  </div>
+
+  <footer class="site-footer">
+    <p>© Quantum Sandbox • Ritayush Suchismita Dey</p>
+  </footer>
+
+  <script src="../lesson.js"></script>
+</body>
+</html>

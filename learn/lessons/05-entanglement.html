@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Entanglement | Quantum Sandbox</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="../../logo-favicon-32x32.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="stylesheet" href="../../style.css" />
+  <link rel="stylesheet" href="../lesson.css" />
+</head>
+<body class="dark lesson-page">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">
+        <img src="../../quantum-sandbox-logo.png" alt="Quantum Sandbox logo" />
+      </div>
+      <div>
+        <h1>Quantum Sandbox</h1>
+        <p>An Interactive Quantum Circuit Playground</p>
+      </div>
+    </div>
+    <div class="top-actions" style="gap:8px">
+      <a href="../index.html" class="btn btn-soft">
+        <i class="fa-solid fa-graduation-cap"></i>
+        <span>All Lessons</span>
+      </a>
+      <a href="../../index.html" class="btn btn-soft">
+        <i class="fa-solid fa-flask"></i>
+        <span>Sandbox</span>
+      </a>
+      <button id="themeBtn" class="btn btn-soft icon-btn" aria-label="Toggle theme">
+        <i id="themeIcon" class="fa-solid fa-sun"></i>
+      </button>
+    </div>
+  </header>
+
+  <div class="lesson-wrap">
+    <nav class="lesson-breadcrumb">
+      <a href="../index.html">Learn</a>
+      <span class="sep">/</span>
+      <span>Part 2: How They Work</span>
+      <span class="sep">/</span>
+      <span class="current">Entanglement</span>
+    </nav>
+
+    <div class="lesson-meta">
+      <span class="lesson-part-label">Part 2: How They Work</span>
+      <span class="lesson-read-time"><i class="fa-regular fa-clock"></i> 11 min read</span>
+    </div>
+
+    <h1 class="lesson-title">Entanglement</h1>
+    <p class="lesson-subtitle">Einstein called it "spooky action at a distance" - and he did not mean it as a compliment. Entanglement is the strangest, most powerful, and most useful feature of quantum mechanics. It is also completely real.</p>
+
+    <section class="lesson-section">
+      <h2>Beyond individual qubits</h2>
+      <p>So far, you have worked with one qubit at a time. Add a second qubit, and something new becomes possible: the two qubits can become <strong>entangled</strong> - linked in a way that has no classical equivalent.</p>
+      <p>When two qubits are entangled, the state of the system cannot be described by simply listing the state of each qubit separately. Instead, the pair is described as a single joint state. Measuring one qubit instantly tells you something about the other - not because information traveled between them, but because their fates were correlated from the moment they became entangled.</p>
+      <p>Imagine you have two coins. You put them in separate boxes, seal them, and send one to Tokyo and one to New York. When the New York scientist opens their box and sees heads, they instantly know the Tokyo coin is tails. That is a classical correlation - built in at the start, no mystery. But quantum entanglement is different: the coins were genuinely in superposition (not secretly heads or tails) until one was opened, and then both resolved simultaneously.</p>
+    </section>
+
+    <section class="lesson-section">
+      <h2>Bell states: the building blocks of entanglement</h2>
+      <p>The simplest entangled states are called <strong>Bell states</strong>. The most famous one is written as: (|00⟩ + |11⟩) / √2. This means the two-qubit system is in a superposition where both qubits are 0, or both are 1 - with equal probability. There is no classical mixture that can reproduce this correlation.</p>
+      <p>To create this Bell state, you start with two qubits both in |0⟩. Apply H to the first qubit, putting it in superposition. Then apply a <strong>CNOT gate</strong> (Controlled-NOT): this gate flips the second qubit only if the first qubit is |1⟩. Because the first qubit is in superposition (both 0 and 1), the CNOT propagates that superposition to both qubits together, creating entanglement.</p>
+      <p>After this two-step circuit, measuring either qubit gives a random 0 or 1 - that part looks classical. But measure both, and they always match. Always. No exception. Every single time. This perfect correlation, no matter how far apart the qubits are, is the signature of entanglement.</p>
+    </section>
+
+    <section class="lesson-section">
+      <h2>Why classical correlation is not enough</h2>
+      <p>You might think: can't you explain this with classical correlations? Pre-program both qubits with the same random value before you separate them?</p>
+      <p>In 1964, physicist John Bell derived a mathematical inequality - now called Bell's inequality - that any classical hidden variable theory must satisfy. He showed that quantum mechanics predicts violations of this inequality. Experiments have since confirmed those violations beyond any reasonable doubt. The correlations of entanglement are stronger than any classical correlation can produce.</p>
+      <p>Think of it like two students who always give matching answers on a pop quiz, no matter which of several possible questions the teacher picks - even though they never agreed on answers beforehand and cannot communicate during the quiz. Classical "cheating" (a pre-shared answer sheet) can only match the teacher's questions so well. Entangled qubits match better than any pre-shared answer sheet possibly could - that excess is what Bell's inequality catches.</p>
+      <p>This means there is no hidden value pre-programmed into the qubits. The correlation genuinely arises at the moment of measurement, not before. Einstein's discomfort with "spooky action" turned out to be wrong - not because action travels instantly, but because the correlations were never classical to begin with.</p>
+      <p>Crucially, entanglement does not allow information to travel faster than light. You cannot use entanglement to send a message, because you cannot control which outcome your measurement produces.</p>
+    </section>
+
+    <div class="lesson-demo-callout">
+      <div class="demo-callout-label"><i class="fa-solid fa-flask"></i> Try it in the Sandbox</div>
+      <div class="demo-callout-title">Create and explore a Bell state</div>
+      <ol class="demo-steps">
+        <li data-n="1">Open the Algorithm Preset dropdown and select <strong>Bell State</strong>.</li>
+        <li data-n="2">Check the probabilities: 50% |00⟩ and 50% |11⟩. No |01⟩ or |10⟩.</li>
+        <li data-n="3">Look at the Bloch spheres: they appear uncertain. Neither qubit has an independent state.</li>
+        <li data-n="4">Click <strong>Measure All</strong>: collapses to 00 or 11. Reset and repeat. They always match!</li>
+        <li data-n="5">Click <strong>Clear</strong>, then build it: H on qubit 1 (col 1), CNOT control=1 target=2 (col 2).</li>
+      </ol>
+      <iframe
+        class="lesson-sandbox"
+        src="../../index.html?embed=1&mode=advanced"
+        title="Quantum Sandbox - Entanglement demo"
+        allow="cross-origin-isolated"
+      ></iframe>
+    </div>
+
+    <section class="lesson-section">
+      <h2>What entanglement does for computing</h2>
+      <p>Entanglement is not just a curiosity - it is a resource. Quantum computers exploit entanglement to process information in ways that classical computers simply cannot replicate.</p>
+      <p>With n classical bits, you store and process n independent pieces of information. With n entangled qubits, the joint state of the system can encode correlations across all 2ⁿ possible bit strings simultaneously. Algorithms that use entanglement can explore and exploit these correlations in ways that are computationally impossible to simulate efficiently classically.</p>
+      <p>It's the difference between n people each privately flipping their own coin, versus n coins wired together so that every combination of heads and tails carries its own piece of shared information. A classical computer has to track each bit's story on its own; an entangled register carries relationships between bits as a first-class resource, which is exactly what algorithms like Grover's (Lesson 11) and Shor's (Lesson 12) exploit.</p>
+      <p>Entanglement is also the foundation of quantum teleportation (Lesson 13), quantum error correction (Lesson 9), and quantum key distribution (Lesson 14). In each case, the non-classical correlations of entanglement enable something that is either impossible or exponentially harder without it.</p>
+    </section>
+
+    <section class="lesson-section">
+      <h2>The CNOT gate: creating entanglement</h2>
+      <p>The Controlled-NOT (CNOT) gate is a two-qubit gate. It has a control qubit and a target qubit. The rule is simple: if the control qubit is |1⟩, flip the target qubit. If the control is |0⟩, do nothing.</p>
+      <p>When applied to a qubit in superposition (as the control), the CNOT creates entanglement. This is because the operation "if |1⟩ flip" creates a correlation between the two qubits - their states become intertwined. The CNOT, combined with the Hadamard, is enough to create any two-qubit entangled state. These two gates - together with single-qubit rotation gates - form a universal quantum gate set: any quantum computation can be built from them.</p>
+    </section>
+
+    <div class="lesson-takeaway">
+      <div class="takeaway-label"><i class="fa-solid fa-bolt"></i> Key takeaway</div>
+      <p class="takeaway-text">Entanglement links two or more qubits into a single joint quantum state that cannot be described independently. Measuring one entangled qubit instantly determines a correlated outcome for its partner - a correlation stronger than any classical mechanism can produce, confirmed experimentally by violations of Bell's inequality.</p>
+    </div>
+
+    <div class="lesson-check">
+      <div class="check-label"><i class="fa-solid fa-circle-question"></i> Knowledge check · Question 1 of 4</div>
+      <p class="check-question">Two qubits are in the Bell state (|00⟩ + |11⟩) / √2. You measure the first qubit and get 0. What will you get when you measure the second qubit?</p>
+      <div class="check-options">
+        <button class="check-option" data-correct="false">0 or 1 with equal probability - the second qubit is still in superposition.</button>
+        <button class="check-option" data-correct="true">0 with certainty - measuring the first qubit collapses the joint state to |00⟩.</button>
+        <button class="check-option" data-correct="false">1 with certainty - the qubits are opposite in a Bell state.</button>
+        <button class="check-option" data-correct="false">Undefined - the Bell state prevents any measurement of the second qubit.</button>
+      </div>
+      <div class="check-feedback">In the (|00⟩ + |11⟩)/√2 Bell state, the qubits are correlated to always be equal. Measuring the first qubit as 0 collapses the joint state to |00⟩, so the second must also be 0.</div>
+    </div>
+
+    <div class="lesson-check">
+      <div class="check-label"><i class="fa-solid fa-circle-question"></i> Knowledge check · Question 2 of 4</div>
+      <p class="check-question">What two-gate sequence creates the Bell state (|00⟩ + |11⟩) / √2 starting from |00⟩?</p>
+      <div class="check-options">
+        <button class="check-option" data-correct="false">CNOT on qubit 1, then H on qubit 2.</button>
+        <button class="check-option" data-correct="false">H on both qubits.</button>
+        <button class="check-option" data-correct="false">CNOT with qubit 1 as control, qubit 2 as target, then H on qubit 1.</button>
+        <button class="check-option" data-correct="true">H on qubit 1, then CNOT with qubit 1 as control and qubit 2 as target.</button>
+      </div>
+      <div class="check-feedback">The Hadamard first puts qubit 1 into superposition. The CNOT then propagates that superposition onto qubit 2, entangling the two qubits into the Bell state.</div>
+    </div>
+
+    <div class="lesson-check">
+      <div class="check-label"><i class="fa-solid fa-circle-question"></i> Knowledge check · Question 3 of 4</div>
+      <p class="check-question">Why can't entanglement be explained by a classical "pre-shared answer sheet" (hidden variables agreed on in advance)?</p>
+      <div class="check-options">
+        <button class="check-option" data-correct="false">Because entangled qubits can communicate faster than light to coordinate answers.</button>
+        <button class="check-option" data-correct="false">Because qubits are too small to carry pre-programmed information.</button>
+        <button class="check-option" data-correct="true">Because experiments violate Bell's inequality, which any classical hidden-variable scheme must satisfy.</button>
+        <button class="check-option" data-correct="false">Because classical correlations are always stronger than quantum ones.</button>
+      </div>
+      <div class="check-feedback">Bell's inequality sets a limit on how correlated any classical hidden-variable theory can be. Quantum mechanics predicts - and experiments confirm - correlations that exceed this limit, ruling out pre-shared classical answers.</div>
+    </div>
+
+    <div class="lesson-check">
+      <div class="check-label"><i class="fa-solid fa-circle-question"></i> Knowledge check · Question 4 of 4</div>
+      <p class="check-question">Why can't you use entanglement to send a message faster than light?</p>
+      <div class="check-options">
+        <button class="check-option" data-correct="true">You cannot control which outcome your own measurement produces, so no information is in your control to send.</button>
+        <button class="check-option" data-correct="false">Entangled particles lose their correlation if separated by large distances.</button>
+        <button class="check-option" data-correct="false">Measuring an entangled qubit takes longer than light needs to cross the same distance.</button>
+        <button class="check-option" data-correct="false">CNOT gates can only be applied when qubits are physically close together.</button>
+      </div>
+      <div class="check-feedback">Measurement outcomes on entangled qubits are random - you can't choose to get a 0 or a 1. Since you can't control the outcome, you can't encode a chosen message in it, so no faster-than-light signaling is possible.</div>
+    </div>
+
+    <nav class="lesson-nav">
+      <a href="10-quantum-vs-classical.html" class="btn btn-soft">
+        <i class="fa-solid fa-arrow-left"></i> Previous
+      </a>
+      <a href="06-real-qubits.html" class="btn btn-primary btn-nav-next">
+        Next: Real Qubits <i class="fa-solid fa-arrow-right"></i>
+      </a>
+    </nav>
+  </div>
+
+  <footer class="site-footer">
+    <p>© Quantum Sandbox • Ritayush Suchismita Dey</p>
+  </footer>
+
+  <script src="../lesson.js"></script>
+</body>
+</html>

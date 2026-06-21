@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Error Correction | Quantum Sandbox</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="../../logo-favicon-32x32.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="stylesheet" href="../../style.css" />
+  <link rel="stylesheet" href="../lesson.css" />
+</head>
+<body class="dark lesson-page">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">
+        <img src="../../quantum-sandbox-logo.png" alt="Quantum Sandbox logo" />
+      </div>
+      <div>
+        <h1>Quantum Sandbox</h1>
+        <p>An Interactive Quantum Circuit Playground</p>
+      </div>
+    </div>
+    <div class="top-actions" style="gap:8px">
+      <a href="../index.html" class="btn btn-soft">
+        <i class="fa-solid fa-graduation-cap"></i>
+        <span>All Lessons</span>
+      </a>
+      <a href="../../index.html" class="btn btn-soft">
+        <i class="fa-solid fa-flask"></i>
+        <span>Sandbox</span>
+      </a>
+      <button id="themeBtn" class="btn btn-soft icon-btn" aria-label="Toggle theme">
+        <i id="themeIcon" class="fa-solid fa-sun"></i>
+      </button>
+    </div>
+  </header>
+
+  <div class="lesson-wrap">
+    <nav class="lesson-breadcrumb">
+      <a href="../index.html">Learn</a>
+      <span class="sep">/</span>
+      <span>Part 2 - How They Work</span>
+      <span class="sep">/</span>
+      <span class="current">Error Correction</span>
+    </nav>
+
+    <div class="lesson-meta">
+      <span class="lesson-part-label">Part 2 - How They Work</span>
+      <span class="lesson-read-time"><i class="fa-regular fa-clock"></i> 10 min read</span>
+    </div>
+
+    <h1 class="lesson-title">Error Correction</h1>
+    <p class="lesson-subtitle">Every real quantum computer makes errors. Qubits decay, gates are imperfect, and the environment constantly nudges the state in the wrong direction. Quantum error correction is the engineering discipline that makes reliable computation possible despite all of this noise.</p>
+
+    <section class="lesson-section">
+      <h2>Why quantum errors are especially hard</h2>
+      <p>In classical computers, errors are rare and easy to handle. A bit that flips from 0 to 1 can be detected because you can just copy the bit a few times (redundancy) and take the majority vote. If your three copies are 0, 0, 1 - clearly the last one flipped, fix it to 0. Done.</p>
+      <p>Quantum computers face a more fundamental challenge. Recall from Lesson 3 that you cannot copy a qubit (the no-cloning theorem). And recall that measuring a qubit destroys its quantum state. So you cannot use the classical "copy and vote" approach. It is like trying to proofread a sentence whispered to you once, where reading it out loud to check it erases the sentence entirely. You need a way to detect and correct errors without ever looking at the qubit's state directly.</p>
+      <p>On top of that, quantum errors are not just bit flips. They can be phase flips (the sign of an amplitude flips), or a continuous drift of the state in some arbitrary direction - more like a radio signal slowly drifting off-frequency than a word getting garbled outright. Quantum errors are more varied and more subtle than classical bit errors.</p>
+    </section>
+
+    <section class="lesson-section">
+      <h2>The clever insight: encode without measuring</h2>
+      <p>The key insight that makes quantum error correction possible - discovered in 1995 by Peter Shor and independently by Andrew Steane - is that you can encode a single logical qubit across multiple physical qubits in a way that allows you to detect (and correct) errors by measuring correlations between the physical qubits, rather than the qubits themselves.</p>
+      <p>Think of it this way: you spread the quantum information across several qubits such that any single qubit error leaves a detectable "fingerprint" in the correlations between qubits. You can measure those correlations - called <strong>syndromes</strong> - without collapsing the logical qubit's state. Then you use the syndrome measurement to diagnose and fix the error. It is a bit like a parity check on a bank account number: you can verify a digit is wrong from the checksum alone, without ever needing to know what the "correct" number actually was.</p>
+      <p>The simplest example is the 3-qubit repetition code for bit flip errors. Instead of encoding |ψ⟩ in one qubit, you encode it as three qubits in the same state. If one flips, measuring the parity of pairs (are they the same?) tells you which one flipped, without revealing the state itself. This works for classical-style bit flip errors, but a full quantum code must also handle phase flips, which require a more sophisticated approach.</p>
+    </section>
+
+    <section class="lesson-section">
+      <h2>The surface code: today's leading candidate</h2>
+      <p>The most practically promising quantum error-correcting code today is the <strong>surface code</strong>. Physical qubits are arranged in a two-dimensional grid. Syndrome measurements are performed on groups of neighboring qubits, checking parity conditions. Errors appear as patterns in the syndrome measurements, and a classical decoder (often running in real time on a conventional computer) analyzes the patterns to infer and correct errors.</p>
+      <p>The surface code is attractive for several reasons: it only requires nearest-neighbor interactions (physically realistic for chip layouts), it has a relatively high threshold for noise tolerance, and it can be implemented on existing superconducting qubit architectures. The downside is the overhead: current estimates suggest a fault-tolerant logical qubit requires somewhere between 1,000 and 10,000 physical qubits, depending on the required error rate and the noise level of the hardware.</p>
+    </section>
+
+    <section class="lesson-section">
+      <h2>The threshold theorem</h2>
+      <p>The <strong>threshold theorem</strong> is arguably the most important theoretical result in quantum computing. It states: if the physical error rate of individual gates is below a certain threshold value, then quantum error correction can suppress errors to any desired level by using more physical qubits. The computation can be made arbitrarily reliable, at the cost of more hardware.</p>
+      <p>For the surface code, the threshold is approximately 1% - meaning if each gate fails less than 1% of the time, error correction can handle the rest. Current best superconducting gates reach about 99.9% fidelity (0.1% error rate), which is inside the threshold. This is why fault-tolerant quantum computing is considered achievable in principle - the physics supports it.</p>
+      <p>The challenge is purely engineering: building enough physical qubits with sufficient fidelity, connected correctly, with fast enough syndrome measurements, to run the surface code at scale. Today's best machines have hundreds to low-thousands of physical qubits. Fault-tolerant operations on logical qubits at scale likely requires millions of physical qubits.</p>
+    </section>
+
+    <section class="lesson-section">
+      <h2>NISQ vs. fault-tolerant quantum computing</h2>
+      <p>Today's quantum computers are called <strong>NISQ devices</strong> - Noisy Intermediate-Scale Quantum. They are too noisy for full quantum error correction but have enough qubits to run small circuits. NISQ algorithms are designed to tolerate some noise and extract useful results despite imperfect hardware - similar to how you can still understand a phone call through static, as long as the connection is not too garbled to follow.</p>
+      <p>The era of <strong>fault-tolerant quantum computing</strong> - when logical qubits can be maintained reliably for long computations - is what most industry analysts believe will enable the most impactful applications: simulating molecules for drug discovery, running Shor's algorithm on large numbers, and the like. The transition from NISQ to fault-tolerant is the central challenge of the next decade of quantum hardware development.</p>
+    </section>
+
+    <div class="lesson-takeaway">
+      <div class="takeaway-label"><i class="fa-solid fa-bolt"></i> Key takeaway</div>
+      <p class="takeaway-text">Quantum error correction encodes one logical qubit across many physical qubits, detecting errors through syndrome measurements that reveal correlations without collapsing the quantum state. The threshold theorem guarantees that if physical error rates fall below a critical threshold, reliable computation is achievable - but at the cost of enormous qubit overhead.</p>
+    </div>
+
+    <div class="lesson-check">
+      <div class="check-label"><i class="fa-solid fa-circle-question"></i> Knowledge check · Question 1 of 3</div>
+      <p class="check-question">Why can't we use the classical error-correction approach of "copy the bit three times and take a majority vote" for qubits?</p>
+      <div class="check-options">
+        <button class="check-option" data-correct="false">It would be too slow - quantum operations are much faster than classical copying.</button>
+        <button class="check-option" data-correct="true">Copying an unknown quantum state is forbidden by the no-cloning theorem, and measuring the copies would destroy the superposition.</button>
+        <button class="check-option" data-correct="false">Majority voting does not work with more than two states.</button>
+        <button class="check-option" data-correct="false">Classical error correction does not work for any kind of bit flip.</button>
+      </div>
+      <div class="check-feedback">The no-cloning theorem prevents copying an unknown quantum state. Even if you could copy it, measuring the copies to vote would collapse the quantum state and destroy the superposition that makes quantum computation useful.</div>
+    </div>
+
+    <div class="lesson-check">
+      <div class="check-label"><i class="fa-solid fa-circle-question"></i> Knowledge check · Question 2 of 3</div>
+      <p class="check-question">In the surface code, how does the system figure out where an error occurred without directly measuring the data qubits' states?</p>
+      <div class="check-options">
+        <button class="check-option" data-correct="false">It runs the computation twice and compares the two final answers.</button>
+        <button class="check-option" data-correct="false">It uses a classical backup copy of each qubit's value stored before the computation began.</button>
+        <button class="check-option" data-correct="true">It measures parity conditions on groups of neighboring qubits, and a classical decoder infers the error pattern from those syndrome measurements.</button>
+        <button class="check-option" data-correct="false">It lowers the temperature of the chip until thermal noise stops affecting the qubits.</button>
+      </div>
+      <div class="check-feedback">Syndrome measurements check parity conditions among neighboring qubits without revealing the underlying state. A classical decoder then analyzes the resulting patterns to identify and correct the error.</div>
+    </div>
+
+    <div class="lesson-check">
+      <div class="check-label"><i class="fa-solid fa-circle-question"></i> Knowledge check · Question 3 of 3</div>
+      <p class="check-question">What does the threshold theorem say about building reliable quantum computers?</p>
+      <div class="check-options">
+        <button class="check-option" data-correct="false">Quantum computers can never be made fully reliable, no matter how good the hardware gets.</button>
+        <button class="check-option" data-correct="false">Reliability only matters for classical bit flips, not phase errors.</button>
+        <button class="check-option" data-correct="false">Once gate fidelity passes 50%, error correction is no longer necessary.</button>
+        <button class="check-option" data-correct="true">If the physical gate error rate is below a critical threshold, adding more physical qubits can suppress logical errors to any desired level.</button>
+      </div>
+      <div class="check-feedback">The threshold theorem guarantees that below a critical physical error rate, scaling up error correction with more physical qubits can make computation arbitrarily reliable - turning fault tolerance into an engineering problem rather than a physics problem.</div>
+    </div>
+
+    <nav class="lesson-nav">
+      <a href="08-exponential-advantage.html" class="btn btn-soft">
+        <i class="fa-solid fa-arrow-left"></i> Previous
+      </a>
+      <a href="11-grovers-algorithm.html" class="btn btn-primary btn-nav-next">
+        Next: Grover's Algorithm <i class="fa-solid fa-arrow-right"></i>
+      </a>
+    </nav>
+  </div>
+
+  <footer class="site-footer">
+    <p>© Quantum Sandbox • Ritayush Suchismita Dey</p>
+  </footer>
+
+  <script src="../lesson.js"></script>
+</body>
+</html>

@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quantum Notation | Quantum Sandbox</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="../../logo-favicon-32x32.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="stylesheet" href="../../style.css" />
+  <link rel="stylesheet" href="../lesson.css" />
+  <style>
+    /* ── Notation explorer ─────────────────────────── */
+    .notation-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px 24px;
+      margin: 28px 0;
+    }
+
+    .notation-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .notation-equation {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 1.4rem;
+      font-weight: 500;
+      color: var(--text);
+      text-align: center;
+      margin: 12px 0 20px;
+      letter-spacing: 0.04em;
+      line-height: 1.6;
+    }
+
+    .notation-parts {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .notation-part {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--panel-alt);
+      cursor: pointer;
+      transition: border-color 140ms ease, background 140ms ease;
+    }
+
+    .notation-part:hover,
+    .notation-part.active {
+      border-color: var(--accent);
+      background: color-mix(in oklab, var(--accent), transparent 90%);
+    }
+
+    .notation-part-symbol {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--accent);
+      min-width: 48px;
+      padding-top: 1px;
+    }
+
+    .notation-part-text {
+      font-size: 0.9rem;
+      line-height: 1.55;
+      color: var(--text);
+    }
+
+    .notation-part-name {
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    /* ── Amplitude calculator ──────────────────────── */
+    .amp-calc {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 22px 24px;
+      margin: 28px 0;
+    }
+
+    .amp-sliders {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin: 16px 0;
+    }
+
+    @media (max-width: 560px) {
+      .amp-sliders { grid-template-columns: 1fr; }
+    }
+
+    .amp-slider-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .amp-slider-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.88rem;
+      font-weight: 700;
+    }
+
+    .amp-slider-label.alpha { color: var(--accent); }
+    .amp-slider-label.beta  { color: var(--accent-2, #a78bfa); }
+
+    .amp-slider-group input[type=range] {
+      width: 100%;
+      accent-color: var(--accent);
+    }
+
+    .amp-output {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .amp-output-card {
+      background: var(--panel-alt);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 0.84rem;
+    }
+
+    .amp-output-card .label {
+      color: var(--muted);
+      font-size: 0.76rem;
+      margin-bottom: 4px;
+    }
+
+    .amp-output-card .value {
+      font-family: 'IBM Plex Mono', monospace;
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    .amp-output-card .bar-outer {
+      height: 6px;
+      background: var(--border);
+      border-radius: 4px;
+      margin-top: 6px;
+      overflow: hidden;
+    }
+
+    .amp-output-card .bar-inner {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 200ms ease;
+    }
+
+    .amp-output-card.alpha-card .bar-inner { background: var(--accent); }
+    .amp-output-card.beta-card  .bar-inner { background: var(--accent-2, #a78bfa); }
+
+    .amp-norm-note {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-top: 12px;
+      font-style: italic;
+    }
+
+    .amp-norm-note.valid   { color: var(--accent); font-style: normal; }
+    .amp-norm-note.invalid { color: #e34d4d;       font-style: normal; }
+
+    /* ── State equation display ──────────────────── */
+    .state-eq-display {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 1.05rem;
+      font-weight: 500;
+      color: var(--text);
+      text-align: center;
+      padding: 14px;
+      background: var(--panel-alt);
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      margin-top: 14px;
+      letter-spacing: 0.02em;
+    }
+
+    /* ── Ket flip card ───────────────────────────── */
+    .ket-flip-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 18px 0;
+    }
+
+    .ket-flip-card {
+      flex: 1;
+      min-width: 100px;
+      background: var(--panel);
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      padding: 16px 14px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 160ms ease, transform 120ms ease;
+      user-select: none;
+    }
+
+    .ket-flip-card:hover { transform: translateY(-2px); }
+
+    .ket-flip-card.flipped {
+      border-color: var(--accent);
+      background: color-mix(in oklab, var(--accent), transparent 88%);
+    }
+
+    .ket-flip-symbol {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .ket-flip-front,
+    .ket-flip-back {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.4;
+      margin-top: 6px;
+    }
+
+    .ket-flip-back { display: none; color: var(--text); }
+    .ket-flip-card.flipped .ket-flip-front { display: none; }
+    .ket-flip-card.flipped .ket-flip-back  { display: block; }
+  </style>
+</head>
+<body class="dark lesson-page">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">
+        <img src="../../quantum-sandbox-logo.png" alt="Quantum Sandbox logo" />
+      </div>
+      <div>
+        <h1>Quantum Sandbox</h1>
+        <p>An Interactive Quantum Circuit Playground</p>
+      </div>
+    </div>
+    <div class="top-actions" style="gap:8px">
+      <a href="../index.html" class="btn btn-soft">
+        <i class="fa-solid fa-graduation-cap"></i>
+        <span>All Lessons</span>
+      </a>
+      <a href="../../index.html" class="btn btn-soft">
+        <i class="fa-solid fa-flask"></i>
+        <span>Sandbox</span>
+      </a>
+      <button id="themeBtn" class="btn btn-soft icon-btn" aria-label="Toggle theme">
+        <i id="themeIcon" class="fa-solid fa-sun"></i>
+      </button>
+    </div>
+  </header>
+
+  <div class="lesson-wrap">
+    <nav class="lesson-breadcrumb">
+      <a href="../index.html">Learn</a>
+      <span class="sep">/</span>
+      <span>Part 1 - Foundations</span>
+      <span class="sep">/</span>
+      <span class="current">Quantum Notation</span>
+    </nav>
+
+    <div class="lesson-meta">
+      <span class="lesson-part-label">Part 1 - Foundations</span>
+      <span class="lesson-read-time"><i class="fa-regular fa-clock"></i> 9 min read</span>
+    </div>
+
+    <h1 class="lesson-title">Quantum Notation</h1>
+    <p class="lesson-subtitle">Before you can read or write quantum computing, you need to understand its language. Quantum notation is precise, compact, and once decoded, remarkably intuitive. This lesson translates every symbol you will encounter.</p>
+
+    <section class="lesson-section">
+      <h2>The ket: writing a quantum state</h2>
+      <p>The most fundamental piece of notation is the <strong>ket</strong>, written as <code>|⟩</code> with a label inside. The vertical bar and angle bracket together form a container for a quantum state. Think of it like a labeled jar: the jar itself (<code>|⟩</code>) doesn't change, but whatever you write inside it (<code>0</code>, <code>1</code>, <code>ψ</code>) tells you exactly which state is being held.</p>
+    </section>
+
+    <!-- Interactive: ket card flip -->
+    <div class="notation-card">
+      <div class="notation-label"><i class="fa-solid fa-layer-group"></i> <strong>Ket states</strong>: click each card to reveal what it represents</div>
+      <div class="ket-flip-wrap">
+        <div class="ket-flip-card" tabindex="0">
+          <div class="ket-flip-symbol">|0⟩</div>
+          <div class="ket-flip-front">Tap to reveal</div>
+          <div class="ket-flip-back">The "zero" state. The qubit will always measure as 0. This is the starting state of most quantum circuits: the quantum equivalent of <i>false</i> or <i>off</i>.</div>
+        </div>
+        <div class="ket-flip-card" tabindex="0">
+          <div class="ket-flip-symbol">|1⟩</div>
+          <div class="ket-flip-front">Tap to reveal</div>
+          <div class="ket-flip-back">The "one" state. The qubit will always measure as 1. The quantum equivalent of <i>true</i> or <i>on</i>.</div>
+        </div>
+        <div class="ket-flip-card" tabindex="0">
+          <div class="ket-flip-symbol">|ψ⟩</div>
+          <div class="ket-flip-front">Tap to reveal</div>
+          <div class="ket-flip-back">A general qubit state: any combination of |0⟩ and |1⟩. The Greek letter ψ (psi) is the standard variable for "some quantum state I haven't specified yet."</div>
+        </div>
+        <div class="ket-flip-card" tabindex="0">
+          <div class="ket-flip-symbol">|+⟩</div>
+          <div class="ket-flip-front">Tap to reveal</div>
+          <div class="ket-flip-back">The "plus" state: equal superposition of |0⟩ and |1⟩ with the same phase. Produced by applying a Hadamard gate (H) to |0⟩. 50% chance of measuring 0 or 1.</div>
+        </div>
+        <div class="ket-flip-card" tabindex="0">
+          <div class="ket-flip-symbol">|-⟩</div>
+          <div class="ket-flip-front">Tap to reveal</div>
+          <div class="ket-flip-back">The "minus" state: equal superposition with opposite phase: |0⟩ minus |1⟩, divided by √2. Produced by applying H to |1⟩. Same probabilities as |+⟩, but a different phase that matters for interference.</div>
+        </div>
+      </div>
+    </div>
+
+    <section class="lesson-section">
+      <h2>The full state equation: α and β</h2>
+      <p>A single qubit in any state can always be written as:</p>
+      <p>Think of α and β as a recipe's mixing ratio rather than a fixed amount: they tell you the <em>proportion</em> of "0-ness" and "1-ness" baked into the qubit, not two separate values sitting side by side. Change the ratio, and you change what comes out when you measure.</p>
+    </section>
+
+    <!-- Notation breakdown -->
+    <div class="notation-card">
+      <div class="notation-label"><i class="fa-solid fa-code"></i> Click each symbol to understand it</div>
+      <div class="notation-equation">|ψ⟩ = α|0⟩ + β|1⟩</div>
+      <div class="notation-parts">
+        <div class="notation-part" data-id="psi" tabindex="0">
+          <div class="notation-part-symbol">|ψ⟩</div>
+          <div class="notation-part-text">
+            <div class="notation-part-name">The qubit state</div>
+            Read as "ket psi." This is the qubit's complete state. Everything you can know about it right now. It is not a hidden value; it is the actual physical situation.
+          </div>
+        </div>
+        <div class="notation-part" data-id="alpha" tabindex="0">
+          <div class="notation-part-symbol">α</div>
+          <div class="notation-part-text">
+            <div class="notation-part-name">Alpha: amplitude for |0⟩</div>
+            A complex number (it has a real part and an imaginary part). It sets how much the qubit "points toward" |0⟩. The probability of measuring 0 is <strong>|α|²</strong>: the square of alpha's magnitude.
+          </div>
+        </div>
+        <div class="notation-part" data-id="zero" tabindex="0">
+          <div class="notation-part-symbol">|0⟩</div>
+          <div class="notation-part-text">
+            <div class="notation-part-name">The zero basis state</div>
+            One of the two "pure" states a qubit can collapse to when measured. α multiplies it. The larger the |α|, the more likely measuring returns 0.
+          </div>
+        </div>
+        <div class="notation-part" data-id="beta" tabindex="0">
+          <div class="notation-part-symbol">β</div>
+          <div class="notation-part-text">
+            <div class="notation-part-name">Beta: amplitude for |1⟩</div>
+            Another complex number, this time for the |1⟩ component. The probability of measuring 1 is <strong>|β|²</strong>. One constraint always holds: <strong>|α|² + |β|² = 1</strong>: total probability must equal 100% (basic mathematical principle).
+          </div>
+        </div>
+        <div class="notation-part" data-id="plus" tabindex="0">
+          <div class="notation-part-symbol">+</div>
+          <div class="notation-part-text">
+            <div class="notation-part-name">Superposition: both at once</div>
+            The plus sign means the state is a genuine combination of both |0⟩ and |1⟩ simultaneously, not just one or the other. This is superposition, and the plus sign is its mathematical expression.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Interactive: amplitude calculator -->
+    <div class="amp-calc">
+      <div class="notation-label"><i class="fa-solid fa-calculator"></i> Amplitude explorer: adjust α and β, see the probabilities</div>
+      <p style="font-size:0.88rem;color:var(--muted);margin:0 0 14px">Here we use magnitudes (0 to 1) for simplicity. In the full math, α and β are complex numbers, but probabilities always come from squaring the magnitude.</p>
+
+      <div class="amp-sliders">
+        <div class="amp-slider-group">
+          <div class="amp-slider-label alpha">|α| (magnitude of alpha)</div>
+          <input type="range" id="alphaSlider" min="0" max="100" value="71" aria-label="Alpha magnitude" />
+        </div>
+        <div class="amp-slider-group">
+          <div class="amp-slider-label beta">|β| (magnitude of beta)</div>
+          <input type="range" id="betaSlider" min="0" max="100" value="71" aria-label="Beta magnitude" />
+        </div>
+      </div>
+
+      <div class="amp-output">
+        <div class="amp-output-card alpha-card">
+          <div class="label">P(measure 0) = |α|²</div>
+          <div class="value" id="alphaProb">50%</div>
+          <div class="bar-outer"><div class="bar-inner" id="alphaProbBar" style="width:50%"></div></div>
+        </div>
+        <div class="amp-output-card beta-card">
+          <div class="label">P(measure 1) = |β|²</div>
+          <div class="value" id="betaProb">50%</div>
+          <div class="bar-outer"><div class="bar-inner" id="betaProbBar" style="width:50%"></div></div>
+        </div>
+      </div>
+
+      <div class="state-eq-display" id="stateEqDisplay">|ψ⟩ = 0.71·|0⟩ + 0.71·|1⟩</div>
+      <div class="amp-norm-note" id="normNote">|α|² + |β|² = 1.00 ✓. Valid quantum state</div>
+    </div>
+
+    <section class="lesson-section">
+      <h2>What α and β actually are</h2>
+      <p>In the full theory, α and β are <strong>complex numbers</strong>. A complex number has two parts: a real part and an imaginary part (the imaginary part involves √−1, written as <em>i</em>). So α might be something like 1/√2 + 0·i (real only) or 0 + i/√2 (imaginary only) or a mix.</p>
+      <p>The probability of measuring 0 is |α|². The magnitude of a complex number a + bi is √(a² + b²). So the imaginary part contributes to the probability through this magnitude.</p>
+      <p>Why does the imaginary part matter if probabilities only depend on the magnitude? Because the <strong>phase</strong>, the direction in the complex plane, determines how two amplitudes interfere with each other. Two states can have identical probabilities but opposite phases, and when combined they cancel out. This is quantum interference, and it is the mechanism that makes quantum algorithms work. It's similar to two water waves of equal height meeting trough-to-crest: same "size," but they cancel each other out on arrival instead of adding up.</p>
+      <p>The Quantum Sandbox shows you α and β as decimal numbers in the state panel on the right. When there is a nonzero imaginary part, you will see it written as a + bi.</p>
+    </section>
+
+    <section class="lesson-section">
+      <h2>Multi-qubit notation</h2>
+      <p>When you have two qubits, the state is written with both values together inside one ket. The four possible basis states for two qubits are:</p>
+      <p>It's like reading a two-digit odometer: each digit can independently be 0 or 1, and the ket just writes both digits side by side in one label. <code>|10⟩</code> is the qubit-pair equivalent of "first wheel on 1, second wheel on 0."</p>
+      <ul>
+        <li><strong>|00⟩</strong>: both qubits are 0</li>
+        <li><strong>|01⟩</strong>: first qubit is 0, second is 1</li>
+        <li><strong>|10⟩</strong>: first qubit is 1, second is 0</li>
+        <li><strong>|11⟩</strong>: both qubits are 1</li>
+      </ul>
+      <p>A general two-qubit state is written: α₀₀|00⟩ + α₀₁|01⟩ + α₁₀|10⟩ + α₁₁|11⟩, where all four amplitudes satisfy |α₀₀|² + |α₀₁|² + |α₁₀|² + |α₁₁|² = 1.</p>
+      <p>With n qubits, there are 2ⁿ basis states and 2ⁿ complex amplitudes. This is why quantum simulation gets exponentially expensive on classical computers, and why real quantum hardware has an inherent advantage.</p>
+    </section>
+
+    <section class="lesson-section">
+      <h2>Reading the Sandbox's state panel</h2>
+      <p>Now that you know the notation, the Sandbox's right panel makes complete sense:</p>
+      <ul>
+        <li><strong>α</strong>: the amplitude for measuring |0⟩. The bar below it shows |α|².</li>
+        <li><strong>β</strong>: the amplitude for measuring |1⟩. The bar below it shows |β|².</li>
+        <li><strong>Bloch sphere</strong>: the arrow's direction encodes both α and β simultaneously, including phase.</li>
+        <li><strong>State formula at the top</strong>: the current |ψ⟩ written out in full, updated after every gate.</li>
+      </ul>
+    </section>
+
+    <!-- Sandbox embed: show state notation live -->
+    <div class="lesson-demo-callout">
+      <div class="demo-callout-label"><i class="fa-solid fa-flask"></i> See it live in the Sandbox</div>
+      <div class="demo-callout-title">Watch α and β change as you apply gates</div>
+      <ol class="demo-steps">
+        <li data-n="1">Start in |0⟩. α = 1, β = 0, Bloch sphere at north pole.</li>
+        <li data-n="2">Click <strong>H</strong>. α = β = 1/√2 ≈ 0.707, both probability bars show 50%.</li>
+        <li data-n="3">Click <strong>Z</strong>. bars stay at 50%, but β flips sign. Phase change: invisible to measurement.</li>
+        <li data-n="4">Switch to <strong>|+⟩</strong> and apply S. The imaginary part of β appears in the state formula.</li>
+      </ol>
+      <iframe
+        class="lesson-sandbox"
+        src="../../index.html?embed=1&preset=ZERO&mode=basic&depth=6"
+        title="Quantum Sandbox - Quantum Notation demo"
+        allow="cross-origin-isolated"
+      ></iframe>
+    </div>
+
+    <div class="lesson-takeaway">
+      <div class="takeaway-label"><i class="fa-solid fa-bolt"></i> Key takeaway</div>
+      <p class="takeaway-text">|ψ⟩ = α|0⟩ + β|1⟩ is the universal description of a single qubit. α and β are complex amplitudes. Their magnitudes squared give the measurement probabilities, and they always sum to 1. The imaginary parts carry phase information that is invisible to single measurements but determines how quantum states interfere.</p>
+    </div>
+
+    <div class="lesson-check">
+      <div class="check-label"><i class="fa-solid fa-circle-question"></i> Knowledge check · Question 1 of 4</div>
+      <p class="check-question">What does the ket notation <code>|⟩</code> represent?</p>
+      <div class="check-options">
+        <button class="check-option" data-correct="true">A container holding a label that names a specific quantum state.</button>
+        <button class="check-option" data-correct="false">A classical bit that can only be 0 or 1.</button>
+        <button class="check-option" data-correct="false">A measurement operator applied to a qubit.</button>
+        <button class="check-option" data-correct="false">The probability of a quantum state.</button>
+      </div>
+      <div class="check-feedback">The vertical bar and angle bracket form a container <i>(like a labeled jar)</i> for whatever state is written inside, e.g. |0⟩, |1⟩, or |ψ⟩. It is notation for naming a state, not a value or operation by itself.</div>
+    </div>
+
+    <div class="lesson-check">
+      <div class="check-label"><i class="fa-solid fa-circle-question"></i> Knowledge check · Question 2 of 4</div>
+      <p class="check-question">A qubit is in state |ψ⟩ = α|0⟩ + β|1⟩ where |α|² = 0.75 and |β|² = 0.25. What is the probability of measuring 1?</p>
+      <div class="check-options">
+        <button class="check-option" data-correct="false">75%: the larger amplitude corresponds to measuring 1.</button>
+        <button class="check-option" data-correct="true">25%: the probability of measuring 1 is |β|², which equals 0.25.</button>
+        <button class="check-option" data-correct="false">50%: superposition always gives equal probability.</button>
+        <button class="check-option" data-correct="false">100%: β exists so the qubit must be in |1⟩.</button>
+      </div>
+      <div class="check-feedback">The probability of measuring each basis state equals the square of the corresponding amplitude's magnitude. P(measure 1) = |β|² = 0.25, so there is a 25% chance. P(measure 0) = |α|² = 0.75 = 75%, and they correctly sum to 1.</div>
+    </div>
+
+    <div class="lesson-check">
+      <div class="check-label"><i class="fa-solid fa-circle-question"></i> Knowledge check · Question 3 of 4</div>
+      <p class="check-question">For a two-qubit system, how many basis states and amplitudes are needed to describe a general state?</p>
+      <div class="check-options">
+        <button class="check-option" data-correct="false">2 basis states and 2 amplitudes. Same as a single qubit.</button>
+        <button class="check-option" data-correct="false">3 basis states and 3 amplitudes. One for each combination plus the total.</button>
+        <button class="check-option" data-correct="true">4 basis states (|00⟩, |01⟩, |10⟩, |11⟩) and 4 amplitudes.</button>
+        <button class="check-option" data-correct="false">8 basis states and 8 amplitudes.</button>
+      </div>
+      <div class="check-feedback">With n qubits there are 2ⁿ basis states. For n = 2, that's 2² = 4: |00⟩, |01⟩, |10⟩, |11⟩, each with its own complex amplitude, and the squared magnitudes of all four sum to 1.</div>
+    </div>
+
+    <div class="lesson-check">
+      <div class="check-label"><i class="fa-solid fa-circle-question"></i> Knowledge check · Question 4 of 4</div>
+      <p class="check-question">In the Quantum Sandbox's state panel, what does the Bloch sphere arrow's direction encode?</p>
+      <div class="check-options">
+        <button class="check-option" data-correct="false">Only the probability of measuring 0.</button>
+        <button class="check-option" data-correct="false">Only the probability of measuring 1.</button>
+        <button class="check-option" data-correct="false">The number of gates applied so far.</button>
+        <button class="check-option" data-correct="true">Both α and β simultaneously, including their relative phase.</button>
+      </div>
+      <div class="check-feedback">The Bloch sphere arrow is a full geometric picture of the qubit's state. It captures both amplitudes and the phase between them, which is exactly the information that a single probability bar (showing only |α|² or |β|²) can't show.</div>
+    </div>
+
+    <nav class="lesson-nav">
+      <a href="01-why-quantum.html" class="btn btn-soft">
+        <i class="fa-solid fa-arrow-left"></i> Previous
+      </a>
+      <a href="02-superposition.html" class="btn btn-primary btn-nav-next">
+        Next: Superposition <i class="fa-solid fa-arrow-right"></i>
+      </a>
+    </nav>
+  </div>
+
+  <footer class="site-footer">
+    <p>© Quantum Sandbox • Ritayush Suchismita Dey</p>
+  </footer>
+
+  <script src="../lesson.js"></script>
+  <script>
+    // ── Ket flip cards ──────────────────────────────────────────
+    document.querySelectorAll(".ket-flip-card").forEach(function(card) {
+      function toggle() { card.classList.toggle("flipped"); }
+      card.addEventListener("click", toggle);
+      card.addEventListener("keydown", function(e) {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(); }
+      });
+    });
+
+    // ── Notation part highlight ─────────────────────────────────
+    document.querySelectorAll(".notation-part").forEach(function(part) {
+      function activate() {
+        document.querySelectorAll(".notation-part").forEach(function(p) { p.classList.remove("active"); });
+        part.classList.add("active");
+      }
+      part.addEventListener("click", activate);
+      part.addEventListener("keydown", function(e) {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); activate(); }
+      });
+    });
+
+    // ── Amplitude calculator ─────────────────────────────────────
+    (function() {
+      var alphaSlider = document.getElementById("alphaSlider");
+      var betaSlider  = document.getElementById("betaSlider");
+      var alphaProb   = document.getElementById("alphaProb");
+      var betaProb    = document.getElementById("betaProb");
+      var alphaProbBar = document.getElementById("alphaProbBar");
+      var betaProbBar  = document.getElementById("betaProbBar");
+      var stateEq     = document.getElementById("stateEqDisplay");
+      var normNote    = document.getElementById("normNote");
+
+      function fmt(v) { return v.toFixed(2); }
+
+      function update() {
+        var a = Number(alphaSlider.value) / 100;
+        var b = Number(betaSlider.value) / 100;
+        var pA = a * a;
+        var pB = b * b;
+        var total = Math.round((pA + pB) * 100) / 100;
+
+        var pAp = Math.round(pA * 100);
+        var pBp = Math.round(pB * 100);
+
+        alphaProb.textContent = pAp + "%";
+        betaProb.textContent  = pBp + "%";
+        alphaProbBar.style.width = pAp + "%";
+        betaProbBar.style.width  = pBp + "%";
+
+        stateEq.textContent = "|ψ⟩ = " + fmt(a) + "·|0⟩ + " + fmt(b) + "·|1⟩";
+
+        var normVal = Math.round((pA + pB) * 100) / 100;
+        if (Math.abs(normVal - 1) < 0.01) {
+          normNote.textContent = "|α|² + |β|² = " + normVal.toFixed(2) + " ✓. Valid quantum state";
+          normNote.className = "amp-norm-note valid";
+        } else {
+          normNote.textContent = "|α|² + |β|² = " + normVal.toFixed(2) + " ✗. In reality, this combination is not allowed (must equal exactly 1.00)";
+          normNote.className = "amp-norm-note invalid";
+        }
+      }
+
+      alphaSlider.addEventListener("input", update);
+      betaSlider.addEventListener("input", update);
+      update();
+    })();
+  </script>
+</body>
+</html>

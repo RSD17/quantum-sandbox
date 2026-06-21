@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>What and Why of Quantum Computing | Quantum Sandbox</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="../../logo-favicon-32x32.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="stylesheet" href="../../style.css" />
+  <link rel="stylesheet" href="../lesson.css" />
+</head>
+<body class="dark lesson-page">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">
+        <img src="../../quantum-sandbox-logo.png" alt="Quantum Sandbox logo" />
+      </div>
+      <div>
+        <h1>Quantum Sandbox</h1>
+        <p>An Interactive Quantum Circuit Playground</p>
+      </div>
+    </div>
+    <div class="top-actions" style="gap:8px">
+      <a href="../index.html" class="btn btn-soft">
+        <i class="fa-solid fa-graduation-cap"></i>
+        <span>All Lessons</span>
+      </a>
+      <a href="../../index.html" class="btn btn-soft">
+        <i class="fa-solid fa-flask"></i>
+        <span>Sandbox</span>
+      </a>
+      <button id="themeBtn" class="btn btn-soft icon-btn" aria-label="Toggle theme">
+        <i id="themeIcon" class="fa-solid fa-sun"></i>
+      </button>
+    </div>
+  </header>
+
+  <div class="lesson-wrap">
+    <nav class="lesson-breadcrumb">
+      <a href="../index.html">Learn</a>
+      <span class="sep">/</span>
+      <span>Part 1: Foundations</span>
+      <span class="sep">/</span>
+      <span class="current">What and Why of Quantum Computing</span>
+    </nav>
+
+    <div class="lesson-meta">
+      <span class="lesson-part-label">Part 1: Foundations</span>
+      <span class="lesson-read-time"><i class="fa-regular fa-clock"></i> 8 min read</span>
+    </div>
+
+    <h1 class="lesson-title">What and Why of Quantum Computing</h1>
+    <p class="lesson-subtitle">Classical computers are extraordinary machines. But there exist problems that no amount of faster chips can solve in any practical timeframe. Quantum computing is not an upgrade to classical computing - it is a completely different model of computation, built on the strange rules of quantum physics.</p>
+
+    <!-- ── What is quantum computing? ── -->
+    <section class="lesson-section">
+      <h2>What is quantum computing?</h2>
+      <p>A classical computer processes information as bits: tiny switches that are either <strong>0 or 1</strong>, off or on. Every app, game, and AI model you have ever used runs on billions of those switches flipping in precise patterns.</p>
+      <p>A quantum computer processes information as <strong>qubits</strong>. A qubit can be 0, 1, or a superposition of both at the same time. It can also become entangled with other qubits, creating correlations that have no classical equivalent. These properties let quantum computers explore enormous solution spaces in ways that are physically impossible for classical machines.</p>
+      <p>Think of a classical bit as a coin lying flat on a table - heads or tails, no in-between. A qubit, while it's spinning in the air, is genuinely both at once. It is not that we simply don't know which side it will land on; until it is measured, it is in a real combination of both states.</p>
+    </section>
+
+    <!-- ── Classical vs Quantum comparison ── -->
+    <div class="lesson-compare-grid">
+      <div class="compare-col classical">
+        <div class="compare-col-head"><i class="fa-solid fa-microchip"></i> Classical Computer</div>
+        <div class="compare-col-body">
+          <div class="compare-row"><i class="fa-solid fa-circle"></i> Bits: strictly 0 or 1</div>
+          <div class="compare-row"><i class="fa-solid fa-circle"></i> Processes one path at a time</div>
+          <div class="compare-row"><i class="fa-solid fa-circle"></i> Operations are deterministic</div>
+          <div class="compare-row"><i class="fa-solid fa-circle"></i> Scales linearly with transistors</div>
+          <div class="compare-row"><i class="fa-solid fa-circle"></i> Excellent for everyday tasks</div>
+          <div class="compare-row"><i class="fa-solid fa-circle"></i> Hits exponential walls for certain problems</div>
+        </div>
+      </div>
+      <div class="compare-col quantum">
+        <div class="compare-col-head"><i class="fa-solid fa-atom"></i> Quantum Computer</div>
+        <div class="compare-col-body">
+          <div class="compare-row"><i class="fa-solid fa-check-circle"></i> Qubits: 0, 1, or both simultaneously</div>
+          <div class="compare-row"><i class="fa-solid fa-check-circle"></i> Explores many paths in parallel</div>
+          <div class="compare-row"><i class="fa-solid fa-check-circle"></i> Uses interference to find answers</div>
+          <div class="compare-row"><i class="fa-solid fa-check-circle"></i> State space doubles with each qubit</div>
+          <div class="compare-row"><i class="fa-solid fa-check-circle"></i> Not faster at most tasks</div>
+          <div class="compare-row"><i class="fa-solid fa-check-circle"></i> Breaks through specific exponential walls</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── The exponential wall ── -->
+    <section class="lesson-section">
+      <h2>Why classical computers hit a wall</h2>
+      <p>Your laptop runs on transistors. Every calculation boils down to billions of switches flipping in coordinated patterns. It is elegant, fast, and phenomenally capable.</p>
+      <p>But certain problems explode. Imagine finding the best drug molecule to fight a specific cancer. Each atom you add to the molecule multiplies the number of possible configurations you need to check. This growth is <strong>exponential</strong> - not just "a lot bigger," but "bigger in a way that no chip speed can keep up with."</p>
+      <p>This is not a problem of chips being too slow. It is a problem of the <strong>mathematical structure of the task itself</strong>. No classical chip, however fast, can outrun exponential growth by being "a bit quicker." It's like trying to out-walk a balloon that doubles in size every second - sprinting buys you a moment, but the balloon wins no matter how fast you are.</p>
+    </section>
+
+    <!-- ── Interactive exponential chart ── -->
+    <div class="exp-growth-wrap">
+      <div class="exp-growth-label"><i class="fa-solid fa-chart-bar"></i> Exponential growth - hover each bar</div>
+      <div class="exp-growth-chart" id="expChart">
+        <div class="exp-bar" data-value="2" style="background: linear-gradient(180deg, var(--accent), color-mix(in oklab, var(--accent), var(--accent-2) 30%))">
+          <div class="exp-bar-tooltip">2 states (1 qubit)</div>
+        </div>
+        <div class="exp-bar" data-value="4" style="background: linear-gradient(180deg, var(--accent), color-mix(in oklab, var(--accent), var(--accent-2) 50%))">
+          <div class="exp-bar-tooltip">4 states (2 qubits)</div>
+        </div>
+        <div class="exp-bar" data-value="8" style="background: linear-gradient(180deg, color-mix(in oklab, var(--accent), var(--accent-2) 40%), var(--accent-2))">
+          <div class="exp-bar-tooltip">8 states (3 qubits)</div>
+        </div>
+        <div class="exp-bar" data-value="16" style="background: linear-gradient(180deg, color-mix(in oklab, var(--accent), var(--accent-2) 55%), var(--accent-2))">
+          <div class="exp-bar-tooltip">16 states (4 qubits)</div>
+        </div>
+        <div class="exp-bar" data-value="32" style="background: linear-gradient(180deg, color-mix(in oklab, var(--accent-2), #9b59b6 30%), #9b59b6)">
+          <div class="exp-bar-tooltip">32 states (5 qubits)</div>
+        </div>
+        <div class="exp-bar" data-value="64" style="background: linear-gradient(180deg, color-mix(in oklab, var(--accent-2), #9b59b6 55%), #9b59b6)">
+          <div class="exp-bar-tooltip">64 states (6 qubits)</div>
+        </div>
+        <div class="exp-bar" data-value="128" style="background: linear-gradient(180deg, #9b59b6, #e74c3c)">
+          <div class="exp-bar-tooltip">128 states (7 qubits)</div>
+        </div>
+        <div class="exp-bar" data-value="256" style="background: linear-gradient(180deg, #9b59b6, #e74c3c)">
+          <div class="exp-bar-tooltip">256 states (8 qubits)</div>
+        </div>
+      </div>
+      <div class="exp-axis-labels">
+        <span>1Q</span><span>2Q</span><span>3Q</span><span>4Q</span>
+        <span>5Q</span><span>6Q</span><span>7Q</span><span>8Q</span>
+      </div>
+      <p class="exp-caption">Each qubit added <em>doubles</em> the number of quantum states that can be explored simultaneously. With 300 qubits, that exceeds the number of atoms in the observable universe.</p>
+    </div>
+
+    <!-- ── Why it matters: real-world problems ── -->
+    <section class="lesson-section">
+      <h2>Why it matters: real problems, right now</h2>
+      <p>The exponential wall is not hypothetical. It is blocking real progress in fields that affect every person on Earth. Click each problem to see how quantum computing changes the picture.</p>
+    </section>
+
+    <div class="expand-cards">
+      <div class="expand-card">
+        <div class="expand-card-header">
+          <div class="expand-card-icon"><i class="fa-solid fa-pills"></i></div>
+          <div>
+            <div class="expand-card-title">Drug Discovery</div>
+            <div class="expand-card-subtitle">Years to discover a drug - quantum could cut that to months</div>
+          </div>
+          <i class="fa-solid fa-chevron-down expand-card-chevron"></i>
+        </div>
+        <div class="expand-card-body">
+          <div class="expand-card-inner">
+            <p>Simulating how a drug molecule interacts with a target protein requires tracking every electron in every atom. Classical computers approximate this with clever mathematical shortcuts - and those shortcuts cause errors that can miss promising drugs or predict incorrect side effects.</p>
+            <p>A quantum computer could simulate quantum chemistry <strong>natively and exactly</strong>, without shortcuts. For the first time, researchers could computationally design molecules with guaranteed accuracy - potentially cutting years off drug development timelines and opening paths to diseases that are currently untreatable.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="expand-card">
+        <div class="expand-card-header">
+          <div class="expand-card-icon"><i class="fa-solid fa-lock"></i></div>
+          <div>
+            <div class="expand-card-title">Cryptography</div>
+            <div class="expand-card-subtitle">Today's encryption relies on classical computers being slow</div>
+          </div>
+          <i class="fa-solid fa-chevron-down expand-card-chevron"></i>
+        </div>
+        <div class="expand-card-body">
+          <div class="expand-card-inner">
+            <p>Most internet encryption depends on one mathematical fact: multiplying two large prime numbers is easy, but factoring the result back into its primes is practically impossible for classical computers. Your bank uses this trick every time you log in.</p>
+            <p>A quantum algorithm called <strong>Shor's algorithm</strong> would make factoring fast - meaning today's encryption could become breakable. This is why governments and tech companies are already investing in <em>post-quantum cryptography</em>: new encryption methods designed to be secure even against quantum computers.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="expand-card">
+        <div class="expand-card-header">
+          <div class="expand-card-icon"><i class="fa-solid fa-route"></i></div>
+          <div>
+            <div class="expand-card-title">Optimization</div>
+            <div class="expand-card-subtitle">From airline schedules to supply chains - finding the best solution</div>
+          </div>
+          <i class="fa-solid fa-chevron-down expand-card-chevron"></i>
+        </div>
+        <div class="expand-card-body">
+          <div class="expand-card-inner">
+            <p>Airlines schedule thousands of flights. Banks manage trillions of dollars of risk. Supply chains route millions of shipments across continents. Each of these is an optimization problem: find the best solution among an astronomically large space of options.</p>
+            <p>Classical computers use heuristics (educated shortcuts) to get <em>good enough</em> solutions because finding the truly optimal solution would take longer than the universe has existed. Quantum algorithms like <strong>QAOA</strong> (Quantum Approximate Optimization Algorithm) offer the prospect of dramatically better solutions, faster.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="expand-card">
+        <div class="expand-card-header">
+          <div class="expand-card-icon"><i class="fa-solid fa-brain"></i></div>
+          <div>
+            <div class="expand-card-title">Machine Learning</div>
+            <div class="expand-card-subtitle">Training AI models requires enormous matrix math</div>
+          </div>
+          <i class="fa-solid fa-chevron-down expand-card-chevron"></i>
+        </div>
+        <div class="expand-card-body">
+          <div class="expand-card-inner">
+            <p>Training the large AI models that power tools like ChatGPT requires enormous matrix calculations, running for weeks across thousands of GPUs. The energy cost alone is staggering.</p>
+            <p>Quantum hardware could accelerate certain types of matrix operations exponentially. A quantum neural network might train in minutes instead of weeks on specific problem types - enabling AI models that are currently too expensive to build, and potentially opening new classes of AI entirely.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Three quantum powers ── -->
+    <section class="lesson-section">
+      <h2>What makes quantum different: three key powers</h2>
+      <p>Quantum computers do not run faster versions of classical programs. They exploit three uniquely quantum phenomena to process information in ways that are physically impossible for classical machines.</p>
+    </section>
+
+    <div class="lesson-flowchart">
+      <div class="fc-node">
+        <div class="fc-node-label">Power 1</div>
+        <div class="fc-node-title">Superposition</div>
+        <div class="fc-node-desc">A qubit can be 0 and 1 simultaneously - not secretly one or the other, but genuinely both. This lets quantum computers evaluate many possibilities at once.</div>
+      </div>
+      <div class="fc-arrow"></div>
+      <div class="fc-node">
+        <div class="fc-node-label">Power 2</div>
+        <div class="fc-node-title">Entanglement</div>
+        <div class="fc-node-desc">Two qubits can be linked so that measuring one instantly determines the other, regardless of distance. This creates correlations that carry computation across many qubits at once.</div>
+      </div>
+      <div class="fc-arrow"></div>
+      <div class="fc-node">
+        <div class="fc-node-label">Power 3</div>
+        <div class="fc-node-title">Interference</div>
+        <div class="fc-node-desc">Quantum paths can cancel each other (wrong answers) or reinforce each other (right answers) - like waves in water. Clever algorithms engineer this so the correct answer is amplified.</div>
+      </div>
+      <div class="fc-arrow"></div>
+      <div class="fc-node" style="border-color: var(--accent); background: color-mix(in oklab, var(--accent), transparent 90%)">
+        <div class="fc-node-label" style="color: var(--accent)">Result</div>
+        <div class="fc-node-title">Quantum Advantage</div>
+        <div class="fc-node-desc">Together, these three phenomena enable computation that breaks through the exponential wall - targeting problems that are practically impossible for any classical machine.</div>
+      </div>
+    </div>
+
+    <!-- ── Where we are now - timeline ── -->
+    <section class="lesson-section">
+      <h2>Where we are now</h2>
+      <p>Quantum computers exist today. We are in an era called <strong>NISQ</strong> (Noisy Intermediate-Scale Quantum) - machines powerful enough to be interesting, but not yet reliable enough to replace classical computers for real tasks.</p>
+    </section>
+
+    <div class="lesson-timeline">
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-year">1981</div>
+        <div class="tl-title">Feynman proposes quantum computers</div>
+        <div class="tl-desc">Richard Feynman argues that simulating quantum systems would require a quantum computer - classical machines are fundamentally too slow.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-year">1994</div>
+        <div class="tl-title">Shor's algorithm</div>
+        <div class="tl-desc">Peter Shor discovers a quantum algorithm that factors large numbers exponentially faster than any known classical algorithm - immediately threatening current encryption.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-year">1996</div>
+        <div class="tl-title">Grover's algorithm</div>
+        <div class="tl-desc">Lov Grover shows quantum computers can search an unsorted database in square-root time - a quadratic speedup that applies to countless problems.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2019</div>
+        <div class="tl-title">Google claims "quantum supremacy"</div>
+        <div class="tl-desc">Google's 53-qubit Sycamore processor completes a specific calculation in 200 seconds that they estimate would take classical supercomputers 10,000 years.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-year">Now</div>
+        <div class="tl-title">The NISQ era</div>
+        <div class="tl-desc">IBM, Google, IonQ, and others operate machines with 50 to 1,000+ qubits. Qubits remain noisy and short-lived - fault-tolerant quantum computing is still a decade away, but progress is accelerating fast.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-year">Future</div>
+        <div class="tl-title">Fault-tolerant quantum computing</div>
+        <div class="tl-desc">Machines that correct their own errors and sustain quantum states long enough to run the algorithms that break through the exponential wall - where the real applications begin.</div>
+      </div>
+    </div>
+
+    <div class="lesson-takeaway">
+      <div class="takeaway-label"><i class="fa-solid fa-bolt"></i> Key takeaway</div>
+      <p class="takeaway-text">Quantum computers are not faster classical computers. They use superposition, entanglement, and interference to process certain problem types in ways that are fundamentally impossible for classical machines - breaking through the exponential wall that blocks progress in science, security, and industry.</p>
+    </div>
+
+    <div class="lesson-check">
+      <div class="check-label"><i class="fa-solid fa-circle-question"></i> Knowledge check · Question 1 of 5</div>
+      <p class="check-question">Why can't classical computers simply solve exponential problems by being made faster?</p>
+      <div class="check-options">
+        <button class="check-option" data-correct="false">They can - modern CPUs just haven't been applied to these problems yet.</button>
+        <button class="check-option" data-correct="true">The number of cases to check grows so fast that no speed improvement can keep up - the problem's mathematical structure is the barrier.</button>
+        <button class="check-option" data-correct="false">Classical computers lack the memory to store the results.</button>
+        <button class="check-option" data-correct="false">Exponential problems can be solved classically, they just take a few extra minutes.</button>
+      </div>
+      <div class="check-feedback">The key insight is that "faster" is a linear improvement, but the problem grows exponentially. No amount of classical speedup closes that gap for genuinely exponential problems.</div>
+    </div>
+
+    <div class="lesson-check">
+      <div class="check-label"><i class="fa-solid fa-circle-question"></i> Knowledge check · Question 2 of 5</div>
+      <p class="check-question">Which of the following best describes "superposition," one of the three quantum powers?</p>
+      <div class="check-options">
+        <button class="check-option" data-correct="true">A qubit exists as a genuine combination of 0 and 1 at the same time, not secretly one or the other.</button>
+        <button class="check-option" data-correct="false">A qubit can store more than two values, like 0, 1, and 2.</button>
+        <button class="check-option" data-correct="false">A qubit switches between 0 and 1 faster than a classical bit.</button>
+        <button class="check-option" data-correct="false">A qubit copies its value to a second qubit instantly.</button>
+      </div>
+      <div class="check-feedback">Superposition means a qubit genuinely holds both states at once until measured - it isn't simply an unknown classical value, and it isn't extra storage capacity.</div>
+    </div>
+
+    <div class="lesson-check">
+      <div class="check-label"><i class="fa-solid fa-circle-question"></i> Knowledge check · Question 3 of 5</div>
+      <p class="check-question">What does "NISQ" describe about the current era of quantum computing?</p>
+      <div class="check-options">
+        <button class="check-option" data-correct="false">Quantum computers have already replaced classical computers for most everyday tasks.</button>
+        <button class="check-option" data-correct="false">Fault-tolerant, error-corrected quantum computers are now widely available.</button>
+        <button class="check-option" data-correct="true">Today's machines are powerful enough to be interesting, but still too noisy and small-scale to reliably outperform classical computers on real tasks.</button>
+        <button class="check-option" data-correct="false">NISQ refers to the original 1981 proposal by Richard Feynman.</button>
+      </div>
+      <div class="check-feedback">NISQ stands for Noisy Intermediate-Scale Quantum - we have real quantum hardware today, but it is error-prone and not yet at the scale needed for most practical breakthroughs.</div>
+    </div>
+
+    <div class="lesson-check">
+      <div class="check-label"><i class="fa-solid fa-circle-question"></i> Knowledge check · Question 4 of 5</div>
+      <p class="check-question">Why is cryptography considered a major application area for quantum computing?</p>
+      <div class="check-options">
+        <button class="check-option" data-correct="false">Quantum computers can store passwords more securely than classical databases.</button>
+        <button class="check-option" data-correct="false">Quantum computers make internet connections faster, improving encrypted traffic speed.</button>
+        <button class="check-option" data-correct="false">Quantum computers can generate truly random encryption keys, unlike classical computers.</button>
+        <button class="check-option" data-correct="true">Shor's algorithm would let quantum computers factor large numbers quickly, breaking the math that today's encryption depends on.</button>
+      </div>
+      <div class="check-feedback">Most internet encryption relies on factoring large numbers being practically impossible for classical computers. Shor's algorithm threatens to make that fast, which is why post-quantum cryptography is being developed.</div>
+    </div>
+
+    <div class="lesson-check">
+      <div class="check-label"><i class="fa-solid fa-circle-question"></i> Knowledge check · Question 5 of 5</div>
+      <p class="check-question">What is the key difference between how classical and quantum computers process information?</p>
+      <div class="check-options">
+        <button class="check-option" data-correct="false">Quantum computers are simply faster versions of classical computers at every task.</button>
+        <button class="check-option" data-correct="false">Classical computers use qubits while quantum computers use bits.</button>
+        <button class="check-option" data-correct="true">Classical bits are strictly 0 or 1 and processed one path at a time, while qubits can be both at once and explore many paths in parallel.</button>
+        <button class="check-option" data-correct="false">There is no real difference - both rely on transistors switching on and off.</button>
+      </div>
+      <div class="check-feedback">Classical computers are deterministic and process one path at a time, while quantum computers exploit superposition and interference to explore many paths simultaneously - they are not simply "faster," but fundamentally different.</div>
+    </div>
+
+    <nav class="lesson-nav">
+      <a href="../index.html" class="btn btn-soft">
+        <i class="fa-solid fa-arrow-left"></i> All Lessons
+      </a>
+      <a href="quantum-notation.html" class="btn btn-primary btn-nav-next">
+        Next: Quantum Notation <i class="fa-solid fa-arrow-right"></i>
+      </a>
+    </nav>
+  </div>
+
+  <footer class="site-footer">
+    <p>© Quantum Sandbox - Ritayush Suchismita Dey</p>
+  </footer>
+
+  <script src="../lesson.js"></script>
+</body>
+</html>

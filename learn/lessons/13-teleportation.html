@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quantum Teleportation | Quantum Sandbox</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="../../logo-favicon-32x32.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="stylesheet" href="../../style.css" />
+  <link rel="stylesheet" href="../lesson.css" />
+</head>
+<body class="dark lesson-page">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">
+        <img src="../../quantum-sandbox-logo.png" alt="Quantum Sandbox logo" />
+      </div>
+      <div>
+        <h1>Quantum Sandbox</h1>
+        <p>An Interactive Quantum Circuit Playground</p>
+      </div>
+    </div>
+    <div class="top-actions" style="gap:8px">
+      <a href="../index.html" class="btn btn-soft">
+        <i class="fa-solid fa-graduation-cap"></i>
+        <span>All Lessons</span>
+      </a>
+      <a href="../../index.html" class="btn btn-soft">
+        <i class="fa-solid fa-flask"></i>
+        <span>Sandbox</span>
+      </a>
+      <button id="themeBtn" class="btn btn-soft icon-btn" aria-label="Toggle theme">
+        <i id="themeIcon" class="fa-solid fa-sun"></i>
+      </button>
+    </div>
+  </header>
+
+  <div class="lesson-wrap">
+    <nav class="lesson-breadcrumb">
+      <a href="../index.html">Learn</a>
+      <span class="sep">/</span>
+      <span>Part 3: Algorithms</span>
+      <span class="sep">/</span>
+      <span class="current">Quantum Teleportation</span>
+    </nav>
+
+    <div class="lesson-meta">
+      <span class="lesson-part-label">Part 3: Algorithms</span>
+      <span class="lesson-read-time"><i class="fa-regular fa-clock"></i> 11 min read</span>
+    </div>
+
+    <h1 class="lesson-title">Quantum Teleportation</h1>
+    <p class="lesson-subtitle">Quantum teleportation sounds like science fiction - instantly transporting a quantum state from one location to another. It is entirely real, experimentally demonstrated over hundreds of kilometers, and deeply weird. But it does not transport matter, and it cannot send information faster than light.</p>
+
+    <section class="lesson-section">
+      <h2>What is being teleported?</h2>
+      <p>First, a clarification: quantum teleportation does not move particles or matter. What it does is transfer the <strong>quantum state</strong> of one qubit - its superposition, its phase, its exact configuration - to another qubit at a different location, without physically moving the original qubit. Think of it less like the Star Trek transporter and more like faxing a document: the original sheet of paper never travels anywhere, but the exact pattern of ink on it ends up reproduced on a fresh sheet across the room - except here, the "original" page is wiped blank in the process, since quantum information cannot be copied, only moved.</p>
+      <p>Recall that you cannot copy a qubit (no-cloning theorem), and measuring it destroys its quantum state. Teleportation provides a third option: transfer the state to a remote qubit without copying it and without needing to know what the state is. The original qubit ends up in a known state (its quantum information has left), and the destination qubit ends up in the state the original had.</p>
+      <p>This is useful for quantum networks - sending quantum information between computers - and as a protocol primitive in quantum error correction and distributed quantum computing. It has been experimentally demonstrated over optical fibers and in free space, including satellite links spanning thousands of kilometers.</p>
+    </section>
+
+    <section class="lesson-section">
+      <h2>The protocol: step by step</h2>
+      <p>The teleportation protocol involves three qubits and two parties traditionally called <strong>Alice and Bob</strong>. Qubit 1 is Alice's state to be teleported - she does not know what it is. Qubits 2 and 3 form an entangled pair: qubit 2 stays with Alice, qubit 3 is sent to Bob. A useful mental model: the entangled pair is like two halves of a torn lottery ticket mailed out in advance, one to Alice and one to Bob - on their own, each half is meaningless noise, but combining the right half with Alice's measurement result tells Bob exactly how to finish the job.</p>
+      <p><strong>Step 1 - Share entanglement.</strong> Alice and Bob create a Bell state - an entangled pair. Alice keeps one qubit of the pair; Bob keeps the other. (This entanglement can be established in advance, even before the state to be teleported is known.)</p>
+      <p><strong>Step 2 - Alice's operations.</strong> Alice has her unknown qubit 1 and her entangled qubit 2. She applies a CNOT gate with qubit 1 as control and qubit 2 as target, then applies H to qubit 1. She then measures both qubits 1 and 2. This gives two classical bits - four possible outcomes.</p>
+      <p><strong>Step 3 - Classical communication.</strong> Alice sends Bob her two classical bits via a conventional channel (phone, internet, anything). This classical communication is required - there is no faster-than-light information transfer.</p>
+      <p><strong>Step 4 - Bob's correction.</strong> Bob looks at Alice's two bits and applies one of four corrections to his qubit 3. The correction he applies depends on which of the four measurement outcomes Alice got. After this correction, qubit 3 is now in exactly the state qubit 1 was in originally. Teleportation complete.</p>
+    </section>
+
+    <section class="lesson-section">
+      <h2>Why it is not faster than light</h2>
+      <p>The entanglement correlation is instantaneous - when Alice measures, Bob's qubit "reacts" instantly. But Bob cannot know this has happened until Alice tells him her measurement results via classical communication. Until that classical information arrives, Bob's qubit is in a mixed state - he has no idea what state the original was in. The classical communication enforces a speed-of-light limit on the protocol.</p>
+      <p>This is a deep feature of quantum mechanics: entanglement creates instant correlations, but those correlations cannot be used to send meaningful information faster than light. Quantum teleportation perfectly demonstrates this principle.</p>
+    </section>
+
+    <div class="lesson-demo-callout">
+      <div class="demo-callout-label"><i class="fa-solid fa-flask"></i> Try it in the Sandbox</div>
+      <div class="demo-callout-title">Explore the teleportation circuit structure</div>
+      <ol class="demo-steps">
+        <li data-n="1">Open Algorithm Preset and select <strong>Teleportation</strong>.</li>
+        <li data-n="2">Identify the 3 qubits. Bell pair on Q2–Q3, Alice's CNOT + H on Q1–Q2.</li>
+        <li data-n="3">Check the final state. Qubit 3's state reflects the initial state of qubit 1.</li>
+        <li data-n="4">Click <strong>Measure All</strong>: Alice's bits (Q1, Q2) tell Bob what correction to apply to Q3.</li>
+        <li data-n="5">In a real experiment, Bob applies X or Z classically based on Alice's measurement results.</li>
+      </ol>
+      <iframe
+        class="lesson-sandbox"
+        src="../../index.html?embed=1&mode=expert"
+        title="Quantum Sandbox - Teleportation demo"
+        allow="cross-origin-isolated"
+      ></iframe>
+    </div>
+
+    <section class="lesson-section">
+      <h2>Teleportation in quantum networks</h2>
+      <p>Quantum teleportation is fundamental to the concept of a <strong>quantum internet</strong> - a network that distributes quantum information between nodes. In a quantum network, you cannot amplify quantum signals the way you amplify classical signals (measurement would collapse the state). Instead, you use teleportation and entanglement distribution as the primitive operations.</p>
+      <p>The idea of a <strong>quantum repeater</strong> uses entanglement swapping - a protocol related to teleportation - to extend entanglement over long distances by chaining together shorter entangled links, much like relay runners passing a baton stage by stage instead of one runner trying to sprint the entire distance. This is essential because photon loss in optical fiber limits direct entanglement distribution to tens of kilometers.</p>
+      <p>China's Micius satellite demonstrated satellite-based quantum key distribution and entanglement distribution over 1,200 km in 2017. The European Quantum Internet Alliance and similar programs worldwide are working toward operational quantum network infrastructure within the next decade.</p>
+    </section>
+
+    <section class="lesson-section">
+      <h2>Teleportation and quantum computing</h2>
+      <p>Within quantum computers themselves, teleportation is used as a resource. Measurement-based quantum computation (MBQC) - also called one-way quantum computing - uses entangled cluster states and sequential measurements to simulate gate operations, similar to how a row of standing dominoes encodes a computation in advance: you do not "compute" by actively pushing each one, you just measure/topple them in the right pattern and read off the result. The computation proceeds through a series of teleportations where each teleportation implements a gate.</p>
+      <p>Teleportation is also used in some quantum error correction protocols and in techniques for implementing fault-tolerant gates. The T gate (the 45° phase rotation), which you have seen in the Sandbox, is particularly difficult to implement fault-tolerantly and is often implemented via a protocol called "magic state distillation" which is essentially a form of teleportation.</p>
+    </section>
+
+    <div class="lesson-takeaway">
+      <div class="takeaway-label"><i class="fa-solid fa-bolt"></i> Key takeaway</div>
+      <p class="takeaway-text">Quantum teleportation transfers the exact quantum state of one qubit to a distant qubit using shared entanglement and classical communication. It respects the no-cloning theorem (the original is destroyed) and does not allow faster-than-light communication (classical bits are required). It is foundational to quantum networks and certain quantum computing architectures.</p>
+    </div>
+
+    <div class="lesson-check">
+      <div class="check-label"><i class="fa-solid fa-circle-question"></i> Knowledge check · Question 1 of 4</div>
+      <p class="check-question">What exactly does quantum teleportation transfer from Alice's qubit to Bob's qubit?</p>
+      <div class="check-options">
+        <button class="check-option" data-correct="false">The physical qubit itself, including the particle it is made of.</button>
+        <button class="check-option" data-correct="false">A perfect copy of the qubit, leaving Alice's original state intact too.</button>
+        <button class="check-option" data-correct="false">The classical bits describing the qubit's exact amplitudes.</button>
+        <button class="check-option" data-correct="true">The quantum state of the qubit, without any matter or particle moving.</button>
+      </div>
+      <div class="check-feedback">Teleportation moves the quantum state - the superposition and phase information - onto a different qubit. No particle travels, and because of the no-cloning theorem the original qubit's state is destroyed in the process rather than copied.</div>
+    </div>
+
+    <div class="lesson-check">
+      <div class="check-label"><i class="fa-solid fa-circle-question"></i> Knowledge check · Question 2 of 4</div>
+      <p class="check-question">After Alice's measurement step in quantum teleportation, what must happen before Bob's qubit is in the correct state?</p>
+      <div class="check-options">
+        <button class="check-option" data-correct="false">Nothing - the entanglement instantly puts Bob's qubit in the correct state as soon as Alice measures.</button>
+        <button class="check-option" data-correct="true">Alice must send Bob her two classical measurement bits so he can apply the correct correction gate.</button>
+        <button class="check-option" data-correct="false">Bob must measure his qubit to collapse it into the correct state.</button>
+        <button class="check-option" data-correct="false">Bob's qubit spontaneously corrects itself after a short delay.</button>
+      </div>
+      <div class="check-feedback">Bob's qubit is in one of four possible states after Alice's measurement, and he needs to apply the right correction gate to get the target state. To know which correction to apply, he needs Alice's two classical bits - which can only travel at the speed of light.</div>
+    </div>
+
+    <div class="lesson-check">
+      <div class="check-label"><i class="fa-solid fa-circle-question"></i> Knowledge check · Question 3 of 4</div>
+      <p class="check-question">Why can't quantum teleportation be used to send information faster than light?</p>
+      <div class="check-options">
+        <button class="check-option" data-correct="false">Entangled particles only become correlated after several minutes of delay.</button>
+        <button class="check-option" data-correct="false">Bell states decay too quickly to be useful over long distances.</button>
+        <button class="check-option" data-correct="true">Bob cannot reconstruct the original state until Alice's classical bits reach him, and that transfer is limited to light speed.</button>
+        <button class="check-option" data-correct="false">Photons used in teleportation travel slower than light through fiber optic cable.</button>
+      </div>
+      <div class="check-feedback">The entanglement correlation itself is instantaneous, but it carries no usable information on its own. Bob's qubit is meaningless to him until Alice's classical measurement bits arrive, and that classical channel is bound by the speed of light.</div>
+    </div>
+
+    <div class="lesson-check">
+      <div class="check-label"><i class="fa-solid fa-circle-question"></i> Knowledge check · Question 4 of 4</div>
+      <p class="check-question">How is teleportation used inside quantum computers themselves, such as in measurement-based quantum computation (MBQC)?</p>
+      <div class="check-options">
+        <button class="check-option" data-correct="true">A series of teleportations through entangled cluster states is used to implement gate operations.</button>
+        <button class="check-option" data-correct="false">It is not used internally - teleportation only matters for networking qubits between separate machines.</button>
+        <button class="check-option" data-correct="false">It replaces the need for any entangled states inside the processor.</button>
+        <button class="check-option" data-correct="false">It is used to permanently delete unwanted qubits from the circuit.</button>
+      </div>
+      <div class="check-feedback">In MBQC, computation proceeds by sequentially measuring qubits in a pre-entangled cluster state, with each measurement effectively teleporting and transforming the state - implementing a gate as it goes. It is also the basis of magic state distillation for fault-tolerant T gates.</div>
+    </div>
+
+    <nav class="lesson-nav">
+      <a href="12-shors-algorithm.html" class="btn btn-soft">
+        <i class="fa-solid fa-arrow-left"></i> Previous
+      </a>
+      <a href="14-cryptography.html" class="btn btn-primary btn-nav-next">
+        Next: Quantum Cryptography <i class="fa-solid fa-arrow-right"></i>
+      </a>
+    </nav>
+  </div>
+
+  <footer class="site-footer">
+    <p>© Quantum Sandbox • Ritayush Suchismita Dey</p>
+  </footer>
+
+  <script src="../lesson.js"></script>
+</body>
+</html>

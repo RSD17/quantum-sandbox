@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quantum vs. Classical - Quantum Sandbox</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="../../logo-favicon-32x32.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="stylesheet" href="../../style.css" />
+  <link rel="stylesheet" href="../lesson.css" />
+</head>
+<body class="dark lesson-page">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">
+        <img src="../../quantum-sandbox-logo.png" alt="Quantum Sandbox logo" />
+      </div>
+      <div>
+        <h1>Quantum Sandbox</h1>
+        <p>An Interactive Quantum Circuit Playground</p>
+      </div>
+    </div>
+    <div class="top-actions" style="gap:8px">
+      <a href="../index.html" class="btn btn-soft">
+        <i class="fa-solid fa-graduation-cap"></i>
+        <span>All Lessons</span>
+      </a>
+      <a href="../../index.html" class="btn btn-soft">
+        <i class="fa-solid fa-flask"></i>
+        <span>Sandbox</span>
+      </a>
+      <button id="themeBtn" class="btn btn-soft icon-btn" aria-label="Toggle theme">
+        <i id="themeIcon" class="fa-solid fa-sun"></i>
+      </button>
+    </div>
+  </header>
+
+  <div class="lesson-wrap">
+    <nav class="lesson-breadcrumb">
+      <a href="../index.html">Learn</a>
+      <span class="sep">/</span>
+      <span>Part 1 - Foundations</span>
+      <span class="sep">/</span>
+      <span class="current">Quantum vs. Classical</span>
+    </nav>
+
+    <div class="lesson-meta">
+      <span class="lesson-part-label">Part 1 - Foundations</span>
+      <span class="lesson-read-time"><i class="fa-regular fa-clock"></i> 9 min read</span>
+    </div>
+
+    <h1 class="lesson-title">Quantum vs. Classical</h1>
+    <p class="lesson-subtitle">Quantum computers will not replace classical computers. They are a specialized tool - extraordinarily powerful for specific problems, and completely irrelevant for everything else. Knowing when to use each is as important as knowing how they work.</p>
+
+    <section class="lesson-section">
+      <h2>The right tool for the job</h2>
+      <p>A common misconception is that quantum computers will replace laptops, phones, and data centers. This is not how the field sees it. Quantum computers are specialized co-processors - similar to how GPUs accelerate graphics and machine learning without replacing CPUs for general-purpose tasks.</p>
+      <p>Classical computers are extraordinarily well-optimized for the tasks they do: running operating systems, browsing the web, streaming video, processing text, running most software applications. Quantum computers offer no advantage for these tasks. They run at cryogenic temperatures, require specialized control electronics, and produce probabilistic outputs that must be post-processed classically. They are not nimble consumer devices - think less "next-gen laptop" and more "room-sized particle detector," with the comparable infrastructure to match.</p>
+      <p>The vision most quantum researchers hold is a hybrid architecture: classical computers handle the orchestration, user interface, and the vast majority of computation, while quantum co-processors handle the specific subroutines where quantum algorithms provide a meaningful speedup.</p>
+    </section>
+
+    <section class="lesson-section">
+      <h2>Where quantum wins</h2>
+      <p>Quantum computers are expected to provide significant advantages for four broad categories of problems:</p>
+      <p><strong>Factoring and discrete logarithm problems.</strong> Shor's algorithm achieves exponential speedup for the factoring problem underlying RSA encryption and the discrete logarithm problem underlying elliptic curve cryptography. This is the security motivation driving national investment in quantum computing worldwide.</p>
+      <p><strong>Quantum chemistry and molecular simulation.</strong> Simulating the behavior of electrons in molecules - quantum mechanical behavior - requires exponential classical resources. A quantum computer could simulate this natively. It's the difference between describing a dance and actually dancing it: a classical computer has to painstakingly calculate every quantum interaction step by step, while a quantum computer simply behaves the same way the molecule does. Applications include drug discovery, materials design, and catalysis optimization.</p>
+      <p><strong>Optimization and sampling.</strong> Certain combinatorial optimization problems - finding the best solution among an exponentially large set - may benefit from quantum speedups. Quantum annealing and variational quantum algorithms (VQAs) are active research areas here, though the advantage over classical methods is still contested for most practical problem sizes.</p>
+      <p><strong>Quantum machine learning.</strong> Some quantum algorithms achieve speedups on specific linear algebra subroutines relevant to machine learning. Whether these translate to useful practical advantages for real datasets remains an open and contested research question.</p>
+    </section>
+
+    <section class="lesson-section">
+      <h2>Where classical still wins</h2>
+      <p>Classical computers retain significant advantages in several areas:</p>
+      <p><strong>Speed for classical tasks.</strong> Modern CPUs execute billions of operations per second with near-perfect reliability. Today's quantum computers perform thousands of gates and take microseconds per operation with significant error rates. For classical algorithms on classical data, classical hardware wins by an enormous margin.</p>
+      <p><strong>Memory access.</strong> Loading data into a quantum computer is a significant problem. Quantum random access memory (QRAM) is theoretically possible but practically far harder to build than classical RAM. Most quantum algorithms assume data is already available in a form the quantum processor can use, which is often unrealistic - like assuming a recipe's ingredients are already pre-chopped and measured before you've even gone shopping.</p>
+      <p><strong>Software ecosystem.</strong> Decades of classical software development have produced extraordinarily efficient classical algorithms optimized for every conceivable task. Quantum algorithms, while theoretically powerful, are often compared to naive classical algorithms. The best classical algorithms are frequently far better than the quantum alternatives, narrowing or eliminating the practical advantage.</p>
+    </section>
+
+    <section class="lesson-section">
+      <h2>Dequantization: the ongoing debate</h2>
+      <p>One of the most important developments in quantum computing theory in recent years is <strong>dequantization</strong>. This refers to cases where a quantum speedup was proposed, and then researchers discovered a classical algorithm that matched the quantum advantage using clever techniques like sampling from data structures. It's like someone claiming only a sports car can win a race, only for a regular sedan to find a shortcut and tie the result - the quantum result wasn't wrong, it just turned out not to be the only road to the answer.</p>
+      <p>The most famous case is the HHL algorithm for solving linear systems, long cited as a flagship quantum advantage. In 2018, Tang demonstrated a classical "quantum-inspired" algorithm that nearly matched HHL's performance for the cases that matter practically. This does not undermine quantum computing broadly, but it illustrates that the advantage is more nuanced than early papers sometimes suggested.</p>
+      <p>The message is healthy: quantum speedups should be critically examined, not just assumed. The field has matured in its understanding of exactly where and by how much quantum computers help.</p>
+    </section>
+
+    <section class="lesson-section">
+      <h2>The timeline question</h2>
+      <p>Useful quantum advantage for real-world problems is not here yet, but the hardware is improving steadily. The trajectory most researchers expect:</p>
+      <p>In the near term (next 5 years), expect NISQ devices to demonstrate advantages for quantum simulation tasks in chemistry and condensed matter physics - the "natural home" of quantum hardware. In the medium term (5–15 years), error-corrected logical qubits should enable more complex simulations and potentially early demonstrations of Grover speedup on moderate-size search problems. Full fault-tolerant quantum computers capable of running Shor's algorithm on cryptographically relevant key sizes likely remain 10–20 years away, depending on hardware progress.</p>
+      <p>Classical computers will remain dominant for the foreseeable future - but the specific domains where quantum computing wins are also the domains where some of the highest-value unsolved problems live.</p>
+    </section>
+
+    <div class="lesson-takeaway">
+      <div class="takeaway-label"><i class="fa-solid fa-bolt"></i> Key takeaway</div>
+      <p class="takeaway-text">Quantum computers are specialized co-processors, not replacements for classical computers. They provide meaningful speedups only for specific problem types - primarily factoring, quantum chemistry simulation, and certain optimization problems. For everything else, classical computers are faster, cheaper, and more reliable.</p>
+    </div>
+
+    <div class="lesson-check">
+      <div class="check-label"><i class="fa-solid fa-circle-question"></i> Knowledge check · Question 1 of 3</div>
+      <p class="check-question">A company wants to use a quantum computer to make their website load faster. Is this a good use of quantum computing?</p>
+      <div class="check-options">
+        <button class="check-option" data-correct="false">Yes - quantum computers process information faster, so any computation benefits.</button>
+        <button class="check-option" data-correct="false">Yes - quantum superposition allows simultaneous processing of all web requests.</button>
+        <button class="check-option" data-correct="true">No - web serving is a classical task with no quantum advantage; classical hardware is far more appropriate.</button>
+        <button class="check-option" data-correct="false">Maybe - it depends on the size of the website.</button>
+      </div>
+      <div class="check-feedback">Web serving involves routing, database queries, and file transfer - all classical tasks. Quantum computers offer no advantage here and are dramatically slower and more expensive per operation than classical servers for these workloads.</div>
+    </div>
+
+    <div class="lesson-check">
+      <div class="check-label"><i class="fa-solid fa-circle-question"></i> Knowledge check · Question 2 of 3</div>
+      <p class="check-question">What does the hybrid architecture vision for quantum computing actually look like in practice?</p>
+      <div class="check-options">
+        <button class="check-option" data-correct="false">Quantum processors gradually take over all computation as the hardware matures.</button>
+        <button class="check-option" data-correct="true">Classical computers handle orchestration, interfaces, and most computation, while quantum co-processors handle only the specific subroutines where they offer a real speedup.</button>
+        <button class="check-option" data-correct="false">Quantum and classical computers run as fully independent systems with no communication between them.</button>
+        <button class="check-option" data-correct="false">Classical computers are only used to power and cool the quantum hardware.</button>
+      </div>
+      <div class="check-feedback">Quantum computers are expected to act as specialized co-processors - much like a GPU accelerates specific workloads for a CPU - handling only the narrow subroutines where quantum algorithms provide an advantage, while classical systems do everything else.</div>
+    </div>
+
+    <div class="lesson-check">
+      <div class="check-label"><i class="fa-solid fa-circle-question"></i> Knowledge check · Question 3 of 3</div>
+      <p class="check-question">What does "dequantization" mean in the context of quantum computing research?</p>
+      <div class="check-options">
+        <button class="check-option" data-correct="false">A hardware process where qubits lose their quantum properties due to heat.</button>
+        <button class="check-option" data-correct="false">The eventual decline of quantum computing research funding.</button>
+        <button class="check-option" data-correct="false">A technique for converting a classical algorithm into a quantum one.</button>
+        <button class="check-option" data-correct="true">Discovering a classical algorithm that matches a previously claimed quantum speedup.</button>
+      </div>
+      <div class="check-feedback">Dequantization happens when researchers find a classical algorithm - often using clever sampling techniques - that closes the gap on an advantage a quantum algorithm was thought to have, as happened with HHL after Tang's 2018 result.</div>
+    </div>
+
+    <nav class="lesson-nav">
+      <a href="04-interference.html" class="btn btn-soft">
+        <i class="fa-solid fa-arrow-left"></i> Previous
+      </a>
+      <a href="05-entanglement.html" class="btn btn-primary btn-nav-next">
+        Next: Entanglement <i class="fa-solid fa-arrow-right"></i>
+      </a>
+    </nav>
+  </div>
+
+  <footer class="site-footer">
+    <p>© Quantum Sandbox • Ritayush Suchismita Dey</p>
+  </footer>
+
+  <script src="../lesson.js"></script>
+</body>
+</html>

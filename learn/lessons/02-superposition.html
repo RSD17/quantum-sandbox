@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Superposition | Quantum Sandbox</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="../../logo-favicon-32x32.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="stylesheet" href="../../style.css" />
+  <link rel="stylesheet" href="../lesson.css" />
+</head>
+<body class="dark lesson-page">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">
+        <img src="../../quantum-sandbox-logo.png" alt="Quantum Sandbox logo" />
+      </div>
+      <div>
+        <h1>Quantum Sandbox</h1>
+        <p>An Interactive Quantum Circuit Playground</p>
+      </div>
+    </div>
+    <div class="top-actions" style="gap:8px">
+      <a href="../index.html" class="btn btn-soft">
+        <i class="fa-solid fa-graduation-cap"></i>
+        <span>All Lessons</span>
+      </a>
+      <a href="../../index.html" class="btn btn-soft">
+        <i class="fa-solid fa-flask"></i>
+        <span>Sandbox</span>
+      </a>
+      <button id="themeBtn" class="btn btn-soft icon-btn" aria-label="Toggle theme">
+        <i id="themeIcon" class="fa-solid fa-sun"></i>
+      </button>
+    </div>
+  </header>
+
+  <div class="lesson-wrap">
+    <nav class="lesson-breadcrumb">
+      <a href="../index.html">Learn</a>
+      <span class="sep">/</span>
+      <span>Part 1 - Foundations</span>
+      <span class="sep">/</span>
+      <span class="current">Superposition</span>
+    </nav>
+
+    <div class="lesson-meta">
+      <span class="lesson-part-label">Part 1 - Foundations</span>
+      <span class="lesson-read-time"><i class="fa-regular fa-clock"></i> 10 min read</span>
+    </div>
+
+    <h1 class="lesson-title">Superposition</h1>
+    <p class="lesson-subtitle">A qubit is not just a coin that can be heads or tails. Before you look at it, it is genuinely both - and the math behind that "both" is surprisingly precise and useful.</p>
+
+    <section class="lesson-section">
+      <h2>The classical bit vs. the qubit</h2>
+      <p>In classical computing, every piece of information comes down to bits - switches that are either off (0) or on (1). Nothing in between. The entire history of digital computing is built on that binary foundation.</p>
+      <p>A qubit follows different rules. Instead of being stuck in one state, a qubit can exist in a <strong>superposition</strong> - a blend of |0⟩ and |1⟩ at the same time. We write the two possible states as |0⟩ and |1⟩ (the brackets and vertical bar are just notation physicists use, called "ket" notation). A qubit in superposition is written as a weighted combination of both: some amount of |0⟩ plus some amount of |1⟩.</p>
+      <p>The amounts are not just percentages. They are called <strong>amplitudes</strong>, and they are complex numbers - numbers that have both a real part and an imaginary part. The probability of measuring |0⟩ is the square of the amplitude's magnitude, and similarly for |1⟩. The two probabilities always add up to exactly 100%. Think of it like a recipe: the amplitudes are the precise quantities of two ingredients blended together, and squaring them just converts "how much of each" into "how likely each one is to show up when you taste the result."</p>
+    </section>
+
+    <section class="lesson-section">
+      <h2>The Hadamard gate: the superposition switch</h2>
+      <p>If a qubit starts in |0⟩ (a definite zero, with 100% chance of measuring 0), how do you put it into superposition? You use a <strong>gate</strong>. Gates are the quantum equivalent of logic gates in classical computing - they transform the qubit state.</p>
+      <p>The most important gate for creating superposition is the <strong>Hadamard gate</strong>, written H. Applying H to |0⟩ creates a perfect 50/50 superposition: the qubit has exactly a 50% chance of measuring as 0 and a 50% chance of measuring as 1. The same gate applied to |1⟩ also creates superposition, but with a phase difference - the amplitudes point in opposite directions. Picture two waves that look identical in height but are offset, one peaking where the other dips - measuring either wave alone tells you nothing about that offset, but the offset still changes what happens when the waves later combine. That phase difference turns out to be crucial for interference, which you will explore in Lesson 4.</p>
+      <p>Here is the key insight: superposition is not the same as randomness or uncertainty. When a qubit is in superposition, it is in a precise, well-defined mathematical state. The "both at once" is not a gap in our knowledge - it is the actual physical situation. This is what makes quantum mechanics genuinely strange compared to anything in everyday experience.</p>
+    </section>
+
+    <section class="lesson-section">
+      <h2>The Bloch sphere</h2>
+      <p>There is a beautiful way to visualize a single qubit's state called the <strong>Bloch sphere</strong>. Imagine a globe. The north pole represents |0⟩. The south pole represents |1⟩. Any point on the surface represents a valid qubit state - any superposition you can construct.</p>
+      <p>When you apply H to |0⟩ (north pole), the state moves to the equator, exactly halfway between north and south - perfect superposition. The Bloch sphere makes it visual: applying gates rotates the arrow (called the Bloch vector) around the sphere.</p>
+      <p>Phase - the imaginary part of the amplitude - is encoded in the direction around the equator. Two states can both have 50% probability of each outcome but point in different directions on the equator. They are different states with different behavior in later operations, even though a single measurement cannot distinguish them.</p>
+    </section>
+
+    <!-- Interactive: superposition probability explorer -->
+    <div class="prob-slider-wrap">
+      <div class="prob-slider-label"><i class="fa-solid fa-sliders"></i> Superposition Explorer. Drag to adjust</div>
+      <div class="prob-bars">
+        <div class="prob-bar-group">
+          <div class="prob-bar-label">|0⟩ (alpha)</div>
+          <div class="prob-bar-track"><div class="prob-bar-fill alpha" id="alphaFill" style="width:50%"></div></div>
+          <div class="prob-bar-pct prob-alpha-pct">50%</div>
+        </div>
+        <div class="prob-bar-group">
+          <div class="prob-bar-label">|1⟩ (beta)</div>
+          <div class="prob-bar-track"><div class="prob-bar-fill beta" id="betaFill" style="width:50%"></div></div>
+          <div class="prob-bar-pct prob-beta-pct">50%</div>
+        </div>
+      </div>
+      <input class="prob-slider" type="range" min="0" max="100" value="50" aria-label="Probability of measuring |0⟩" />
+      <div class="prob-slider-caption">Perfect 50/50 superposition - the outcome is genuinely random until measured.</div>
+    </div>
+
+    <div class="lesson-demo-callout">
+      <div class="demo-callout-label"><i class="fa-solid fa-flask"></i> Try it in the Sandbox</div>
+      <div class="demo-callout-title">Create superposition with the Hadamard gate</div>
+      <ol class="demo-steps">
+        <li data-n="1">Start: qubit is |0⟩. Bloch sphere at north pole, 100% |0⟩ probability.</li>
+        <li data-n="2">Click <strong>H</strong>. The arrow shifts to the equator, both bars hit 50%.</li>
+        <li data-n="3">Click <strong>H</strong> again. Qubit snaps back to |0⟩. H applied twice undoes itself.</li>
+        <li data-n="4">Switch preset to <strong>|1⟩</strong>, then apply H, shifts to the equator again, but on the opposite side.</li>
+        <li data-n="5">Hit <strong>Measure</strong>: the result is random but should average 50/50 over multiple tries.</li>
+      </ol>
+      <iframe
+        class="lesson-sandbox"
+        src="../../index.html?embed=1&preset=ZERO&mode=basic&depth=4"
+        title="Quantum Sandbox - Superposition demo"
+        allow="cross-origin-isolated"
+      ></iframe>
+    </div>
+
+    <section class="lesson-section">
+      <h2>What superposition is not</h2>
+      <p>It is tempting to think of superposition as the qubit being "secretly" 0 or secretly 1, and we just don't know which one until we measure. This would make it like a coin that is already heads or tails inside a closed box - we just haven't looked yet.</p>
+      <p>Quantum mechanics has been tested exhaustively, and this classical interpretation is wrong. Superposition is not a lack of knowledge. Experiments show that a qubit in superposition behaves as if it genuinely is in both states simultaneously - the two possibilities interfere with each other in ways that no "hidden coin" model can explain. The most famous such test is called Bell's theorem, which you will revisit when we get to entanglement.</p>
+      <p>This is the hardest conceptual leap in quantum computing, and even physicists who have worked with quantum mechanics for decades find it philosophically strange. The right approach is to accept the math: the state is a precise description of a real physical system, and it predicts experiments perfectly.</p>
+    </section>
+
+    <section class="lesson-section">
+      <h2>Why superposition matters for computing</h2>
+      <p>With one qubit in superposition, you are working with a blend of two states. With two qubits in superposition simultaneously, you are working with a blend of four states. With three qubits, eight states. With n qubits, you are processing 2ⁿ states at once.</p>
+      <p>With 300 qubits all in superposition, 2³⁰⁰ is more than the number of atoms in the visible universe. This exponential growth is the source of the quantum computing advantage - but only if you can use interference and entanglement to extract useful answers from it. Just having qubits in superposition is not enough on its own. The real power comes from engineering what happens when you measure.</p>
+    </section>
+
+    <div class="lesson-takeaway">
+      <div class="takeaway-label"><i class="fa-solid fa-bolt"></i> Key takeaway</div>
+      <p class="takeaway-text">Superposition is not uncertainty or randomness - it is a precise physical state where a qubit genuinely exists as a weighted combination of |0⟩ and |1⟩. The Hadamard gate creates (and destroys) superposition, and the Bloch sphere gives you a geometric picture of every possible qubit state.</p>
+    </div>
+
+    <div class="lesson-check">
+      <div class="check-label"><i class="fa-solid fa-circle-question"></i> Knowledge check · Question 1 of 4</div>
+      <p class="check-question">How is the probability of measuring |0⟩ related to its amplitude?</p>
+      <div class="check-options">
+        <button class="check-option" data-correct="false">The probability equals the amplitude directly.</button>
+        <button class="check-option" data-correct="false">The probability is the amplitude divided by 2.</button>
+        <button class="check-option" data-correct="true">The probability is the square of the amplitude's magnitude.</button>
+        <button class="check-option" data-correct="false">The probability is always 50%, regardless of the amplitude.</button>
+      </div>
+      <div class="check-feedback">Amplitudes are complex numbers that describe the qubit's state precisely. Squaring an amplitude's magnitude converts it into the probability of observing that outcome, and the two probabilities always add up to 100%.</div>
+    </div>
+
+    <div class="lesson-check">
+      <div class="check-label"><i class="fa-solid fa-circle-question"></i> Knowledge check · Question 2 of 4</div>
+      <p class="check-question">What happens if you apply the Hadamard gate twice in a row to a qubit?</p>
+      <div class="check-options">
+        <button class="check-option" data-correct="false">The qubit ends up in a deeper, more mixed superposition.</button>
+        <button class="check-option" data-correct="true">The qubit returns to its original state.</button>
+        <button class="check-option" data-correct="false">The qubit becomes entangled with itself.</button>
+        <button class="check-option" data-correct="false">The gate has no effect the second time, so the qubit stays at 50/50.</button>
+      </div>
+      <div class="check-feedback">H is its own inverse: applying it twice undoes the first application, snapping the qubit back to where it started. You can see this directly in the Sandbox demo above.</div>
+    </div>
+
+    <div class="lesson-check">
+      <div class="check-label"><i class="fa-solid fa-circle-question"></i> Knowledge check · Question 3 of 4</div>
+      <p class="check-question">Two qubit states both have a 50% chance of measuring 0 and 50% chance of measuring 1, but they sit at different points on the Bloch sphere's equator. What does this tell you?</p>
+      <div class="check-options">
+        <button class="check-option" data-correct="false">They are actually the same state; the equator position doesn't matter.</button>
+        <button class="check-option" data-correct="false">One of the two states must be measured incorrectly.</button>
+        <button class="check-option" data-correct="false">They will always produce identical results in every future operation.</button>
+        <button class="check-option" data-correct="true">They differ in phase, which a single measurement can't reveal but later operations can.</button>
+      </div>
+      <div class="check-feedback">Position around the equator encodes phase. A single measurement only reveals the |0⟩/|1⟩ probabilities, so two states with the same probabilities but different phase look identical at that point - but they behave differently once you apply further gates, especially in interference.</div>
+    </div>
+
+    <div class="lesson-check">
+      <div class="check-label"><i class="fa-solid fa-circle-question"></i> Knowledge check · Question 4 of 4</div>
+      <p class="check-question">Why does putting many qubits into superposition together matter for computing power?</p>
+      <div class="check-options">
+        <button class="check-option" data-correct="false">Each extra qubit doubles the clock speed of the processor.</button>
+        <button class="check-option" data-correct="true">n qubits in superposition represent 2ⁿ states at once, growing exponentially with each added qubit.</button>
+        <button class="check-option" data-correct="false">More qubits just means more memory to store the same number of states.</button>
+        <button class="check-option" data-correct="false">It guarantees a useful answer is extracted automatically on measurement.</button>
+      </div>
+      <div class="check-feedback">Each additional qubit doubles the number of states represented simultaneously - 2ⁿ for n qubits. That exponential scaling is the raw resource behind quantum advantage, though interference and entanglement are still needed to turn it into a useful answer.</div>
+    </div>
+
+    <nav class="lesson-nav">
+      <a href="quantum-notation.html" class="btn btn-soft">
+        <i class="fa-solid fa-arrow-left"></i> Previous
+      </a>
+      <a href="03-measurement.html" class="btn btn-primary btn-nav-next">
+        Next: Measurement <i class="fa-solid fa-arrow-right"></i>
+      </a>
+    </nav>
+  </div>
+
+  <footer class="site-footer">
+    <p>© Quantum Sandbox • Ritayush Suchismita Dey</p>
+  </footer>
+
+  <script src="../lesson.js"></script>
+</body>
+</html>

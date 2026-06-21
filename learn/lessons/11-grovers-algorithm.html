@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Grover's Algorithm | Quantum Sandbox</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="../../logo-favicon-32x32.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="stylesheet" href="../../style.css" />
+  <link rel="stylesheet" href="../lesson.css" />
+</head>
+<body class="dark lesson-page">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">
+        <img src="../../quantum-sandbox-logo.png" alt="Quantum Sandbox logo" />
+      </div>
+      <div>
+        <h1>Quantum Sandbox</h1>
+        <p>An Interactive Quantum Circuit Playground</p>
+      </div>
+    </div>
+    <div class="top-actions" style="gap:8px">
+      <a href="../index.html" class="btn btn-soft">
+        <i class="fa-solid fa-graduation-cap"></i>
+        <span>All Lessons</span>
+      </a>
+      <a href="../../index.html" class="btn btn-soft">
+        <i class="fa-solid fa-flask"></i>
+        <span>Sandbox</span>
+      </a>
+      <button id="themeBtn" class="btn btn-soft icon-btn" aria-label="Toggle theme">
+        <i id="themeIcon" class="fa-solid fa-sun"></i>
+      </button>
+    </div>
+  </header>
+
+  <div class="lesson-wrap">
+    <nav class="lesson-breadcrumb">
+      <a href="../index.html">Learn</a>
+      <span class="sep">/</span>
+      <span>Part 3 - Algorithms</span>
+      <span class="sep">/</span>
+      <span class="current">Grover's Algorithm</span>
+    </nav>
+
+    <div class="lesson-meta">
+      <span class="lesson-part-label">Part 3 - Algorithms</span>
+      <span class="lesson-read-time"><i class="fa-regular fa-clock"></i> 11 min read</span>
+    </div>
+
+    <h1 class="lesson-title">Grover's Algorithm</h1>
+    <p class="lesson-subtitle">If you need to find a needle in a haystack and the only tool you have is checking one item at a time, classical computers need N/2 checks on average. Grover's algorithm does it in about √N checks - using interference to amplify the right answer.</p>
+
+    <section class="lesson-section">
+      <h2>The search problem</h2>
+      <p>Imagine a database of N items, exactly one of which satisfies a certain condition. You have a function that can check any single item and tell you whether it is the target. How many times do you need to call that function to find the target with high probability?</p>
+      <p>Classically, there is no shortcut for an unstructured search (one where the items are not sorted or organized in any useful way). On average, you check N/2 items before finding the target. In the worst case, you check all N. Think of a phone book with the names ripped out and only numbers left in random order - there's no "go to the middle and compare" trick like a sorted list gives you. You just have to start dialing.</p>
+      <p>Lov Grover showed in 1996 that a quantum computer can find the target in approximately √N queries - a quadratic speedup. For a database of one million items, classical search needs around 500,000 queries on average. Grover's needs about 1,000.</p>
+    </section>
+
+    <section class="lesson-section">
+      <h2>The oracle: a reversible checker</h2>
+      <p>Grover's algorithm starts with a component called the <strong>oracle</strong>. The oracle is a quantum gate (or circuit) that "marks" the target item by flipping its phase: it applies a phase of −1 to the target state and leaves all other states unchanged. This phase flip is invisible to a direct measurement, but it sets up the interference pattern that Grover's uses.</p>
+      <p>The oracle knows the answer and can apply a phase to it. But this might seem circular - if the oracle knows the answer, why search? The key is that the oracle can check a given item but cannot tell you which item to check. It marks the target when you present it, but you still need to construct the quantum state that, after measurement, reveals which item the oracle marks. It's like a locked diary with a sentence that only glows under UV light when you shine the light on the right page - the diary "knows" which page is right, but it still won't just tell you the page number. You have to shine the light across every page yourself and watch for the glow.</p>
+    </section>
+
+    <section class="lesson-section">
+      <h2>Grover's iteration: amplifying the right answer</h2>
+      <p>Grover's algorithm works by iterating two steps repeatedly:</p>
+      <p><strong>Step 1 - Oracle phase flip.</strong> Apply the oracle to the current quantum state. The target state gets a phase flip (its amplitude goes from positive to negative), while all other states stay positive. Visually, the target amplitude now points in the opposite direction to all others.</p>
+      <p><strong>Step 2 - Inversion about the mean.</strong> Apply a transformation that reflects all amplitudes around their average. This is also called the diffusion operator. Because the target amplitude is negative (and therefore pulls the average down), reflecting around the mean moves the target amplitude upward and the non-target amplitudes downward. Picture a row of springboards all set to roughly the same height, except one that's been pushed down below the floor - flipping everything around the average height launches that one board the highest while barely nudging the others.</p>
+      <p>After one iteration, the target state has a larger amplitude than before, and all non-targets have slightly smaller amplitudes. Repeat this iteration roughly √N times, and the target amplitude has grown to nearly 1 - meaning measurement will yield the target with near-certainty.</p>
+    </section>
+
+    <section class="lesson-section">
+      <h2>Why exactly √N iterations?</h2>
+      <p>The amplitude amplification follows a sinusoidal pattern. After k iterations, the probability of measuring the target is approximately sin²((2k+1)θ) where θ is a small angle determined by N. The optimal number of iterations is around π/(4θ) ≈ π√N/4, which grows as √N. Stopping too early leaves the target with insufficient probability. Stopping too late overshoots - the probability loops back down as the algorithm "rotates past" the correct angle.</p>
+      <p>This is a subtle but important point: Grover's algorithm has an optimal stopping point. Running it too many times actually makes the result worse - like over-tightening a guitar string until it slips out of tune again instead of staying perfectly pitched. For unstructured search, Grover's algorithm is provably optimal - no quantum algorithm can do better than √N queries.</p>
+    </section>
+
+    <div class="lesson-demo-callout">
+      <div class="demo-callout-label"><i class="fa-solid fa-flask"></i> Try it in the Sandbox</div>
+      <div class="demo-callout-title">Run a 2-qubit Grover search</div>
+      <ol class="demo-steps">
+        <li data-n="1">Open Algorithm Preset and select <strong>Grover (2-qubit)</strong>.</li>
+        <li data-n="2">Examine the loaded circuit. H layer, then oracle, then diffusion layer.</li>
+        <li data-n="3">Check the probability display. One basis state has a much higher probability than the rest.</li>
+        <li data-n="4">Click <strong>Measure All</strong>. Result should match the target. Reset and repeat a few times.</li>
+        <li data-n="5">With N = 4 states, one iteration is optimal. The target reaches near 100% probability.</li>
+      </ol>
+      <iframe
+        class="lesson-sandbox"
+        src="../../index.html?embed=1&mode=expert"
+        title="Quantum Sandbox - Grover's algorithm demo"
+        allow="cross-origin-isolated"
+      ></iframe>
+    </div>
+
+    <section class="lesson-section">
+      <h2>Applications beyond database search</h2>
+      <p>Grover's algorithm is not just for searching databases. It can be applied to any problem where you have a function that can recognize a correct answer but finding that answer requires exhaustive search. This includes:</p>
+      <p><strong>Inverting hash functions.</strong> Cryptographic hash functions are one-way functions: easy to compute in the forward direction, computationally infeasible to reverse - like scrambling an egg is easy but unscrambling it back into a whole egg isn't. Grover's algorithm can search for a preimage (an input that produces a given hash) in √N time instead of N, effectively halving the security strength in bits. This is why post-quantum cryptographic standards are being developed now.</p>
+      <p><strong>NP-complete problems.</strong> Many important optimization problems are NP-complete - no known polynomial-time classical algorithm exists. Grover's provides a quadratic speedup for brute-force approaches to these problems, though it does not solve them polynomially in quantum time either. A √N speedup on an exponentially hard problem is still exponential, just a smaller exponent.</p>
+      <p><strong>Amplitude estimation.</strong> A generalization of Grover's, amplitude estimation, is used as a subroutine in many quantum algorithms including quantum Monte Carlo methods relevant to finance.</p>
+    </section>
+
+    <div class="lesson-takeaway">
+      <div class="takeaway-label"><i class="fa-solid fa-bolt"></i> Key takeaway</div>
+      <p class="takeaway-text">Grover's algorithm uses oracle phase flips and inversion-about-the-mean to amplify the probability of the target state through interference, finding it in roughly √N queries instead of N. It is provably optimal for unstructured search and has implications for cryptography, optimization, and as a subroutine in larger algorithms.</p>
+    </div>
+
+    <div class="lesson-check">
+      <div class="check-label"><i class="fa-solid fa-circle-question"></i> Knowledge check · Question 1 of 4</div>
+      <p class="check-question">Why can't a classical computer beat checking N/2 items on average for an unstructured search?</p>
+      <div class="check-options">
+        <button class="check-option" data-correct="true">The items aren't sorted or organized, so there's no way to narrow down where the target might be without checking candidates one by one.</button>
+        <button class="check-option" data-correct="false">Classical computers are physically too slow to check more than N/2 items.</button>
+        <button class="check-option" data-correct="false">Classical computers can only check even-numbered items.</button>
+        <button class="check-option" data-correct="false">The function that checks each item is not allowed to run more than N/2 times.</button>
+      </div>
+      <div class="check-feedback">With no structure to exploit (like a sorted list would give you), there's no smarter strategy than checking items in some order until you find the target - averaging N/2 checks.</div>
+    </div>
+
+    <div class="lesson-check">
+      <div class="check-label"><i class="fa-solid fa-circle-question"></i> Knowledge check · Question 2 of 4</div>
+      <p class="check-question">What does the Grover oracle actually do to the target state?</p>
+      <div class="check-options">
+        <button class="check-option" data-correct="false">It deletes the target state from the superposition entirely.</button>
+        <button class="check-option" data-correct="false">It increases the target state's amplitude directly, with no further steps needed.</button>
+        <button class="check-option" data-correct="false">It measures the target state and reports its index.</button>
+        <button class="check-option" data-correct="true">It flips the sign (phase) of the target state's amplitude while leaving all other amplitudes unchanged.</button>
+      </div>
+      <div class="check-feedback">The oracle applies a phase of −1 only to the target state. This phase flip is invisible to direct measurement but sets up the interference that the diffusion step later exploits.</div>
+    </div>
+
+    <div class="lesson-check">
+      <div class="check-label"><i class="fa-solid fa-circle-question"></i> Knowledge check · Question 3 of 4</div>
+      <p class="check-question">Why does inversion about the mean (the diffusion operator) boost the target amplitude specifically?</p>
+      <div class="check-options">
+        <button class="check-option" data-correct="false">It directly sets the target amplitude to 1 regardless of the other amplitudes.</button>
+        <button class="check-option" data-correct="true">Because the target's amplitude is negative, it sits furthest below the average - so reflecting all amplitudes around that average swings the target's value up the most.</button>
+        <button class="check-option" data-correct="false">It amplifies every amplitude equally, including the target's.</button>
+        <button class="check-option" data-correct="false">It removes all non-target amplitudes from the superposition.</button>
+      </div>
+      <div class="check-feedback">The target's negative amplitude pulls the mean down. Reflecting everything around that mean moves the target amplitude up sharply while the non-target amplitudes (already close to the mean) shift only slightly downward.</div>
+    </div>
+
+    <div class="lesson-check">
+      <div class="check-label"><i class="fa-solid fa-circle-question"></i> Knowledge check · Question 4 of 4</div>
+      <p class="check-question">What kind of speedup does Grover's algorithm give for brute-forcing an NP-complete problem?</p>
+      <div class="check-options">
+        <button class="check-option" data-correct="false">It turns an exponential-time problem into a polynomial-time one.</button>
+        <button class="check-option" data-correct="false">It provides no speedup at all for NP-complete problems.</button>
+        <button class="check-option" data-correct="true">It provides a quadratic speedup - the search is still exponential, just with a smaller exponent (square root of the brute-force time).</button>
+        <button class="check-option" data-correct="false">It guarantees a solution in a constant number of queries regardless of problem size.</button>
+      </div>
+      <div class="check-feedback">Grover's quadratic speedup shrinks the exponent but doesn't eliminate it - brute-force search on an NP-complete problem stays exponential, just smaller (√N instead of N).</div>
+    </div>
+
+    <nav class="lesson-nav">
+      <a href="09-error-correction.html" class="btn btn-soft">
+        <i class="fa-solid fa-arrow-left"></i> Previous
+      </a>
+      <a href="12-shors-algorithm.html" class="btn btn-primary btn-nav-next">
+        Next: Shor's Algorithm <i class="fa-solid fa-arrow-right"></i>
+      </a>
+    </nav>
+  </div>
+
+  <footer class="site-footer">
+    <p>© Quantum Sandbox • Ritayush Suchismita Dey</p>
+  </footer>
+
+  <script src="../lesson.js"></script>
+</body>
+</html>

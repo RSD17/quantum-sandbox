@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gates and Circuits | Quantum Sandbox</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="../../logo-favicon-32x32.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="stylesheet" href="../../style.css" />
+  <link rel="stylesheet" href="../lesson.css" />
+</head>
+<body class="dark lesson-page">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">
+        <img src="../../quantum-sandbox-logo.png" alt="Quantum Sandbox logo" />
+      </div>
+      <div>
+        <h1>Quantum Sandbox</h1>
+        <p>An Interactive Quantum Circuit Playground</p>
+      </div>
+    </div>
+    <div class="top-actions" style="gap:8px">
+      <a href="../index.html" class="btn btn-soft">
+        <i class="fa-solid fa-graduation-cap"></i>
+        <span>All Lessons</span>
+      </a>
+      <a href="../../index.html" class="btn btn-soft">
+        <i class="fa-solid fa-flask"></i>
+        <span>Sandbox</span>
+      </a>
+      <button id="themeBtn" class="btn btn-soft icon-btn" aria-label="Toggle theme">
+        <i id="themeIcon" class="fa-solid fa-sun"></i>
+      </button>
+    </div>
+  </header>
+
+  <div class="lesson-wrap">
+    <nav class="lesson-breadcrumb">
+      <a href="../index.html">Learn</a>
+      <span class="sep">/</span>
+      <span>Part 2 - How They Work</span>
+      <span class="sep">/</span>
+      <span class="current">Gates and Circuits</span>
+    </nav>
+
+    <div class="lesson-meta">
+      <span class="lesson-part-label">Part 2 - How They Work</span>
+      <span class="lesson-read-time"><i class="fa-regular fa-clock"></i> 12 min read</span>
+    </div>
+
+    <h1 class="lesson-title">Gates and Circuits</h1>
+    <p class="lesson-subtitle">Quantum gates are the operations of quantum computing - the building blocks that transform qubit states. A quantum circuit is a sequence of these gates applied in order. Understanding the common gates is the key to reading and writing quantum programs.</p>
+
+    <section class="lesson-section">
+      <h2>Gates as rotations</h2>
+      <p>Every single-qubit gate corresponds to a rotation of the Bloch sphere. This is not an approximation - it is exact. Every valid single-qubit quantum operation rotates the Bloch vector by some angle around some axis. Different gates correspond to different rotations.</p>
+      <p>This geometric picture is powerful. It means you can understand what any gate does by asking: which direction does it rotate the state, and by how much? It also explains why H applied twice cancels: you rotate 180° and then 180° again, returning to the start. And it explains why gates are reversible - rotation in one direction can always be undone by rotation in the opposite direction. Think of it like turning a steering wheel: turn it 90° left, then 90° right, and the wheel is back where it started - no information about the trip is lost.</p>
+    </section>
+
+    <section class="lesson-section">
+      <h2>The essential single-qubit gates</h2>
+      <p>Click any gate card to see a deeper explanation. Each gate is a precise rotation of the Bloch sphere.</p>
+    </section>
+
+    <div class="gate-ref-grid">
+      <div class="gate-ref-card" style="--gate-ref-color: #ff6b6b">
+        <div class="gate-ref-symbol">X</div>
+        <div class="gate-ref-name">Pauli-X</div>
+        <div class="gate-ref-desc">180° rotation around X axis. Flips |0⟩ to |1⟩.</div>
+        <div class="gate-ref-detail">The quantum NOT gate. Like a classical bit flip, but also works on superpositions. Applied twice it cancels, since two 180° rotations return to the start.</div>
+      </div>
+      <div class="gate-ref-card" style="--gate-ref-color: #f08c00">
+        <div class="gate-ref-symbol">Y</div>
+        <div class="gate-ref-name">Pauli-Y</div>
+        <div class="gate-ref-desc">180° rotation around Y axis. Flips bit AND phase.</div>
+        <div class="gate-ref-detail">Y flips the qubit like X but also injects an imaginary phase. The state |0⟩ becomes i|1⟩ and |1⟩ becomes -i|0⟩. Used in error correction and certain algorithm subroutines.</div>
+      </div>
+      <div class="gate-ref-card" style="--gate-ref-color: #6f42c1">
+        <div class="gate-ref-symbol">Z</div>
+        <div class="gate-ref-name">Pauli-Z</div>
+        <div class="gate-ref-desc">180° rotation around Z axis. Phase flip only.</div>
+        <div class="gate-ref-detail">Z leaves |0⟩ unchanged and flips the sign of |1⟩. Probabilities don't change, but this phase difference matters when followed by interference. Applied after H on |0⟩ and then another H: you get |1⟩ instead of |0⟩.</div>
+      </div>
+      <div class="gate-ref-card" style="--gate-ref-color: #339af0">
+        <div class="gate-ref-symbol">H</div>
+        <div class="gate-ref-name">Hadamard</div>
+        <div class="gate-ref-desc">Creates and destroys superposition.</div>
+        <div class="gate-ref-detail">The most important gate in quantum algorithms. H applied to |0⟩ gives (|0⟩+|1⟩)/√2 - perfect superposition. H applied twice cancels itself out. It is the switch that enters and exits the quantum regime.</div>
+      </div>
+      <div class="gate-ref-card" style="--gate-ref-color: #20c997">
+        <div class="gate-ref-symbol">S</div>
+        <div class="gate-ref-name">Phase-S</div>
+        <div class="gate-ref-desc">90° phase rotation on |1⟩. Quarter-turn.</div>
+        <div class="gate-ref-detail">S rotates the phase of |1⟩ by 90° without touching |0⟩. Applied 4 times it completes a full rotation and returns to the start. S = T², where T is the T gate. Critical in the Quantum Fourier Transform.</div>
+      </div>
+      <div class="gate-ref-card" style="--gate-ref-color: #fcc419">
+        <div class="gate-ref-symbol">T</div>
+        <div class="gate-ref-name">Phase-T</div>
+        <div class="gate-ref-desc">45° phase rotation on |1⟩. Eighth-turn.</div>
+        <div class="gate-ref-detail">T is the finest standard phase gate. It rotates |1⟩ by 45°. Used for precise phase control in long circuits. Along with H and CNOT, T completes the universal gate set - any quantum computation can be built from these three types.</div>
+      </div>
+    </div>
+
+    <section class="lesson-section">
+      <h2>Two-qubit gates: creating entanglement</h2>
+      <p>Single-qubit gates rotate one qubit. Two-qubit gates create correlations between two qubits - and entanglement. The most important two-qubit gate is the <strong>CNOT</strong> (Controlled-NOT). It has a control qubit and a target qubit: if the control is |1⟩, the target is flipped; if the control is |0⟩, nothing happens.</p>
+      <p>Other important two-qubit gates include the <strong>SWAP gate</strong>, which exchanges the states of two qubits. In the Sandbox's expert mode, you will also encounter the <strong>Toffoli gate</strong> (CCNOT) - a three-qubit gate that flips the target only when both controls are |1⟩, like a light switch that only turns on when two separate keys are both turned at once. The Toffoli gate makes the quantum gate set computationally universal, meaning it can simulate any classical logical operation.</p>
+    </section>
+
+    <section class="lesson-section">
+      <h2>Universal gate sets</h2>
+      <p>Just as classical computing can implement any logic using only NAND gates, quantum computing can implement any quantum operation using a small set of universal gates. One universal set is {H, T, CNOT}. Every quantum algorithm can be decomposed into some sequence of these three gate types.</p>
+      <p>This matters practically: when a quantum chip only natively supports a few gate types, any arbitrary gate can be approximated to arbitrary precision using sequences of those native gates - similar to how a few standard LEGO bricks can be combined to approximate almost any shape, even curves they were never molded to make directly. The Solovay-Kitaev theorem guarantees that this approximation is efficient - you do not need exponentially many gates to approximate a complex rotation.</p>
+      <p>It's worth being precise about what "universal" means here: it does not mean these are the only gates that exist. Mathematically, any unitary matrix is a valid quantum gate, and rotation angles are continuous - so there are infinitely many possible gates, most of which never get a name. The named gates in this lesson (and in the Sandbox's Gate Library) are simply a small, practical set that real algorithms are commonly built from. A "universal" set is just powerful enough to reach any of those infinite possibilities through composition, the same way infinite shades of color can be mixed from a handful of primary pigments.</p>
+    </section>
+
+    <!-- Bell state circuit flowchart -->
+    <section class="lesson-section">
+      <h2>Putting it together: building a Bell state</h2>
+      <p>Here is how gates compose into a real quantum circuit. This two-step sequence creates the simplest maximally entangled state - called a Bell state. Follow the flow:</p>
+    </section>
+
+    <div class="lesson-flowchart">
+      <div class="fc-node">
+        <div class="fc-node-label">Start</div>
+        <div class="fc-node-title">|00⟩</div>
+        <div class="fc-node-desc">Both qubits initialized to |0⟩. This is the default ground state - fully classical, no superposition, no entanglement.</div>
+      </div>
+      <div class="fc-arrow"></div>
+      <div class="fc-node">
+        <div class="fc-node-label">Step 1 - H gate on Q0</div>
+        <div class="fc-node-title">(|0⟩ + |1⟩)/√2 ⊗ |0⟩</div>
+        <div class="fc-node-desc">H puts Q0 into perfect superposition. Q1 is still |0⟩. The two qubits are still independent of each other.</div>
+      </div>
+      <div class="fc-arrow"></div>
+      <div class="fc-node">
+        <div class="fc-node-label">Step 2 - CNOT (Q0 control, Q1 target)</div>
+        <div class="fc-node-title">(|00⟩ + |11⟩)/√2</div>
+        <div class="fc-node-desc">CNOT flips Q1 whenever Q0 is |1⟩. Since Q0 is in superposition, the flip applies to both branches simultaneously. The qubits are now entangled.</div>
+      </div>
+      <div class="fc-arrow"></div>
+      <div class="fc-node" style="border-color: var(--accent); background: color-mix(in oklab, var(--accent), transparent 90%)">
+        <div class="fc-node-label" style="color: var(--accent)">Result - Bell State |Φ+⟩</div>
+        <div class="fc-node-title">Maximal Entanglement</div>
+        <div class="fc-node-desc">Measuring Q0 gives 50% |0⟩ or 50% |1⟩. But whichever it is, Q1 is instantly the same. Neither qubit has an independent state anymore.</div>
+      </div>
+    </div>
+
+    <div class="lesson-demo-callout">
+      <div class="demo-callout-label"><i class="fa-solid fa-flask"></i> Try it in the Sandbox</div>
+      <div class="demo-callout-title">Build your own circuits and observe gate effects</div>
+      <ol class="demo-steps">
+        <li data-n="1">Start with preset |0⟩ in Basic mode. 8 circuit slots available.</li>
+        <li data-n="2">Apply X: qubit flips to |1⟩. Apply X again: back to |0⟩. X is its own inverse.</li>
+        <li data-n="3">Try H → Z → H. The qubit ends at 100% |1⟩ (phase flip becomes a visible bit flip).</li>
+        <li data-n="4">Stack four S gates: S→S = Z, and S→S→S→S returns to the start.</li>
+        <li data-n="5">Experiment freely. |α|² + |β|² always stays exactly 1, no matter what you build.</li>
+      </ol>
+      <iframe
+        class="lesson-sandbox"
+        src="../../index.html?embed=1&preset=ZERO&mode=basic&depth=8"
+        title="Quantum Sandbox - Gates and Circuits demo"
+        allow="cross-origin-isolated"
+      ></iframe>
+    </div>
+
+    <section class="lesson-section">
+      <h2>Reading a quantum circuit diagram</h2>
+      <p>Quantum circuits are typically drawn as horizontal lines (one per qubit) with gate symbols placed on them. Time flows left to right. Single-qubit gates are boxes on one wire. Two-qubit gates span two wires and show a connection between them.</p>
+      <p>The circuit depth is the number of columns - the longest path through the circuit. The width is the number of qubits. Total gate count tells you roughly how many operations the quantum computer must perform. All three metrics matter for real hardware: more depth means more decoherence time, and more gates means more opportunities for error.</p>
+      <p>When you design a quantum circuit, you are balancing expressiveness (doing what you need computationally) against resource efficiency (keeping depth and gate count low enough to stay within the hardware's error budget). This optimization is one of the core skills of quantum programming.</p>
+    </section>
+
+    <section class="lesson-section">
+      <h2>Gate fidelity and circuit compilation</h2>
+      <p>On real hardware, every gate is implemented as a carefully timed pulse of microwave radiation (for superconducting qubits) or a laser pulse (for trapped ions). These pulses are not perfect - they introduce small errors. <strong>Gate fidelity</strong> measures how close to perfect a gate operation is: a fidelity of 99.9% means the gate introduces a 0.1% error probability on average.</p>
+      <p>Quantum circuit compilation is the process of taking a high-level circuit description and translating it to the specific native gates of a particular hardware chip, while also mapping logical qubits to physical qubits (accounting for which qubits are connected to each other). It's a bit like translating a recipe written for a professional kitchen into one a home cook can follow with a smaller set of pots, pans, and ingredients - some steps combine, others expand, and the order may have to change. This compilation step can dramatically increase or decrease the final gate count, which is why quantum software tools like Qiskit and Cirq spend significant effort on circuit optimization.</p>
+    </section>
+
+    <div class="lesson-takeaway">
+      <div class="takeaway-label"><i class="fa-solid fa-bolt"></i> Key takeaway</div>
+      <p class="takeaway-text">Quantum gates are rotations of the Bloch sphere. Single-qubit gates (X, Y, Z, H, S, T) manipulate one qubit's state. Two-qubit gates (CNOT, SWAP) create entanglement. The set {H, T, CNOT} is universal - any quantum computation can be built from these three types alone.</p>
+    </div>
+
+    <div class="lesson-check">
+      <div class="check-label"><i class="fa-solid fa-circle-question"></i> Knowledge check · Question 1 of 5</div>
+      <p class="check-question">Why does applying the Hadamard (H) gate twice in a row to a qubit return it to its original state?</p>
+      <div class="check-options">
+        <button class="check-option" data-correct="true">H corresponds to a 180° rotation of the Bloch sphere, so two applications complete a full 360° turn back to the start.</button>
+        <button class="check-option" data-correct="false">H only works once per qubit, so the second application does nothing.</button>
+        <button class="check-option" data-correct="false">The two H gates cancel because they are applied to different qubits.</button>
+        <button class="check-option" data-correct="false">H is not a real rotation, so repeated application has no defined effect.</button>
+      </div>
+      <div class="check-feedback">Every single-qubit gate is an exact rotation of the Bloch sphere. H rotates by 180°, so applying it twice is two 180° turns - a full circle back to where you started, the same way turning a steering wheel 180° twice returns it to center.</div>
+    </div>
+
+    <div class="lesson-check">
+      <div class="check-label"><i class="fa-solid fa-circle-question"></i> Knowledge check · Question 2 of 5</div>
+      <p class="check-question">What is the effect of applying the Z gate to a qubit that is in perfect 50/50 superposition, then measuring it?</p>
+      <div class="check-options">
+        <button class="check-option" data-correct="false">The measurement now always gives |1⟩ - Z flips the qubit.</button>
+        <button class="check-option" data-correct="true">The measurement still gives 50% |0⟩ and 50% |1⟩ - Z is a phase gate that doesn't change probabilities.</button>
+        <button class="check-option" data-correct="false">The measurement gives |0⟩ with 100% probability - Z collapses the superposition.</button>
+        <button class="check-option" data-correct="false">Z is undefined for a qubit in superposition.</button>
+      </div>
+      <div class="check-feedback">Z is a phase gate - it flips the sign of the |1⟩ amplitude but leaves |α|² and |β|² unchanged. A single measurement after Z gives the same statistics as before. The phase change only becomes visible through subsequent interference with other gates.</div>
+    </div>
+
+    <div class="lesson-check">
+      <div class="check-label"><i class="fa-solid fa-circle-question"></i> Knowledge check · Question 3 of 5</div>
+      <p class="check-question">In a CNOT gate, what determines whether the target qubit gets flipped?</p>
+      <div class="check-options">
+        <button class="check-option" data-correct="false">The target always flips, regardless of the control qubit's state.</button>
+        <button class="check-option" data-correct="false">The target flips only if it was previously measured.</button>
+        <button class="check-option" data-correct="false">The target flips based on a random 50/50 chance each time.</button>
+        <button class="check-option" data-correct="true">The target flips only when the control qubit is |1⟩; if the control is |0⟩, nothing happens.</button>
+      </div>
+      <div class="check-feedback">CNOT (Controlled-NOT) is the most important two-qubit gate: it flips the target qubit exactly when the control qubit is |1⟩, and leaves it unchanged when the control is |0⟩. This conditional flip is what creates entanglement when the control is in superposition.</div>
+    </div>
+
+    <div class="lesson-check">
+      <div class="check-label"><i class="fa-solid fa-circle-question"></i> Knowledge check · Question 4 of 5</div>
+      <p class="check-question">Which combination of gates is commonly described as a "universal gate set" for quantum computing?</p>
+      <div class="check-options">
+        <button class="check-option" data-correct="false">X, Y, and Z alone, since these cover every possible rotation.</button>
+        <button class="check-option" data-correct="false">Only the Hadamard gate, applied repeatedly in different circuits.</button>
+        <button class="check-option" data-correct="true">{H, T, CNOT} - any quantum algorithm can be decomposed into sequences of these three gate types.</button>
+        <button class="check-option" data-correct="false">S and T together, without needing any multi-qubit gates.</button>
+      </div>
+      <div class="check-feedback">Just as classical computing can build any logic circuit from NAND gates alone, quantum computing can build any quantum operation from the universal set {H, T, CNOT}. This is what lets hardware with a limited native gate set still run arbitrary algorithms.</div>
+    </div>
+
+    <div class="lesson-check">
+      <div class="check-label"><i class="fa-solid fa-circle-question"></i> Knowledge check · Question 5 of 5</div>
+      <p class="check-question">In a quantum circuit diagram, what does "circuit depth" refer to?</p>
+      <div class="check-options">
+        <button class="check-option" data-correct="false">The total number of qubits used anywhere in the circuit.</button>
+        <button class="check-option" data-correct="true">The number of columns in the circuit - the longest path of sequential gates through it.</button>
+        <button class="check-option" data-correct="false">The physical size of the quantum chip running the circuit.</button>
+        <button class="check-option" data-correct="false">The number of times the circuit must be repeated to get a reliable measurement.</button>
+      </div>
+      <div class="check-feedback">Circuit depth counts the columns, i.e. the longest sequential chain of gates a qubit passes through - not the total gate count or qubit count. Depth matters because more depth means more time for decoherence to creep in on real hardware.</div>
+    </div>
+
+    <nav class="lesson-nav">
+      <a href="06-real-qubits.html" class="btn btn-soft">
+        <i class="fa-solid fa-arrow-left"></i> Previous
+      </a>
+      <a href="08-exponential-advantage.html" class="btn btn-primary btn-nav-next">
+        Next: The Exponential Advantage <i class="fa-solid fa-arrow-right"></i>
+      </a>
+    </nav>
+  </div>
+
+  <footer class="site-footer">
+    <p>© Quantum Sandbox • Ritayush Suchismita Dey</p>
+  </footer>
+
+  <script src="../lesson.js"></script>
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Interference | Quantum Sandbox</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="../../logo-favicon-32x32.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="stylesheet" href="../../style.css" />
+  <link rel="stylesheet" href="../lesson.css" />
+</head>
+<body class="dark lesson-page">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">
+        <img src="../../quantum-sandbox-logo.png" alt="Quantum Sandbox logo" />
+      </div>
+      <div>
+        <h1>Quantum Sandbox</h1>
+        <p>An Interactive Quantum Circuit Playground</p>
+      </div>
+    </div>
+    <div class="top-actions" style="gap:8px">
+      <a href="../index.html" class="btn btn-soft">
+        <i class="fa-solid fa-graduation-cap"></i>
+        <span>All Lessons</span>
+      </a>
+      <a href="../../index.html" class="btn btn-soft">
+        <i class="fa-solid fa-flask"></i>
+        <span>Sandbox</span>
+      </a>
+      <button id="themeBtn" class="btn btn-soft icon-btn" aria-label="Toggle theme">
+        <i id="themeIcon" class="fa-solid fa-sun"></i>
+      </button>
+    </div>
+  </header>
+
+  <div class="lesson-wrap">
+    <nav class="lesson-breadcrumb">
+      <a href="../index.html">Learn</a>
+      <span class="sep">/</span>
+      <span>Part 1 - Foundations</span>
+      <span class="sep">/</span>
+      <span class="current">Interference</span>
+    </nav>
+
+    <div class="lesson-meta">
+      <span class="lesson-part-label">Part 1 - Foundations</span>
+      <span class="lesson-read-time"><i class="fa-regular fa-clock"></i> 10 min read</span>
+    </div>
+
+    <h1 class="lesson-title">Interference</h1>
+    <p class="lesson-subtitle">Interference is what turns superposition from a curiosity into a computational tool. By shaping how quantum paths reinforce or cancel each other, quantum algorithms can amplify right answers and suppress wrong ones.</p>
+
+    <section class="lesson-section">
+      <h2>Waves that add and cancel</h2>
+      <p>You already know interference from everyday life. When two waves on water meet crest-to-crest, they add together - constructive interference. When a crest meets a trough, they cancel - destructive interference. This is why noise-canceling headphones work: they generate sound waves that are the exact negative of ambient noise, and the two cancel out.</p>
+      <p>Quantum mechanics works the same way because quantum states are described by wave-like amplitudes - complex numbers with both magnitude and direction (phase). When two quantum paths lead to the same outcome, their amplitudes add together. If the phases are aligned, the paths reinforce each other and the outcome becomes more probable. If the phases are opposite, the paths cancel and the outcome becomes less probable - potentially all the way to zero.</p>
+      <p>This is the core mechanism quantum algorithms exploit. You engineer a calculation so that all the computational paths leading to the correct answer constructively interfere, while all paths leading to incorrect answers destructively interfere.</p>
+    </section>
+
+    <section class="lesson-section">
+      <h2>Phase: the hidden coordinate</h2>
+      <p>In Lesson 2, you saw that a qubit in superposition has two amplitudes - α for |0⟩ and β for |1⟩ - and that measurement probabilities depend on their magnitudes squared. But there is more to the state than probabilities. The complex number β can be written as |β| × e^(iφ), where φ is the <strong>phase</strong> - essentially the direction the amplitude points in the complex plane.</p>
+      <p>Phase is invisible to a single measurement. If you measure twice - once after some gates, once after different gates - and both times give the same probability distribution, you cannot tell from measurement alone whether the phases are different. But phases profoundly affect what happens when you apply more gates. Phase is the mechanism by which interference works.</p>
+      <p>Think of phase like the timing of two people clapping. If you only listen to one clap, you cannot tell whether it was "on beat" or "off beat" relative to the other person - a single clap sounds the same either way. But if they clap again together, claps that are in sync (in phase) land louder, while claps that are out of sync can cancel into near silence. The phase itself is silent until the second event reveals it.</p>
+      <p>On the Bloch sphere, phase corresponds to how far around the equator the arrow points. Two states at the equator can look the same in terms of probability (both at 50/50) but point in completely different equatorial directions, meaning they will interact differently with subsequent gates.</p>
+    </section>
+
+    <section class="lesson-section">
+      <h2>H–Z–H: a classic interference pattern</h2>
+      <p>One of the simplest demonstrations of interference is the sequence: apply H, then Z, then H again.</p>
+      <p>Starting from |0⟩: H puts the qubit in perfect superposition - the arrow moves to the equator. Then Z applies a phase flip: it flips the sign of the |1⟩ component without changing the probability. The probabilities still look like 50/50. Then H again transforms this back - and because of the phase flip that Z introduced, the superposition now interferes in a way that makes the state collapse cleanly to |1⟩ with 100% probability.</p>
+      <p>Without the Z gate, H–H brings you back to |0⟩. With the Z gate in between, you end up at |1⟩. The two-gate sequence H–Z–H is actually equivalent to applying a single X gate (a bit flip). Interference - caused by the phase manipulation - converted a phase operation into a probability change. This is the essence of how quantum gates can interact in non-obvious ways.</p>
+    </section>
+
+    <div class="lesson-demo-callout">
+      <div class="demo-callout-label"><i class="fa-solid fa-flask"></i> Try it in the Sandbox</div>
+      <div class="demo-callout-title">Watch interference turn phase into probability</div>
+      <ol class="demo-steps">
+        <li data-n="1">H → Z → H is pre-loaded. The qubit ends at 100% |1⟩.</li>
+        <li data-n="2">Remove Z (hover it, click the red badge). Now H → H returns to |0⟩. No interference.</li>
+        <li data-n="3">Add Z back in slot 2. |1⟩ probability jumps back to 100%.</li>
+        <li data-n="4">Replace Z with S: partial interference, qubit lands in superposition.</li>
+      </ol>
+      <iframe
+        class="lesson-sandbox"
+        src="../../index.html?embed=1&preset=ZERO&gates=H,Z,H&mode=basic&depth=4"
+        title="Quantum Sandbox - Interference demo"
+        allow="cross-origin-isolated"
+      ></iframe>
+    </div>
+
+    <section class="lesson-section">
+      <h2>Why interference is the heart of quantum algorithms</h2>
+      <p>Every major quantum algorithm is fundamentally a carefully engineered interference pattern. Grover's search algorithm uses repeated interference to increase the probability of the target item with each iteration. Shor's factoring algorithm uses the Quantum Fourier Transform - an algorithm built entirely on interference - to extract the period of a function, which then reveals the factors of a large number.</p>
+      <p>The reason quantum computers can explore vast spaces "simultaneously" is not magic - it is superposition. But the reason they can produce useful answers (rather than just random results) is interference. Superposition gives you all the paths; interference selects the right one.</p>
+      <p>A useful mental model: think of a quantum algorithm as a maze where every path is explored at once (superposition), but at the exit, all the dead-end paths cancel each other out (destructive interference) and only the correct solution pathway reinforces (constructive interference). You measure and find yourself at the correct exit with high probability.</p>
+    </section>
+
+    <div class="lesson-takeaway">
+      <div class="takeaway-label"><i class="fa-solid fa-bolt"></i> Key takeaway</div>
+      <p class="takeaway-text">Interference is how quantum algorithms make the right answer overwhelmingly probable. Phase - the direction of a complex amplitude - is invisible to direct measurement but controls interference. Quantum algorithms engineer phase manipulations (using gates like Z, S, T) so that paths to wrong answers cancel out and paths to correct answers reinforce.</p>
+    </div>
+
+    <div class="lesson-check">
+      <div class="check-label"><i class="fa-solid fa-circle-question"></i> Knowledge check · Question 1 of 3</div>
+      <p class="check-question">Two waves meet crest-to-trough. What kind of interference is this, and what happens to the resulting amplitude?</p>
+      <div class="check-options">
+        <button class="check-option" data-correct="true">Destructive interference - the amplitudes cancel, reducing or eliminating the resulting wave.</button>
+        <button class="check-option" data-correct="false">No interference - waves only interact in quantum systems, not water.</button>
+        <button class="check-option" data-correct="false">Constructive interference - the amplitude doubles.</button>
+        <button class="check-option" data-correct="false">Constructive interference - the wave's frequency increases.</button>
+      </div>
+      <div class="check-feedback">Crest-to-trough is destructive interference: the two waves are out of step, so they subtract from each other rather than reinforcing - the same principle noise-canceling headphones exploit.</div>
+    </div>
+
+    <div class="lesson-check">
+      <div class="check-label"><i class="fa-solid fa-circle-question"></i> Knowledge check · Question 2 of 3</div>
+      <p class="check-question">After applying Z to a qubit in perfect 50/50 superposition, what do the probability bars show?</p>
+      <div class="check-options">
+        <button class="check-option" data-correct="false">100% for |0⟩ - the Z gate flips the qubit to a definite state.</button>
+        <button class="check-option" data-correct="false">0% for |0⟩, 100% for |1⟩ - Z is a bit flip gate.</button>
+        <button class="check-option" data-correct="true">Still 50% for each - Z changes the phase but not the measurement probabilities.</button>
+        <button class="check-option" data-correct="false">Random - Z introduces randomness into the state.</button>
+      </div>
+      <div class="check-feedback">The Z gate is a phase gate - it flips the sign of the |1⟩ amplitude but leaves both probabilities unchanged at 50/50. Its effect only shows up in subsequent interference when combined with gates like H.</div>
+    </div>
+
+    <div class="lesson-check">
+      <div class="check-label"><i class="fa-solid fa-circle-question"></i> Knowledge check · Question 3 of 3</div>
+      <p class="check-question">Why does the gate sequence H-Z-H starting from |0⟩ end up at |1⟩ with 100% probability, while H-H alone returns to |0⟩?</p>
+      <div class="check-options">
+        <button class="check-option" data-correct="false">Because Z adds extra probability that H cannot remove.</button>
+        <button class="check-option" data-correct="false">Because applying three gates in a row always flips the final result.</button>
+        <button class="check-option" data-correct="false">Because Z measures the qubit, forcing it into |1⟩ before the second H is applied.</button>
+        <button class="check-option" data-correct="true">Because Z flips the phase of the |1⟩ component while qubit is in superposition, so the second H interferes differently than it would without that phase flip.</button>
+      </div>
+      <div class="check-feedback">Z itself doesn't change probabilities - it only changes phase. But that phase change determines how the second H's interference plays out, converting what was a silent phase flip into a visible change in measurement outcome (equivalent to an X gate).</div>
+    </div>
+
+    <nav class="lesson-nav">
+      <a href="03-measurement.html" class="btn btn-soft">
+        <i class="fa-solid fa-arrow-left"></i> Previous
+      </a>
+      <a href="10-quantum-vs-classical.html" class="btn btn-primary btn-nav-next">
+        Next: Quantum vs. Classical <i class="fa-solid fa-arrow-right"></i>
+      </a>
+    </nav>
+  </div>
+
+  <footer class="site-footer">
+    <p>© Quantum Sandbox • Ritayush Suchismita Dey</p>
+  </footer>
+
+  <script src="../lesson.js"></script>
+</body>
+</html>

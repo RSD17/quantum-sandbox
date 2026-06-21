@@ -1,0 +1,1034 @@
+/* lesson.css - styles for /learn lesson pages only
+   All colors via CSS variables defined in ../../style.css
+   No hardcoded color values. */
+
+/* ── Page scaffold ───────────────────────────────────────────── */
+.lesson-page {
+  min-height: 100vh;
+  color: var(--text);
+}
+
+/* ── Learn index gradient background ─────────────────────────── */
+body.dark:not(.lesson-page) {
+background:
+  radial-gradient(
+    ellipse 1200px 650px at 15% 0%,
+    rgba(244, 114, 182, 0.05) 0%,
+    transparent 65%
+  ),
+  radial-gradient(
+    ellipse 1000px 550px at 85% 5%,
+    rgba(96, 165, 250, 0.11) 0%,
+    transparent 65%
+  ),
+  radial-gradient(
+    ellipse 1100px 600px at 50% 100%,
+    rgba(168, 85, 247, 0.09) 0%,
+    transparent 70%
+  ),
+  radial-gradient(
+    ellipse 900px 450px at 40% 15%,
+    rgba(251, 191, 36, 0.07) 0%,
+    transparent 60%
+  ),
+  radial-gradient(
+    ellipse 700px 350px at 65% 25%,
+    rgba(45, 212, 191, 0.12) 0%,
+    transparent 60%
+  ),
+  #0f1721;
+
+background-repeat: no-repeat;
+background-attachment: fixed;
+}
+
+body:not(.dark):not(.lesson-page) {
+  background:
+    radial-gradient(
+      ellipse 1200px 650px at 15% 0%,
+      rgba(255, 130, 180, 0.08) 0%,
+      transparent 65%
+    ),
+    radial-gradient(
+      ellipse 1000px 550px at 85% 5%,
+      rgba(120, 170, 255, 0.10) 0%,
+      transparent 65%
+    ),
+    radial-gradient(
+      ellipse 1100px 600px at 50% 100%,
+      rgba(190, 140, 255, 0.08) 0%,
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 900px 450px at 40% 15%,
+      rgba(255, 210, 120, 0.08) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 700px 350px at 65% 25%,
+      rgba(120, 220, 200, 0.09) 0%,
+      transparent 60%
+    ),
+    #fafbfc;
+
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+/* ── Sandbox gradient button (Go to Sandbox) ─────────────────── */
+.btn-sandbox-gradient {
+  background: linear-gradient(120deg, #1a7fcb, #6e3cba);
+  color: #fff !important;
+  border-color: color-mix(in oklab, #1a7fcb, #ffffff 22%);
+  text-decoration: none;
+}
+
+body.dark .btn-sandbox-gradient {
+  background: linear-gradient(120deg, #1568a8, #5a32a3);
+  border-color: color-mix(in oklab, #1568a8, #ffffff 18%);
+}
+
+.btn-sandbox-gradient:hover {
+  filter: brightness(1.12);
+}
+
+/* ── Hero tagline ─────────────────────────────────────────────── */
+.learn-hero-tagline {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 18px;
+  padding: 9px 16px;
+  border-radius: 999px;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--accent);
+  background: color-mix(in oklab, var(--accent), transparent 88%);
+  border: 1px solid color-mix(in oklab, var(--accent), transparent 60%);
+  line-height: 1.5;
+}
+
+.learn-hero-tagline i {
+  flex-shrink: 0;
+  font-size: 0.8rem;
+}
+
+.lesson-wrap {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 32px 20px 64px;
+}
+
+/* ── Breadcrumb ──────────────────────────────────────────────── */
+.lesson-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.lesson-breadcrumb a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: color 120ms ease;
+}
+
+.lesson-breadcrumb a:hover {
+  color: var(--accent-2);
+}
+
+.lesson-breadcrumb .sep {
+  color: var(--border);
+}
+
+.lesson-breadcrumb .current {
+  color: var(--text);
+  font-weight: 500;
+}
+
+/* ── Lesson meta (part + read time) ─────────────────────────── */
+.lesson-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+
+.lesson-part-label {
+  display: inline-block;
+  border-radius: 999px;
+  padding: 4px 12px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: linear-gradient(120deg, color-mix(in oklab, var(--accent), transparent 80%), color-mix(in oklab, var(--accent-2), transparent 80%));
+  border: 1px solid color-mix(in oklab, var(--accent), transparent 55%);
+  color: var(--accent);
+}
+
+.lesson-read-time {
+  font-size: 0.8rem;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* ── Title + subtitle ────────────────────────────────────────── */
+.lesson-title {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0 0 14px;
+  letter-spacing: -0.01em;
+}
+
+.lesson-subtitle {
+  font-size: 1.05rem;
+  color: var(--muted);
+  line-height: 1.6;
+  margin: 0 0 36px;
+  border-left: 3px solid var(--accent);
+  padding-left: 14px;
+}
+
+/* ── Content sections ────────────────────────────────────────── */
+.lesson-section {
+  margin-bottom: 32px;
+}
+
+.lesson-section h2 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 0 0 12px;
+  color: var(--text);
+}
+
+.lesson-section p {
+  font-size: 0.97rem;
+  line-height: 1.72;
+  color: var(--text);
+  margin: 0 0 14px;
+}
+
+.lesson-section p:last-child {
+  margin-bottom: 0;
+}
+
+.lesson-section strong {
+  color: var(--text);
+  font-weight: 700;
+}
+
+/* Highlight callout inside a section */
+.lesson-callout {
+  border-left: 3px solid var(--accent-2);
+  background: color-mix(in oklab, var(--accent-2), transparent 91%);
+  border-radius: 0 10px 10px 0;
+  padding: 12px 16px;
+  margin: 16px 0;
+  font-size: 0.93rem;
+  line-height: 1.6;
+  color: var(--text);
+}
+
+/* ── Sandbox demo callout ────────────────────────────────────── */
+.lesson-demo-callout {
+  border: 1px solid color-mix(in oklab, var(--accent), transparent 45%);
+  border-radius: 14px;
+  background: color-mix(in oklab, var(--accent), transparent 91%);
+  padding: 20px;
+  margin: 28px 0;
+}
+
+.demo-callout-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.demo-callout-title {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0 0 12px;
+  color: var(--text);
+}
+
+.demo-steps {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.demo-steps li {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+.demo-steps li::before {
+  content: attr(data-n);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* ── Lesson sandbox iframe ───────────────────────────────────── */
+.lesson-sandbox {
+  width: 100%;
+  height: 420px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  display: block;
+  background: var(--panel);
+}
+
+/* ── Knowledge check ─────────────────────────────────────────── */
+.lesson-check {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 22px;
+  margin: 36px 0;
+  box-shadow: var(--shadow);
+}
+
+.check-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent-2);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.check-question {
+  font-size: 1.02rem;
+  font-weight: 600;
+  line-height: 1.5;
+  margin: 0 0 16px;
+  color: var(--text);
+}
+
+.check-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.check-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  width: 100%;
+  text-align: left;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--panel-alt);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 0.93rem;
+  line-height: 1.5;
+  cursor: pointer;
+  transition: border-color 140ms ease, background 140ms ease, transform 100ms ease;
+}
+
+.check-option:hover:not(:disabled) {
+  border-color: var(--accent-2);
+  transform: translateY(-1px);
+}
+
+.check-option:disabled {
+  cursor: default;
+  transform: none;
+}
+
+.check-option.correct {
+  border-color: var(--accent);
+  background: color-mix(in oklab, var(--accent), transparent 88%);
+  color: var(--text);
+}
+
+.check-option.incorrect {
+  border-color: #e34d4d;
+  background: color-mix(in oklab, #e34d4d, transparent 90%);
+  color: var(--text);
+  opacity: 0.7;
+}
+
+.check-option.revealed {
+  border-color: var(--accent);
+  background: color-mix(in oklab, var(--accent), transparent 88%);
+}
+
+.check-feedback {
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--muted);
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: color-mix(in oklab, var(--panel-alt), transparent 20%);
+  display: none;
+}
+
+.check-feedback.visible {
+  display: block;
+}
+
+.check-feedback.correct-feedback {
+  border-color: color-mix(in oklab, var(--accent), transparent 40%);
+  background: color-mix(in oklab, var(--accent), transparent 90%);
+  color: var(--text);
+}
+
+.check-feedback.incorrect-feedback {
+  border-color: color-mix(in oklab, #e34d4d, transparent 40%);
+  background: color-mix(in oklab, #e34d4d, transparent 92%);
+  color: var(--text);
+}
+
+/* ── Score badge (shown after MCQ answer) ─────────────────────── */
+.lesson-score-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 12px;
+  padding: 4px 14px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  font-family: var(--mono, monospace);
+  animation: badge-pop 280ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.lesson-score-badge.pts-correct {
+  background: color-mix(in oklab, var(--accent), transparent 84%);
+  border: 1px solid color-mix(in oklab, var(--accent), transparent 40%);
+  color: var(--accent);
+}
+
+.lesson-score-badge.pts-partial {
+  background: color-mix(in oklab, #f59e0b, transparent 85%);
+  border: 1px solid color-mix(in oklab, #f59e0b, transparent 50%);
+  color: #c77d10;
+}
+
+body.dark .lesson-score-badge.pts-partial {
+  color: #fbbf24;
+}
+
+@keyframes badge-pop {
+  from { opacity: 0; transform: scale(0.7); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* ── Running score chip in topbar ─────────────────────────────── */
+.running-score-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border: 1px solid color-mix(in oklab, var(--accent-2), transparent 50%);
+  background: color-mix(in oklab, var(--accent-2), transparent 88%);
+  color: var(--accent-2);
+  white-space: nowrap;
+}
+
+/* ── Takeaway block ──────────────────────────────────────────── */
+.lesson-takeaway {
+  border: 1px solid color-mix(in oklab, var(--accent-2), transparent 45%);
+  border-left: 4px solid var(--accent-2);
+  border-radius: 0 14px 14px 0;
+  background: color-mix(in oklab, var(--accent-2), transparent 91%);
+  padding: 18px 20px;
+  margin: 32px 0;
+}
+
+.takeaway-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent-2);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.takeaway-text {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.6;
+  color: var(--text);
+  margin: 0;
+}
+
+/* ── Lesson navigation ───────────────────────────────────────── */
+.lesson-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+  margin-top: 40px;
+  flex-wrap: wrap;
+}
+
+.lesson-nav .btn {
+  min-width: 140px;
+}
+
+.lesson-nav .btn-nav-next {
+  margin-left: auto;
+}
+
+/* ── Learn index page ────────────────────────────────────────── */
+.learn-hero {
+  padding: 40px 0 24px;
+  margin-bottom: 12px;
+}
+
+.learn-hero h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0 0 10px;
+  letter-spacing: -0.01em;
+}
+
+.learn-hero p {
+  font-size: 1rem;
+  color: var(--muted);
+  margin: 0;
+  line-height: 1.6;
+}
+
+.learn-progress-bar-wrap {
+  margin: 20px 0 32px;
+  background: color-mix(in oklab, var(--border), transparent 25%);
+  border-radius: 999px;
+  height: 8px;
+  overflow: hidden;
+}
+
+.learn-progress-bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  transition: width 600ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.learn-part {
+  margin-bottom: 36px;
+}
+
+.learn-part-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.learn-part-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.learn-part-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: var(--panel-alt);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 3px 10px;
+}
+
+.learn-lessons-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.learn-lesson-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--panel);
+  text-decoration: none;
+  color: var(--text);
+  transition: border-color 140ms ease, transform 120ms ease, box-shadow 140ms ease;
+}
+
+.learn-lesson-card:hover {
+  border-color: var(--accent-2);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+}
+
+.learn-lesson-num {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--muted);
+  min-width: 28px;
+}
+
+.learn-lesson-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.learn-lesson-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin: 0 0 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.learn-lesson-time {
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.learn-lesson-status {
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  border: 2px solid var(--border);
+  background: var(--panel-alt);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  transition: border-color 200ms ease, background 200ms ease;
+}
+
+.learn-lesson-status.done {
+  border-color: var(--accent);
+  background: color-mix(in oklab, var(--accent), transparent 78%);
+  color: var(--accent);
+}
+
+.learn-lesson-status.done::after {
+  content: "";
+  width: 8px;
+  height: 5px;
+  border-left: 2px solid var(--accent);
+  border-bottom: 2px solid var(--accent);
+  transform: rotate(-45deg) translateY(-1px);
+  display: block;
+}
+
+/* ── Responsive ──────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .lesson-wrap {
+    padding: 20px 14px 48px;
+  }
+
+  .lesson-title {
+    font-size: 1.5rem;
+  }
+
+  .lesson-sandbox {
+    height: 360px;
+  }
+
+  .lesson-nav {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .lesson-nav .btn {
+    min-width: 0;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .lesson-nav .btn-nav-next {
+    margin-left: 0;
+  }
+
+  .learn-lesson-title {
+    white-space: normal;
+  }
+}
+
+/* ── Congratulations page ────────────────────────────────────── */
+.congrats-hero {
+  text-align: center;
+  padding: 48px 0 36px;
+}
+
+.congrats-icon {
+  font-size: 3.5rem;
+  color: var(--accent-2);
+  margin-bottom: 20px;
+  display: block;
+  animation: congrats-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes congrats-pop {
+  from { transform: scale(0.5); opacity: 0; }
+  to   { transform: scale(1);   opacity: 1; }
+}
+
+.congrats-badge {
+  display: inline-block;
+  border-radius: 999px;
+  padding: 4px 14px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: linear-gradient(120deg, color-mix(in oklab, var(--accent), transparent 80%), color-mix(in oklab, var(--accent-2), transparent 80%));
+  border: 1px solid color-mix(in oklab, var(--accent), transparent 55%);
+  color: var(--accent);
+  margin-bottom: 18px;
+}
+
+.congrats-title {
+  font-size: 2.6rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0 0 14px;
+  line-height: 1.15;
+}
+
+.congrats-subtitle {
+  font-size: 1.05rem;
+  color: var(--muted);
+  line-height: 1.65;
+  max-width: 520px;
+  margin: 0 auto 28px;
+}
+
+.congrats-score-display {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
+  border-radius: 999px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  border: 1px solid color-mix(in oklab, var(--accent-2), transparent 40%);
+  background: color-mix(in oklab, var(--accent-2), transparent 86%);
+  color: var(--accent-2);
+}
+
+.congrats-mastered {
+  margin: 0 0 36px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--panel);
+  box-shadow: var(--shadow);
+  padding: 24px 28px;
+}
+
+.congrats-mastered h2 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0 0 16px;
+  color: var(--text);
+}
+
+.congrats-mastered ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 20px;
+}
+
+.congrats-mastered li {
+  font-size: 0.92rem;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.congrats-mastered li i {
+  color: var(--accent);
+  font-size: 0.75rem;
+  flex-shrink: 0;
+}
+
+.congrats-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding-top: 8px;
+}
+
+.congrats-actions .btn {
+  min-width: 160px;
+  justify-content: center;
+}
+
+@media (max-width: 480px) {
+  .congrats-title { font-size: 1.9rem; }
+  .congrats-mastered ul { grid-template-columns: 1fr; }
+  .congrats-actions .btn { width: 100%; }
+}
+
+.btn {
+  text-decoration: none;
+  font-family: "Space Grotesk", sans-serif;
+}
+/* ── Gradient nav buttons (matching root Guide button style) ──── */
+.btn-nav-next {
+  background: linear-gradient(120deg, var(--accent), var(--accent-2)) !important;
+  color: #fff !important;
+  border-color: color-mix(in oklab, var(--accent-2), #ffffff 20%) !important;
+}
+body.dark .btn-nav-next {
+  background: linear-gradient(120deg, #23936f, #3e79cf) !important;
+  border-color: color-mix(in oklab, #3e79cf, #ffffff 16%) !important;
+}
+.btn-nav-next:hover {
+  filter: brightness(1.1);
+}
+
+/* ── Expand / Accordion cards ─────────────────────────────────── */
+.expand-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 20px 0;
+}
+.expand-card {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--panel);
+  overflow: hidden;
+  transition: border-color 150ms ease;
+}
+.expand-card.open { border-color: var(--accent-2); }
+.expand-card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  cursor: pointer;
+  user-select: none;
+}
+.expand-card-header:hover { background: color-mix(in oklab, var(--panel-alt), transparent 30%); }
+.expand-card-icon {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  display: grid; place-items: center;
+  font-size: 1.1rem; flex-shrink: 0;
+  background: color-mix(in oklab, var(--accent-2), transparent 82%);
+  color: var(--accent-2);
+}
+.expand-card-title { flex: 1; font-weight: 700; font-size: 0.97rem; color: var(--text); }
+.expand-card-subtitle { font-size: 0.82rem; color: var(--muted); margin-top: 2px; }
+.expand-card-chevron {
+  color: var(--muted); font-size: 0.85rem;
+  transition: transform 240ms cubic-bezier(0.2,0.8,0.2,1);
+  flex-shrink: 0;
+}
+.expand-card.open .expand-card-chevron { transform: rotate(180deg); }
+.expand-card-body { max-height: 0; overflow: hidden; transition: max-height 300ms cubic-bezier(0.2,0.8,0.2,1); }
+.expand-card.open .expand-card-body { max-height: 700px; }
+.expand-card-inner {
+  padding: 12px 16px 16px;
+  font-size: 0.93rem; line-height: 1.68;
+  color: var(--text);
+  border-top: 1px solid var(--border);
+}
+.expand-card-inner p { margin: 0 0 10px; }
+.expand-card-inner p:last-child { margin-bottom: 0; }
+
+/* ── Flowchart ────────────────────────────────────────────────── */
+.lesson-flowchart {
+  display: flex; flex-direction: column; align-items: center;
+  margin: 24px 0;
+}
+.fc-node {
+  padding: 14px 20px; border-radius: 12px;
+  border: 1px solid var(--border); background: var(--panel);
+  text-align: center; max-width: 340px; width: 100%;
+  box-shadow: var(--shadow);
+  transition: border-color 140ms ease;
+}
+.fc-node:hover { border-color: var(--accent-2); }
+.fc-node-label {
+  font-size: 0.68rem; font-weight: 700; letter-spacing: 0.05em;
+  text-transform: uppercase; color: var(--accent); margin-bottom: 3px;
+}
+.fc-node-title { font-size: 1rem; font-weight: 700; color: var(--text); }
+.fc-node-desc { font-size: 0.83rem; color: var(--muted); line-height: 1.5; margin-top: 5px; }
+.fc-arrow {
+  width: 2px; height: 28px;
+  background: linear-gradient(180deg, var(--accent), var(--accent-2));
+  position: relative; margin: 0 auto;
+}
+.fc-arrow::after {
+  content: ""; position: absolute;
+  bottom: -7px; left: 50%; transform: translateX(-50%);
+  width: 0; height: 0;
+  border-left: 6px solid transparent; border-right: 6px solid transparent;
+  border-top: 8px solid var(--accent-2);
+}
+.fc-row {
+  display: flex; justify-content: center; gap: 10px; width: 100%;
+  flex-wrap: wrap;
+}
+
+/* ── Quantum Timeline ─────────────────────────────────────────── */
+.lesson-timeline { position: relative; margin: 24px 0; padding-left: 28px; }
+.lesson-timeline::before {
+  content: ""; position: absolute; left: 8px; top: 0; bottom: 0;
+  width: 2px;
+  background: linear-gradient(180deg, var(--accent), var(--accent-2), color-mix(in oklab, var(--accent-2), transparent 60%));
+  border-radius: 2px;
+}
+.tl-item { position: relative; padding: 0 0 20px 16px; }
+.tl-item:last-child { padding-bottom: 0; }
+.tl-dot {
+  position: absolute; left: -24px; top: 4px;
+  width: 14px; height: 14px; border-radius: 999px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  border: 2px solid var(--bg); box-shadow: 0 0 0 2px var(--accent);
+}
+.tl-year {
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em;
+  text-transform: uppercase; color: var(--accent-2); margin-bottom: 3px;
+  font-family: "IBM Plex Mono", monospace;
+}
+.tl-title { font-size: 0.95rem; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+.tl-desc { font-size: 0.86rem; color: var(--muted); line-height: 1.55; }
+
+/* ── Comparison grid (classical vs quantum) ───────────────────── */
+.lesson-compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 20px 0; }
+.compare-col { border: 1px solid var(--border); border-radius: 12px; background: var(--panel); overflow: hidden; }
+.compare-col-head {
+  padding: 10px 14px; font-size: 0.78rem; font-weight: 700;
+  letter-spacing: 0.04em; text-transform: uppercase;
+  display: flex; align-items: center; gap: 7px;
+}
+.compare-col.classical .compare-col-head { background: color-mix(in oklab, var(--muted), transparent 85%); color: var(--muted); }
+.compare-col.quantum .compare-col-head { background: color-mix(in oklab, var(--accent), transparent 83%); color: var(--accent); }
+.compare-col-body { padding: 12px 14px; display: flex; flex-direction: column; gap: 7px; }
+.compare-row { display: flex; align-items: flex-start; gap: 7px; font-size: 0.87rem; line-height: 1.5; color: var(--text); }
+.compare-row i { margin-top: 2px; flex-shrink: 0; font-size: 0.75rem; }
+.compare-col.classical .compare-row i { color: var(--muted); }
+.compare-col.quantum .compare-row i { color: var(--accent); }
+
+/* ── Probability slider visualizer ───────────────────────────── */
+.prob-slider-wrap { background: var(--panel); border: 1px solid var(--border); border-radius: 14px; padding: 20px; margin: 24px 0; }
+.prob-slider-label {
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.05em;
+  text-transform: uppercase; color: var(--accent-2); margin-bottom: 12px;
+  display: flex; align-items: center; gap: 6px;
+}
+.prob-bars { display: flex; gap: 12px; margin-bottom: 16px; }
+.prob-bar-group { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 5px; }
+.prob-bar-track { width: 100%; height: 12px; border-radius: 999px; background: var(--panel-alt); overflow: hidden; }
+.prob-bar-fill { height: 100%; border-radius: 999px; transition: width 80ms ease; }
+.prob-bar-fill.alpha { background: linear-gradient(90deg, var(--accent), color-mix(in oklab, var(--accent), var(--accent-2) 50%)); }
+.prob-bar-fill.beta  { background: linear-gradient(90deg, var(--accent-2), color-mix(in oklab, var(--accent-2), #b078ff 60%)); }
+.prob-bar-label { font-size: 0.8rem; font-weight: 700; font-family: "IBM Plex Mono", monospace; color: var(--text); }
+.prob-bar-pct { font-size: 0.75rem; color: var(--muted); }
+.prob-slider {
+  -webkit-appearance: none; appearance: none; width: 100%; height: 6px; border-radius: 999px;
+  background: linear-gradient(90deg, var(--accent) var(--slider-pct, 50%), var(--panel-alt) var(--slider-pct, 50%));
+  outline: none; cursor: pointer; margin-bottom: 6px;
+}
+.prob-slider::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none; width: 20px; height: 20px;
+  border-radius: 50%; background: var(--accent); border: 3px solid var(--panel);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25); cursor: grab;
+}
+.prob-slider::-moz-range-thumb {
+  width: 20px; height: 20px; border-radius: 50%; background: var(--accent);
+  border: 3px solid var(--panel); box-shadow: 0 2px 8px rgba(0,0,0,0.25); cursor: grab;
+}
+.prob-slider-caption { font-size: 0.82rem; color: var(--muted); text-align: center; line-height: 1.5; margin-top: 4px; }
+
+/* ── Gate reference cards ─────────────────────────────────────── */
+.gate-ref-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(145px, 1fr)); gap: 10px; margin: 20px 0; }
+.gate-ref-card {
+  border: 2px solid var(--gate-ref-color, var(--border));
+  border-radius: 12px; padding: 12px; background: var(--panel);
+  cursor: pointer; transition: transform 120ms ease, box-shadow 140ms ease;
+}
+.gate-ref-card:hover { transform: translateY(-2px); box-shadow: 0 0 0 1px var(--gate-ref-color, var(--border)), 0 8px 20px rgba(0,0,0,0.12); }
+.gate-ref-symbol { font-size: 1.4rem; font-weight: 700; font-family: "IBM Plex Mono", monospace; color: var(--gate-ref-color, var(--text)); margin-bottom: 5px; }
+.gate-ref-name { font-size: 0.78rem; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+.gate-ref-desc { font-size: 0.75rem; color: var(--muted); line-height: 1.45; }
+.gate-ref-detail { display: none; font-size: 0.8rem; color: var(--text); margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border); line-height: 1.55; }
+.gate-ref-card.expanded .gate-ref-detail { display: block; }
+
+/* ── Exponential growth chart ─────────────────────────────────── */
+.exp-growth-wrap { background: var(--panel); border: 1px solid var(--border); border-radius: 14px; padding: 20px; margin: 24px 0; }
+.exp-growth-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--accent-2); margin-bottom: 14px; display: flex; align-items: center; gap: 6px; }
+.exp-growth-chart { display: flex; align-items: flex-end; gap: 5px; height: 120px; margin-bottom: 10px; }
+.exp-bar {
+  flex: 1; border-radius: 6px 6px 0 0; min-height: 4px;
+  position: relative; cursor: pointer; transition: filter 120ms ease;
+}
+.exp-bar:hover { filter: brightness(1.18); }
+.exp-bar-tooltip {
+  position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%) translateY(-4px);
+  background: var(--panel-alt); border: 1px solid var(--border); border-radius: 8px;
+  padding: 4px 8px; font-size: 0.72rem; font-family: "IBM Plex Mono", monospace;
+  white-space: nowrap; pointer-events: none; opacity: 0; transition: opacity 120ms ease; z-index: 10;
+}
+.exp-bar:hover .exp-bar-tooltip { opacity: 1; }
+.exp-axis-labels { display: flex; gap: 5px; font-size: 0.72rem; font-family: "IBM Plex Mono", monospace; color: var(--muted); }
+.exp-axis-labels span { flex: 1; text-align: center; }
+.exp-caption { font-size: 0.82rem; color: var(--muted); line-height: 1.5; margin-top: 8px; text-align: center; }
+
+@media (max-width: 640px) {
+  .lesson-compare-grid { grid-template-columns: 1fr; }
+  .gate-ref-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
+}

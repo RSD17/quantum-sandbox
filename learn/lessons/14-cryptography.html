@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quantum Cryptography | Quantum Sandbox</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="../../logo-favicon-32x32.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="stylesheet" href="../../style.css" />
+  <link rel="stylesheet" href="../lesson.css" />
+</head>
+<body class="dark lesson-page">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">
+        <img src="../../quantum-sandbox-logo.png" alt="Quantum Sandbox logo" />
+      </div>
+      <div>
+        <h1>Quantum Sandbox</h1>
+        <p>An Interactive Quantum Circuit Playground</p>
+      </div>
+    </div>
+    <div class="top-actions" style="gap:8px">
+      <a href="../index.html" class="btn btn-soft">
+        <i class="fa-solid fa-graduation-cap"></i>
+        <span>All Lessons</span>
+      </a>
+      <a href="../../index.html" class="btn btn-soft">
+        <i class="fa-solid fa-flask"></i>
+        <span>Sandbox</span>
+      </a>
+      <button id="themeBtn" class="btn btn-soft icon-btn" aria-label="Toggle theme">
+        <i id="themeIcon" class="fa-solid fa-sun"></i>
+      </button>
+    </div>
+  </header>
+
+  <div class="lesson-wrap">
+    <nav class="lesson-breadcrumb">
+      <a href="../index.html">Learn</a>
+      <span class="sep">/</span>
+      <span>Part 3 - Algorithms</span>
+      <span class="sep">/</span>
+      <span class="current">Quantum Cryptography</span>
+    </nav>
+
+    <div class="lesson-meta">
+      <span class="lesson-part-label">Part 3 - Algorithms</span>
+      <span class="lesson-read-time"><i class="fa-regular fa-clock"></i> 11 min read</span>
+    </div>
+
+    <h1 class="lesson-title">Quantum Cryptography</h1>
+    <p class="lesson-subtitle">Quantum mechanics does not just threaten current encryption - it also provides a theoretically unbreakable way to share secret keys. The same physics that makes eavesdropping possible classically makes it detectable quantum mechanically.</p>
+
+    <section class="lesson-section">
+      <h2>Two sides of the quantum cryptography story</h2>
+      <p>Quantum computing and cryptography have a dual relationship. On one side, quantum computers threaten to break current public-key encryption (as we saw with Shor's algorithm in Lesson 12). On the other side, quantum mechanics enables cryptographic protocols that are secure in a fundamentally different way - not based on computational difficulty, but on the laws of physics themselves.</p>
+      <p>These two aspects require different responses. The threat from Shor's algorithm is addressed by post-quantum cryptography - new mathematical problems that classical computers struggle with and that quantum computers do not have known efficient algorithms for. The opportunity from quantum physics is realized through quantum key distribution - using quantum states to share secret keys in a way that any eavesdropping attempt is detectable. Think of it like upgrading a lock (post-quantum cryptography makes the lock harder for anyone, quantum or classical, to pick) versus using a tamper-evident seal (QKD makes it obvious the instant someone has tried to peek).</p>
+    </section>
+
+    <section class="lesson-section">
+      <h2>Quantum Key Distribution (QKD)</h2>
+      <p>The most famous quantum cryptographic protocol is <strong>BB84</strong>, invented by Charles Bennett and Gilles Brassard in 1984. It allows two parties, Alice and Bob, to share a secret key - a string of random bits - with a security guarantee rooted in quantum physics, not mathematical assumptions.</p>
+      <p>The key insight comes from the measurement principle: measuring a qubit in a superposition state disturbs it and collapses it. An eavesdropper (traditionally called Eve) who intercepts qubits to read them will inevitably disturb them - and Alice and Bob can detect this disturbance by comparing a sample of their received bits over a public channel. If there is too much disturbance, they know someone was listening and discard the key.</p>
+      <p>The protocol is not just a clever trick - its security is mathematically proven under the assumption of quantum mechanics being correct. No amount of computational power can break BB84 security without being detected, because the security does not rely on a mathematical problem being hard. It relies on the physical impossibility of measuring a quantum state without disturbing it.</p>
+    </section>
+
+    <section class="lesson-section">
+      <h2>How BB84 works</h2>
+      <p>Alice generates random bits and randomly chooses from two bases to encode each bit: either the computational basis (|0⟩ and |1⟩) or the diagonal basis (|+⟩ and |−⟩, which are superpositions created by H). She sends the encoded qubits to Bob.</p>
+      <p>Bob randomly measures each qubit in one of the two bases. About half the time, he chooses the same basis as Alice and gets the correct bit. The other half, his measurement is in the wrong basis and gives a random result.</p>
+      <p>After Bob receives all qubits, Alice and Bob publicly compare which bases they used (not the actual bits). They keep only the bits where they used the same basis - about half the total. This becomes their shared secret key. It's a bit like Alice flipping a coin and noting heads or tails through one of two different filters, then announcing only which filter she used for each flip - never the actual result - so Bob can tell her which of his guesses used the matching filter, without either of them ever saying the outcome out loud.</p>
+      <p>If Eve intercepts and measures qubits (she has to guess the basis, just like Bob), she disturbs them. When Bob measures a disturbed qubit correctly, he still gets about 25% errors even in the right basis. Alice and Bob detect this by comparing a subset of their shared bits and checking for unusually high error rates. High errors mean eavesdropping - discard everything and try again.</p>
+    </section>
+
+    <div class="lesson-demo-callout">
+      <div class="demo-callout-label"><i class="fa-solid fa-flask"></i> Try it in the Sandbox</div>
+      <div class="demo-callout-title">Explore entanglement-based key distribution</div>
+      <ol class="demo-steps">
+        <li data-n="1">Load the <strong>Bell State</strong> preset. The entangled pair used in E91 key distribution.</li>
+        <li data-n="2">Observe: 50% |00⟩ and 50% |11⟩. Alice and Bob's qubits are perfectly correlated.</li>
+        <li data-n="3">Click <strong>Measure All</strong> repeatedly. The results are random, but Alice and Bob always agree.</li>
+        <li data-n="4">Any eavesdropper would break the Bell inequality, which are detectable through statistical tests.</li>
+        <li data-n="5">Unlike classical key exchange, this relies on physics alone, void of any computational assumptions.</li>
+      </ol>
+      <iframe
+        class="lesson-sandbox"
+        src="../../index.html?embed=1&mode=advanced"
+        title="Quantum Sandbox - QKD entanglement demo"
+        allow="cross-origin-isolated"
+      ></iframe>
+    </div>
+
+    <section class="lesson-section">
+      <h2>Post-quantum cryptography: protecting against Shor</h2>
+      <p>QKD provides a theoretically perfect solution but requires quantum hardware - fiber or satellite links, quantum light sources, single-photon detectors. This is expensive and not yet globally deployable. The vast majority of internet security cannot wait for quantum networks.</p>
+      <p>Post-quantum cryptography (PQC) addresses this with new classical algorithms based on mathematical problems that no known quantum algorithm can solve efficiently. NIST's 2024 standardized algorithms include:</p>
+      <p><strong>CRYSTALS-Kyber (ML-KEM)</strong> for key encapsulation, based on the hardness of learning with errors (LWE) - a problem involving finding a solution to a noisy system of equations. It's like trying to recover someone's exact GPS coordinates when every reading you're given has been nudged by a small, random, unknown error - individually each clue is nearly useless, and the noise compounds fast enough that brute-force search (classical or quantum) stays impractical. <strong>CRYSTALS-Dilithium (ML-DSA)</strong> and <strong>FALCON</strong> for digital signatures, also based on lattice problems. <strong>SPHINCS+</strong> for signatures based on hash functions.</p>
+      <p>These algorithms run on existing classical hardware and can be deployed in standard software updates. Major technology companies and government agencies are already in the process of migrating to PQC standards.</p>
+    </section>
+
+    <section class="lesson-section">
+      <h2>The cryptographic transition ahead</h2>
+      <p>The transition from current cryptography to post-quantum standards is one of the largest infrastructure upgrades in internet history. Every system that uses public-key cryptography - TLS certificates for websites, VPN protocols, email signing, software updates, financial systems - must eventually be updated.</p>
+      <p>The good news is that NIST has standardized the algorithms, and the timeline is manageable if the work starts now. The bad news is that "harvest now, decrypt later" attacks mean waiting is not safe - an adversary can record your encrypted traffic today, the way you'd photograph a locked diary, and simply wait for a future quantum computer to pick the lock and read everything inside. Organizations with sensitive long-lived data need to begin the transition immediately.</p>
+      <p>For you personally: the post-quantum cryptographic migration will be an enormous area of work for security engineers over the next decade. Understanding both the quantum threat and the solutions is a valuable and rare combination of knowledge.</p>
+    </section>
+
+    <div class="lesson-takeaway">
+      <div class="takeaway-label"><i class="fa-solid fa-bolt"></i> Key takeaway</div>
+      <p class="takeaway-text">Quantum cryptography has two faces: quantum key distribution uses the disturbance principle to detect eavesdroppers, providing physically-grounded security. Post-quantum cryptography uses new hard mathematical problems to protect classical internet infrastructure against quantum computers. Both are active and urgent areas of work.</p>
+    </div>
+
+    <div class="lesson-check">
+      <div class="check-label"><i class="fa-solid fa-circle-question"></i> Knowledge check · Question 1 of 4</div>
+      <p class="check-question">What is the fundamental physical mechanism that makes eavesdropping detectable in quantum key distribution?</p>
+      <div class="check-options">
+        <button class="check-option" data-correct="false">Eavesdropping creates visible marks on photons that Alice and Bob can inspect.</button>
+        <button class="check-option" data-correct="false">The no-cloning theorem prevents Eve from copying the key bits.</button>
+        <button class="check-option" data-correct="true">Measuring a quantum state disturbs it - Eve's interception changes the qubits in a statistically detectable way.</button>
+        <button class="check-option" data-correct="false">Quantum encryption keys automatically change if eavesdropping is detected.</button>
+      </div>
+      <div class="check-feedback">The core principle is that measurement disturbs quantum states. Eve cannot read the qubits without collapsing their superpositions, introducing errors that Alice and Bob can detect by comparing a subset of their received bits and checking for anomalously high error rates.</div>
+    </div>
+
+    <div class="lesson-check">
+      <div class="check-label"><i class="fa-solid fa-circle-question"></i> Knowledge check · Question 2 of 4</div>
+      <p class="check-question">In BB84, why do Alice and Bob publicly compare which bases they used, rather than the actual bit values?</p>
+      <div class="check-options">
+        <button class="check-option" data-correct="false">Revealing the bit values would let Bob correct his measurement errors directly.</button>
+        <button class="check-option" data-correct="true">Comparing bases lets them identify which bits were measured correctly without ever exposing the secret bit values themselves.</button>
+        <button class="check-option" data-correct="false">The bases are needed to compute the final encryption key mathematically.</button>
+        <button class="check-option" data-correct="false">Public comparison of bases is required to detect Eve's presence on the channel.</button>
+      </div>
+      <div class="check-feedback">Announcing only the bases (not the bits) lets Alice and Bob discard the roughly half of measurements where Bob guessed the wrong basis, while keeping the secret values of the matching-basis bits completely private.</div>
+    </div>
+
+    <div class="lesson-check">
+      <div class="check-label"><i class="fa-solid fa-circle-question"></i> Knowledge check · Question 3 of 4</div>
+      <p class="check-question">Why is post-quantum cryptography necessary even though quantum key distribution already offers physics-based security?</p>
+      <div class="check-options">
+        <button class="check-option" data-correct="true">QKD requires specialized quantum hardware that is expensive and not globally deployable, so most internet security needs a classical software solution instead.</button>
+        <button class="check-option" data-correct="false">QKD has been mathematically proven insecure against classical eavesdroppers.</button>
+        <button class="check-option" data-correct="false">Post-quantum cryptography is faster than QKD for all use cases.</button>
+        <button class="check-option" data-correct="false">NIST requires all encryption to use lattice-based mathematics by law.</button>
+      </div>
+      <div class="check-feedback">QKD needs fiber or satellite links, quantum light sources, and single-photon detectors - infrastructure that cannot be deployed everywhere quickly. Post-quantum cryptography runs on existing classical hardware and can be rolled out through ordinary software updates.</div>
+    </div>
+
+    <div class="lesson-check">
+      <div class="check-label"><i class="fa-solid fa-circle-question"></i> Knowledge check · Question 4 of 4</div>
+      <p class="check-question">What makes "harvest now, decrypt later" attacks a present-day concern rather than a future one?</p>
+      <div class="check-options">
+        <button class="check-option" data-correct="false">Quantum computers capable of running Shor's algorithm at scale already exist today.</button>
+        <button class="check-option" data-correct="false">NIST has not yet standardized any post-quantum algorithms.</button>
+        <button class="check-option" data-correct="false">Classical computers can already break RSA encryption without quantum hardware.</button>
+        <button class="check-option" data-correct="true">Adversaries can record currently-encrypted traffic now and decrypt it later once a sufficiently powerful quantum computer exists.</button>
+      </div>
+      <div class="check-feedback">Encrypted data intercepted and stored today remains vulnerable indefinitely - once a future quantum computer can run Shor's algorithm at scale, that stored data can be decrypted retroactively, which is why long-lived sensitive data needs protection now.</div>
+    </div>
+
+    <nav class="lesson-nav">
+      <a href="13-teleportation.html" class="btn btn-soft">
+        <i class="fa-solid fa-arrow-left"></i> Previous
+      </a>
+      <a href="15-the-future.html" class="btn btn-primary btn-nav-next">
+        Next: The Future <i class="fa-solid fa-arrow-right"></i>
+      </a>
+    </nav>
+  </div>
+
+  <footer class="site-footer">
+    <p>© Quantum Sandbox • Ritayush Suchismita Dey</p>
+  </footer>
+
+  <script src="../lesson.js"></script>
+</body>
+</html>

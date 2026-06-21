@@ -11,8 +11,8 @@ const GATES = {
   X: {
     label: "X",
     name: "Pauli-X Gate",
-    description: "Flips the qubit between |0> and |1>.",
-    explain: "Think of X as a classical NOT: it swaps how much of |0> and |1> you have, so the state flips across the Bloch sphere.",
+    description: "Flips the qubit between |0⟩ and |1⟩.",
+    explain: "Think of X as a classical NOT: it swaps how much of |0⟩ and |1⟩ you have, so the state flips across the Bloch sphere.",
     color: "#ff6b6b",
     matrix: [
       [C(0), C(1)],
@@ -33,8 +33,8 @@ const GATES = {
   Z: {
     label: "Z",
     name: "Pauli-Z Gate",
-    description: "Applies phase flip to |1>.",
-    explain: "Z does not change measurement probabilities directly; it flips only the phase of the |1> part, which matters for later interference.",
+    description: "Applies phase flip to |1⟩.",
+    explain: "Z does not change measurement probabilities directly. It flips only the phase of the |1⟩ part, which matters for later interference.",
     color: "#6f42c1",
     matrix: [
       [C(1), C(0)],
@@ -45,7 +45,7 @@ const GATES = {
     label: "H",
     name: "Hadamard Gate",
     description: "Creates and removes superposition.",
-    explain: "H is the superposition gate: from |0> it creates a 50/50 blend, and applying it again can bring the qubit back to a basis state.",
+    explain: "H is the superposition gate: from |0⟩ it creates a 50/50 blend, and applying it again can bring the qubit back to a basis state.",
     color: "#339af0",
     matrix: [
       [C(1 / Math.sqrt(2)), C(1 / Math.sqrt(2))],
@@ -55,8 +55,8 @@ const GATES = {
   S: {
     label: "S",
     name: "Phase-S Gate",
-    description: "Quarter-turn phase on |1>.",
-    explain: "S is a quarter phase turn: it rotates only the |1> component by +90°, useful for steering phase without changing raw probabilities.",
+    description: "Quarter-turn phase on |1⟩.",
+    explain: "S is a quarter phase turn: it rotates only the |1⟩ component by +90°, useful for steering phase without changing raw probabilities.",
     color: "#20c997",
     matrix: [
       [C(1), C(0)],
@@ -66,8 +66,8 @@ const GATES = {
   T: {
     label: "T",
     name: "Phase-T Gate",
-    description: "Eighth-turn phase on |1>.",
-    explain: "T is a finer phase turn (+45° on |1>): use it when you need subtle phase control in longer circuits.",
+    description: "Eighth-turn phase on |1⟩.",
+    explain: "T is a finer phase turn (+45° on |1⟩): use it when you need subtle phase control in longer circuits.",
     color: "#fcc419",
     matrix: [
       [C(1), C(0)],
@@ -190,13 +190,13 @@ const GUIDE_SLIDES = [
     section: "Quantum Computing Basics",
     title: "Qubits And Superposition",
     content:
-      "<p>A qubit is represented as <strong>|ψ⟩ = α|0⟩ + β|1⟩</strong>. Unlike a classical bit, it can exist as a blend of |0⟩ and |1⟩ until measured.</p><div class='guide-grid'><div class='guide-note'><strong>What state means</strong>The state is a complete description of the qubit right now: possible outcomes, their probabilities, and phase information that affects later interference.</div><div class='guide-note'><strong>Amplitude (α, β)</strong>α and β are complex amplitudes. Their magnitudes set measurement probabilities: P(0)=|α|² and P(1)=|β|². Brief intuition: they act like weighted contributions to |0⟩ and |1⟩.</div></div>"
+      "<p>A qubit is represented as <strong>|ψ⟩ = α|0⟩ + β|1⟩</strong>. Unlike a classical bit, it can exist as a blend of |0⟩ and |1⟩ until measured.</p><div class='guide-grid'><div class='guide-note'><strong>What state means</strong>The state is a complete description of the qubit right now: possible outcomes, their probabilities, and phase information that affects later interference.</div><div class='guide-note'><strong>Amplitude (α, β)</strong>α and β are complex amplitudes. Their magnitudes set measurement probabilities: P(0)=|α|² and P(1)=|β|². Brief intuition: they act like weighted contributions to |0⟩ and |1⟩.</div></div><div class='guide-lesson-links'><a href='learn/lessons/quantum-notation.html' class='guide-lesson-link'><i class='fa-solid fa-graduation-cap'></i> Lesson: Quantum Notation</a><a href='learn/lessons/02-superposition.html' class='guide-lesson-link'><i class='fa-solid fa-graduation-cap'></i> Lesson: Superposition</a></div>"
   },
   {
     section: "Quantum Computing Basics",
     title: "Phase, Interference, Measurement",
     content:
-      "<p>Phase is the hidden part of a qubit that controls interference. Two states can have identical probabilities but different future behavior due to phase.</p><p><strong>Measurement</strong> collapses the qubit to either |0⟩ or |1⟩ based on current probabilities.</p>"
+      "<p>Phase is the hidden part of a qubit that controls interference. Two states can have identical probabilities but different future behavior due to phase.</p><p><strong>Measurement</strong> collapses the qubit to either |0⟩ or |1⟩ based on current probabilities.</p><div class='guide-lesson-links'><a href='learn/lessons/03-measurement.html' class='guide-lesson-link'><i class='fa-solid fa-graduation-cap'></i> Lesson: Measurement</a><a href='learn/lessons/04-interference.html' class='guide-lesson-link'><i class='fa-solid fa-graduation-cap'></i> Lesson: Interference</a></div>"
   },
   {
     section: "Using The Sandbox",
@@ -229,6 +229,12 @@ const GUIDE_SLIDES = [
       "<div class='guide-compare'><article class='guide-compare-card'><h5><i class='fa-solid fa-image'></i> Image Export</h5><p>Best for reports or presentations.</p><p class='guide-chipline'><span class='guide-chip'>Preset</span><span class='guide-chip'>Gate sequence</span><span class='guide-chip'>State bars</span><span class='guide-chip'>Bloch sphere</span></p></article><article class='guide-compare-card'><h5><i class='fa-solid fa-file-code'></i> JSON Export</h5><p>Best for reproducibility and reloading configurations.</p><p class='guide-chipline'><span class='guide-chip'>Depth</span><span class='guide-chip'>Gates</span><span class='guide-chip'>Initial state</span><span class='guide-chip'>Theme</span></p></article></div><div class='guide-note'><strong>Export behavior</strong>Both export modes show a loading overlay and can be cancelled before completion.</div>"
   },
   {
+    section: "Learn",
+    title: "Feeling Overwhelmed?",
+    content:
+      "<div class='guide-title-slide'><div><h4>Not sure where to start?</h4><p>The <strong>Learn</strong> section walks you through quantum computing from scratch. NO PHYSICS BACKGROUND NEEDED, just curiosity.</p><a href='learn/index.html' class='guide-learn-cta'><i class='fa-solid fa-graduation-cap'></i><div><strong>Go to Learning Modules</strong><span style='display:block;font-size:0.8rem;opacity:0.75;margin-top:2px'>15 lessons from zero to quantum algorithms</span></div><i class='fa-solid fa-arrow-right' style='margin-left:auto'></i></a></div></div>"
+  },
+  {
     section: "Ready",
     title: "You Are Good To Go!",
     content:
@@ -240,37 +246,37 @@ const GUIDE_SLIDES_ADVANCED = [
   {
     section: "Advanced Mode",
     title: "Welcome to Advanced Mode",
-    content: "<div class='guide-title-slide'><div><h4>Advanced Mode</h4><p>Multi-qubit circuits, entanglement, and joint quantum state visualization.</p></div></div>"
+    content: "<div class='guide-title-slide'><div><div class='guide-mode-updated-badge'><i class='fa-solid fa-wand-magic-sparkles'></i> Guide updated for Advanced Mode</div><h4>Advanced Mode</h4><p>Multi-qubit circuits, entanglement, and joint quantum state visualization.</p><p style='margin-top:10px;font-size:0.85rem;opacity:0.75'>This guide has been refreshed with new explanations and step-by-step walkthroughs tailored specifically to multi-qubit features.</p></div></div>"
   },
   {
     section: "Advanced Mode",
     title: "Two-Qubit Gates",
-    content: "<p>Advanced mode introduces gates that operate across two qubits simultaneously, enabling entanglement.</p><div class='guide-grid'><div class='guide-note'><strong>CNOT (Controlled-NOT)</strong>Flips the TARGET qubit only when the CONTROL qubit is |1⟩. This conditional operation is the primary source of entanglement in quantum circuits — it creates correlations that have no classical equivalent.</div><div class='guide-note'><strong>CZ (Controlled-Z)</strong>Applies a Z phase-flip to the |11⟩ component only. Functionally equivalent to CNOT in computational power but phase-focused — the phase relationship it creates drives interference in algorithms like Grover's.</div><div class='guide-note'><strong>SWAP</strong>Completely exchanges the quantum states of two qubits. In physical quantum hardware, qubit connectivity is limited, so SWAP gates are used to route quantum information between non-adjacent qubits.</div></div>"
+    content: "<p>Advanced mode introduces gates that operate across two qubits simultaneously, enabling entanglement.</p><div class='guide-grid'><div class='guide-note'><strong>CNOT (Controlled-NOT)</strong>Flips the TARGET qubit only when the CONTROL qubit is |1⟩. This conditional operation is the primary source of entanglement in quantum circuits. It creates correlations that have no classical equivalent.</div><div class='guide-note'><strong>CZ (Controlled-Z)</strong>Applies a Z phase-flip to the |11⟩ component only. Functionally equivalent to CNOT in computational power but phase-focused, meaning the phase relationship it creates drives interference in algorithms like Grover's.</div><div class='guide-note'><strong>SWAP</strong>Completely exchanges the quantum states of two qubits. In physical quantum hardware, qubit connectivity is limited, so SWAP gates are used to route quantum information between non-adjacent qubits.</div></div><div class='guide-lesson-links'><a href='learn/lessons/07-gates-and-circuits.html' class='guide-lesson-link'><i class='fa-solid fa-graduation-cap'></i> Lesson: Gates and Circuits</a></div>"
   },
   {
     section: "Advanced Mode",
     title: "Control and Target Qubits",
-    content: "<p>Two-qubit gates have a <strong>control qubit</strong> and a <strong>target qubit</strong>. The control's state determines whether the gate acts on the target.</p><div class='guide-matrix two'><article class='guide-matrix-card'><h5>Why this matters</h5><p>When the control is in superposition, the gate applies to both |0⟩ and |1⟩ simultaneously. This creates entanglement — the qubits become correlated in a way that classical probability cannot describe.</p></article><article class='guide-matrix-card'><h5>Superposition + CNOT</h5><p>H on the control → CNOT creates a Bell state. The H puts the control into superposition; the CNOT then correlates the target with it. Neither qubit has an independent state anymore.</p></article></div>"
+    content: "<p>Two-qubit gates have a <strong>control qubit</strong> and a <strong>target qubit</strong>. The control's state determines whether the gate acts on the target.</p><div class='guide-matrix two'><article class='guide-matrix-card'><h5>Why this matters</h5><p>When the control is in superposition, the gate applies to both |0⟩ and |1⟩ simultaneously. This creates entanglement, where the qubits become correlated in a way that classical probability cannot describe.</p></article><article class='guide-matrix-card'><h5>Superposition + CNOT</h5><p>H on the control → CNOT creates a Bell state. The H puts the control into superposition; the CNOT then correlates the target with it. Neither qubit has an independent state anymore.</p></article></div>"
   },
   {
     section: "Advanced Mode",
     title: "Entanglement and Joint State",
-    content: "<p>With 2 qubits there are 4 possible outcomes: |00⟩, |01⟩, |10⟩, |11⟩. The probability of each is shown in the state panel.</p><div class='guide-matrix two'><article class='guide-matrix-card'><h5>Entanglement</h5><p>When qubits are entangled, they no longer have independent states. Measuring one instantly determines the outcome of the other — regardless of distance. Einstein called this \"spooky action at a distance.\"</p></article><article class='guide-matrix-card'><h5>Marginal Bloch Spheres</h5><p>Each qubit gets its own Bloch sphere, but when entangled these are approximate marginal states. They can't fully capture the joint state — this fundamental limitation is why we need the full statevector.</p></article></div>"
+    content: "<p>With 2 qubits there are 4 possible outcomes: |00⟩, |01⟩, |10⟩, |11⟩. The probability of each is shown in the state panel.</p><div class='guide-matrix two'><article class='guide-matrix-card'><h5>Entanglement</h5><p>When qubits are entangled, they no longer have independent states. Measuring one instantly determines the outcome of the other, regardless of distance. Einstein called this \"spooky action at a distance.\"</p></article><article class='guide-matrix-card'><h5>Marginal Bloch Spheres</h5><p>Each qubit gets its own Bloch sphere, but when entangled these are approximate marginal states. They can't fully capture the joint state, which is why we need the full statevector.</p></article></div><div class='guide-lesson-links'><a href='learn/lessons/05-entanglement.html' class='guide-lesson-link'><i class='fa-solid fa-graduation-cap'></i> Lesson: Entanglement</a></div>"
   },
   {
     section: "Advanced Mode",
     title: "Foundational Entangled States",
-    content: "<div class='guide-compare'><article class='guide-compare-card'><h5>Bell State — |Φ+⟩</h5><p>H then CNOT creates (|00⟩+|11⟩)/√2 — the simplest maximally entangled state. Both outcomes are equally likely, and measuring one collapses both simultaneously. The foundation of quantum teleportation and cryptography.</p></article><article class='guide-compare-card'><h5>GHZ State</h5><p>Extends Bell to 3 qubits: (|000⟩+|111⟩)/√2. All three are maximally entangled. Violates Bell inequalities more strongly than any 2-qubit state — used in quantum error correction and tests of quantum mechanics.</p></article><article class='guide-compare-card'><h5>SWAP Test</h5><p>Estimates the overlap between two quantum states using interference. If two states are identical the SWAP test always returns 0; if orthogonal, it returns 0 or 1 with equal probability. A core primitive in quantum machine learning.</p></article></div>"
+    content: "<div class='guide-compare'><article class='guide-compare-card'><h5>Bell State ( |Φ+⟩ )</h5><p>H then CNOT creates (|00⟩+|11⟩)/√2. This is the simplest maximally entangled state. Both outcomes are equally likely, and measuring one collapses both simultaneously. The foundation of quantum teleportation and cryptography.</p></article><article class='guide-compare-card'><h5>GHZ State</h5><p>Extends Bell to 3 qubits: (|000⟩+|111⟩)/√2. All three are maximally entangled. Violates Bell inequalities more strongly than any 2-qubit state. Used in quantum error correction and tests of quantum mechanics.</p></article><article class='guide-compare-card'><h5>SWAP Test</h5><p>Estimates the overlap between two quantum states using interference. If two states are identical the SWAP test always returns 0; if orthogonal, it returns 0 or 1 with equal probability. A core primitive in quantum machine learning.</p></article></div>"
   },
   {
     section: "Advanced Mode",
     title: "Create Your First Entangled Circuit",
-    content: "<p>Follow these steps to produce a Bell state — the simplest maximally entangled state — right now in the sandbox.</p><div class='guide-flow'><div class='guide-step'><strong><span class='step-head'>1</span>Click <strong>H</strong> in the Gate Library</strong><p>Click the <strong>H</strong> gate, then click the <strong>top wire (Q0)</strong> in the circuit. This puts Q0 into superposition: 50% |0⟩ and 50% |1⟩.</p></div><div class='guide-arrow'>↓</div><div class='guide-step'><strong><span class='step-head'>2</span>Place a CNOT gate</strong><p>Click <strong>CNOT</strong>, click the <strong>top wire (Q0)</strong> as the control, then click the <strong>bottom wire (Q1)</strong> as the target. The vertical connector appears.</p></div><div class='guide-arrow'>↓</div><div class='guide-step'><strong><span class='step-head'>3</span>Read the result</strong><p>The <strong>Entanglement badge</strong> lights up in the right panel. The probability bars show only |00⟩ and |11⟩ at 50% each — the two qubits are now maximally correlated. Measuring either one instantly determines the other.</p></div></div>"
+    content: "<p>Follow these steps to produce a Bell state, the simplest maximally entangled state, right now in the sandbox.</p><div class='guide-flow'><div class='guide-step'><strong><span class='step-head'>1</span>Click <strong>H</strong> in the Gate Library</strong><p>Click the <strong>H</strong> gate, then click the <strong>top wire (Q0)</strong> in the circuit. This puts Q0 into superposition: 50% |0⟩ and 50% |1⟩.</p></div><div class='guide-arrow'>↓</div><div class='guide-step'><strong><span class='step-head'>2</span>Place a CNOT gate</strong><p>Click <strong>CNOT</strong>, click the <strong>top wire (Q0)</strong> as the control, then click the <strong>bottom wire (Q1)</strong> as the target. The vertical connector appears.</p></div><div class='guide-arrow'>↓</div><div class='guide-step'><strong><span class='step-head'>3</span>Read the result</strong><p>The <strong>Entanglement badge</strong> lights up in the right panel. The probability bars show only |00⟩ and |11⟩ at 50% each. The two qubits are now maximally correlated. Measuring either one instantly determines the other.</p></div></div>"
   },
   {
     section: "Advanced Mode",
     title: "You Are Ready!",
-    content: "<div class='guide-title-slide'><div><h4>Ready to experiment!</h4><p>Build any entangled circuit, load a preset, or start from scratch — every combination of gates reveals something new about the joint quantum state.</p></div></div>"
+    content: "<div class='guide-title-slide'><div><h4>Ready to experiment!</h4><p>Build any entangled circuit, load a preset, or start from scratch. Every combination of gates reveals something new about the joint quantum state.</p></div></div>"
   }
 ];
 
@@ -278,37 +284,37 @@ const GUIDE_SLIDES_EXPERT = [
   {
     section: "Expert Mode",
     title: "Welcome to Expert Mode",
-    content: "<div class='guide-title-slide'><div><h4>Expert Mode</h4><p>Full universal gate set, up to 6 qubits, complex phase visualization, and real quantum algorithms.</p></div></div>"
+    content: "<div class='guide-title-slide'><div><div class='guide-mode-updated-badge expert'><i class='fa-solid fa-wand-magic-sparkles'></i> Guide updated for Expert Mode</div><h4>Expert Mode</h4><p>A universal gate set, up to 6 qubits, complex phase visualization, and real quantum algorithms.</p><p style='margin-top:10px;font-size:0.85rem;opacity:0.75'>This guide covers deeper quantum mechanics, multi-qubit operations, and walks you through building real algorithms from scratch. Note: \"universal\" means these gates are enough to build any quantum computation - it does not mean they are the only gates that exist. Any unitary matrix is a valid gate, so there are infinitely many possible gates in total.</p></div></div>"
   },
   {
     section: "Expert Mode",
     title: "Three-Qubit Gates",
-    content: "<p>Expert mode adds Toffoli (CCX) and Fredkin (CSWAP) — the three-qubit gates that complete the universal gate set for reversible classical computation.</p><div class='guide-grid'><div class='guide-note'><strong>Toffoli (CCX)</strong>Flips the TARGET qubit only if BOTH control qubits are |1⟩. Equivalent to a reversible classical AND gate. Combined with H and CNOT, this single gate makes the set computationally universal — any classical function can be computed reversibly.</div><div class='guide-note'><strong>Fredkin (CSWAP)</strong>Swaps two target qubits if the control qubit is |1⟩. Implements reversible classical multiplexing and can sort quantum states conditionally. Used in quantum sorting networks and as a building block for arithmetic circuits.</div></div>"
+    content: "<p>Expert mode adds Toffoli (CCX) and Fredkin (CSWAP): the three-qubit gates that complete the universal gate set for reversible classical computation.</p><div class='guide-grid'><div class='guide-note'><strong>Toffoli (CCX)</strong>Flips the TARGET qubit only if BOTH control qubits are |1⟩. Equivalent to a reversible classical AND gate. Combined with H and CNOT, this single gate makes the set computationally universal, meaning any classical function can be computed reversibly.</div><div class='guide-note'><strong>Fredkin (CSWAP)</strong>Swaps two target qubits if the control qubit is |1⟩. Implements reversible classical multiplexing and can sort quantum states conditionally. Used in quantum sorting networks and as a building block for arithmetic circuits.</div></div>"
   },
   {
     section: "Expert Mode",
     title: "Entanglement",
-    content: "<p>Entanglement is a uniquely quantum correlation in which two or more qubits share a joint state that cannot be factored into independent parts. It is the primary resource that separates quantum computation from classical computation.</p><div class='guide-matrix two'><article class='guide-matrix-card'><h5>How entanglement forms</h5><p>Any two-qubit gate that applies a conditional operation — like CNOT with its control in superposition — can create entanglement. The qubits' fates become linked: there is no individual state for either qubit, only a joint state.</p></article><article class='guide-matrix-card'><h5>Measurement and collapse</h5><p>Measuring one entangled qubit instantly determines the outcome of all its partners. The correlation is pre-existing in the joint state — it is not a signal, but a consequence of shared quantum information.</p></article><article class='guide-matrix-card'><h5>Multi-qubit entanglement</h5><p>With 6 qubits you can create GHZ-like states where all six are maximally entangled. The individual Bloch spheres become purely approximate; only the full 64-dimensional statevector captures the real state.</p></article><article class='guide-matrix-card'><h5>Entanglement and algorithms</h5><p>Grover's search, QFT, and quantum teleportation all depend on engineered entanglement. It enables quantum parallelism — operating on all 2ⁿ basis states simultaneously — and drives the interference that amplifies correct answers.</p></article></div>"
+    content: "<p>Entanglement is a uniquely quantum correlation in which two or more qubits share a joint state that cannot be factored into independent parts. It is the primary resource that separates quantum computation from classical computation.</p><div class='guide-matrix two'><article class='guide-matrix-card'><h5>How entanglement forms</h5><p>Any two-qubit gate that applies a conditional operation, like CNOT with its control in superposition, can create entanglement. The qubits' fates become linked: there is no individual state for either qubit, only a joint state.</p></article><article class='guide-matrix-card'><h5>Measurement and collapse</h5><p>Measuring one entangled qubit instantly determines the outcome of all its partners. The correlation is pre-existing in the joint state, which means it is not a signal, but a consequence of shared quantum information.</p></article><article class='guide-matrix-card'><h5>Multi-qubit entanglement</h5><p>With 6 qubits you can create GHZ-like states where all six are maximally entangled. The individual Bloch spheres become purely approximate; only the full 64-dimensional statevector captures the real state.</p></article><article class='guide-matrix-card'><h5>Entanglement and algorithms</h5><p>Grover's search, QFT, and quantum teleportation all depend on engineered entanglement. It enables quantum parallelism, operating on all 2ⁿ basis states simultaneously, and drives the interference that amplifies correct answers.</p></article></div>"
   },
   {
     section: "Expert Mode",
     title: "Exponential State Space",
-    content: "<p>Each additional qubit doubles the number of basis states that must be tracked simultaneously.</p><div class='guide-note' style='margin-top:12px'><strong>State space by qubit count</strong>2 qubits = 4 basis states · 3 = 8 · 4 = 16 · 5 = 32 · 6 = 64. A classical computer needs memory proportional to this count to simulate the full quantum state — quantum hardware handles it natively through physical superposition.</div><div class='guide-matrix two' style='margin-top:14px'><article class='guide-matrix-card'><h5>Why this matters</h5><p>Quantum algorithms exploit this exponential space to perform computations that would be classically intractable. Shor's algorithm factors numbers in polynomial time by operating on all possible states simultaneously.</p></article><article class='guide-matrix-card'><h5>Entanglement across many qubits</h5><p>With 6 entangled qubits, no single qubit has an independent state. The full quantum state lives in a 64-dimensional complex vector space — far beyond anything a Bloch sphere can convey alone.</p></article></div>"
+    content: "<p>Each additional qubit doubles the number of basis states that must be tracked simultaneously.</p><div class='guide-note' style='margin-top:12px'><strong>State space by qubit count</strong>2 qubits = 4 basis states · 3 = 8 · 4 = 16 · 5 = 32 · 6 = 64. A classical computer needs memory proportional to this count to simulate the full quantum state, while quantum hardware handles it natively through physical superposition.</div><div class='guide-matrix two' style='margin-top:14px'><article class='guide-matrix-card'><h5>Why this matters</h5><p>Quantum algorithms exploit this exponential space to perform computations that would be classically intractable. Shor's algorithm factors numbers in polynomial time by operating on all possible states simultaneously.</p></article><article class='guide-matrix-card'><h5>Entanglement across many qubits</h5><p>With 6 entangled qubits, no single qubit has an independent state. The full quantum state lives in a 64-dimensional complex vector space, far beyond anything a Bloch sphere can convey alone.</p></article></div>"
   },
   {
     section: "Expert Mode",
     title: "Phase and Quantum Interference",
-    content: "<p>Every basis state with nonzero amplitude carries a complex phase angle. Phase is invisible to measurement — but it completely determines how amplitudes interfere.</p><div class='guide-matrix two'><article class='guide-matrix-card'><h5>Constructive interference</h5><p>When two amplitudes have the same phase, they add together — making that outcome more probable. Quantum algorithms engineer circuits specifically to constructively interfere on correct answers.</p></article><article class='guide-matrix-card'><h5>Destructive interference</h5><p>When two amplitudes are opposite in phase (180° apart), they cancel — driving that outcome's probability toward zero. This is how quantum algorithms suppress wrong answers without ever checking them explicitly.</p></article></div>"
+    content: "<p>Every basis state with nonzero amplitude carries a complex phase angle. Phase is invisible to measurement, but it completely determines how amplitudes interfere.</p><div class='guide-matrix two'><article class='guide-matrix-card'><h5>Constructive interference</h5><p>When two amplitudes have the same phase, they are added together, making that outcome more probable. Quantum algorithms engineer circuits specifically to constructively interfere on correct answers.</p></article><article class='guide-matrix-card'><h5>Destructive interference</h5><p>When two amplitudes are opposite in phase (180° apart), they cancel, driving that outcome's probability toward zero. This is how quantum algorithms suppress wrong answers without ever checking them explicitly.</p></article></div>"
   },
   {
     section: "Expert Mode",
     title: "Real Quantum Algorithms",
-    content: "<div class='guide-compare'><article class='guide-compare-card'><h5>Grover's Search</h5><p>Uses phase kickback and diffusion to amplify one target state's probability. Achieves a quadratic speedup over classical exhaustive search — searching N items in √N steps.</p></article><article class='guide-compare-card'><h5>QFT (Quantum Fourier Transform)</h5><p>The quantum analogue of the FFT. Transforms computational basis states into a frequency domain with exponential efficiency. The core subroutine of Shor's factoring algorithm.</p></article><article class='guide-compare-card'><h5>Quantum Teleportation</h5><p>Transmits an unknown qubit state using an entangled pair plus two classical bits. The quantum state is destroyed at the sender and perfectly reconstructed at the receiver — no cloning, no faster-than-light communication.</p></article><article class='guide-compare-card'><h5>Deutsch Algorithm</h5><p>The first algorithm proven to outperform any classical algorithm. Determines whether a function is constant or balanced in one quantum query, where classically two are required.</p></article></div>"
+    content: "<div class='guide-compare'><article class='guide-compare-card'><h5>Grover's Search</h5><p>Uses phase kickback and diffusion to amplify one target state's probability. Achieves a quadratic speedup over classical exhaustive search, searching N items in √N steps.</p></article><article class='guide-compare-card'><h5>QFT (Quantum Fourier Transform)</h5><p>The quantum analogue of the FFT. Transforms computational basis states into a frequency domain with exponential efficiency. The core subroutine of Shor's factoring algorithm.</p></article><article class='guide-compare-card'><h5>Quantum Teleportation</h5><p>Transmits an unknown qubit state using an entangled pair plus two classical bits. The quantum state is destroyed at the sender and perfectly reconstructed at the receiver. Hence, there is no cloning and no faster-than-light communication.</p></article><article class='guide-compare-card'><h5>Deutsch Algorithm</h5><p>The first algorithm proven to outperform any classical algorithm. Determines whether a function is constant or balanced in one quantum query, where classically two are required.</p></article></div>"
   },
   {
     section: "Expert Mode",
-    title: "Build a GHZ State — Step by Step",
-    content: "<p>The GHZ state (|000⟩+|111⟩)/√2 is maximally entangled across <em>three</em> qubits. Here's how to build it from scratch.</p><div class='guide-flow'><div class='guide-step'><strong><span class='step-head'>1</span>Set qubit count to 3</strong><p>Use the <strong>+</strong> button in the left panel to add a third qubit. You now have wires Q0, Q1, and Q2.</p></div><div class='guide-arrow'>↓</div><div class='guide-step'><strong><span class='step-head'>2</span>H on Q0</strong><p>Click <strong>H</strong>, then click the top wire (Q0). Q0 enters superposition — the phase display updates to show complex amplitudes.</p></div><div class='guide-arrow'>↓</div><div class='guide-step'><strong><span class='step-head'>3</span>CNOT Q0 → Q1</strong><p>Click <strong>CNOT</strong>, pick Q0 as control, Q1 as target. The entanglement badge appears — Q0 and Q1 are now correlated.</p></div><div class='guide-arrow'>↓</div><div class='guide-step'><strong><span class='step-head'>4</span>CNOT Q0 → Q2</strong><p>Click <strong>CNOT</strong> again, pick Q0 as control, Q2 as target. All three qubits are now entangled — only |000⟩ and |111⟩ have nonzero probability.</p></div></div>"
+    title: "Build a GHZ State Step by Step",
+    content: "<p>The GHZ state (|000⟩+|111⟩)/√2 is maximally entangled across <em>three</em> qubits. Here's how to build it from scratch.</p><div class='guide-flow'><div class='guide-step'><strong><span class='step-head'>1</span>Set qubit count to 3</strong><p>Use the <strong>+</strong> button in the left panel to add a third qubit. You now have wires Q0, Q1, and Q2.</p></div><div class='guide-arrow'>↓</div><div class='guide-step'><strong><span class='step-head'>2</span>H on Q0</strong><p>Click <strong>H</strong>, then click the top wire (Q0). Q0 enters superposition and the phase display updates to show complex amplitudes.</p></div><div class='guide-arrow'>↓</div><div class='guide-step'><strong><span class='step-head'>3</span>CNOT Q0 → Q1</strong><p>Click <strong>CNOT</strong>, pick Q0 as control, Q1 as target. The entanglement badge appears, which means Q0 and Q1 are now correlated.</p></div><div class='guide-arrow'>↓</div><div class='guide-step'><strong><span class='step-head'>4</span>CNOT Q0 → Q2</strong><p>Click <strong>CNOT</strong> again, pick Q0 as control, Q2 as target. All three qubits are now entangled: only |000⟩ and |111⟩ have nonzero probability.</p></div></div>"
   },
   {
     section: "Expert Mode",
@@ -914,10 +920,10 @@ function updateReadouts() {
   const isClassical1 = p1 > 0.995;
   const isEqual = Math.abs(p0 - 0.5) < 0.01;
   let plainState;
-  if (isClassical0) plainState = "Definitely <strong>|0⟩</strong> — measure it and you'll always get 0.";
-  else if (isClassical1) plainState = "Definitely <strong>|1⟩</strong> — measure it and you'll always get 1.";
+  if (isClassical0) plainState = "Definitely <strong>|0⟩</strong>. Measure it and you'll always get 0.";
+  else if (isClassical1) plainState = "Definitely <strong>|1⟩</strong>. Measure it and you'll always get 1.";
   else if (isEqual) plainState = "Perfect superposition — <strong>50% |0⟩, 50% |1⟩</strong>. The outcome is genuinely random until measured.";
-  else plainState = `Superposition — <strong>${(p0*100).toFixed(0)}% chance of |0⟩</strong>, <strong>${(p1*100).toFixed(0)}% chance of |1⟩</strong>.`;
+  else plainState = `Superposition: <strong>${(p0*100).toFixed(0)}% chance of |0⟩</strong>, <strong>${(p1*100).toFixed(0)}% chance of |1⟩</strong>.`;
 
   stateFormula.innerHTML = [
     '<span class="readout-title">Current Quantum State</span>',
@@ -941,44 +947,44 @@ function describeCircuitImpact(gateType) {
 
   // State description
   let stateDesc;
-  if (isClassical0) stateDesc = "your qubit is definitely <strong>|0⟩</strong> — no uncertainty";
-  else if (isClassical1) stateDesc = "your qubit is definitely <strong>|1⟩</strong> — no uncertainty";
-  else if (isEqual) stateDesc = "your qubit is in <strong>perfect superposition</strong> — 50% chance of either outcome";
+  if (isClassical0) stateDesc = "your qubit is definitely <strong>|0⟩</strong>. No uncertainty";
+  else if (isClassical1) stateDesc = "your qubit is definitely <strong>|1⟩</strong>. No uncertainty";
+  else if (isEqual) stateDesc = "your qubit is in <strong>perfect superposition</strong>. 50% chance of either outcome";
   else stateDesc = `your qubit has a <strong>${pct0}% chance</strong> of measuring |0⟩ and a <strong>${pct1}% chance</strong> of measuring |1⟩`;
 
   // What the last gate specifically did
   let gateImpact;
   switch (gateType) {
     case "X":
-      if (isClassical0) gateImpact = "The X gate just flipped your qubit from |1⟩ to |0⟩ — like a classical NOT.";
-      else if (isClassical1) gateImpact = "The X gate just flipped your qubit from |0⟩ to |1⟩ — like a classical NOT.";
+      if (isClassical0) gateImpact = "The X gate just flipped your qubit from |1⟩ to |0⟩, like a classical NOT.";
+      else if (isClassical1) gateImpact = "The X gate just flipped your qubit from |0⟩ to |1⟩, like a classical NOT.";
       else gateImpact = "The X gate flipped the probability weights between |0⟩ and |1⟩.";
       break;
     case "H":
-      if (isEqual) gateImpact = "The H gate just split your qubit into a perfect 50/50 superposition — it's now in both states at once.";
+      if (isEqual) gateImpact = "The H gate just split your qubit into a perfect 50/50 superposition. It's now in both states at once!";
       else if (isClassical0 || isClassical1) gateImpact = "The H gate collapsed the superposition back to a definite state.";
       else gateImpact = "The H gate mixed |0⟩ and |1⟩ into a superposition.";
       break;
     case "Z":
       gateImpact = inSuperposition
         ? "The Z gate flipped the phase of the |1⟩ part. Probabilities look the same, but the qubit now interferes differently with future gates."
-        : "The Z gate applied a phase flip to |1⟩. Since you're in a basis state, there's no visible change yet — phase matters when combined with other gates.";
+        : "The Z gate applied a phase flip to |1⟩. Since you're in a basis state, there's no visible change yet. Phase only matters when combined with other gates.";
       break;
     case "Y":
-      gateImpact = "The Y gate flipped the qubit AND added a phase shift. Like X, but with a twist — this changes how the qubit interferes in later steps.";
+      gateImpact = "The Y gate flipped the qubit AND added a phase shift. Like X, but with a twist, it changes how the qubit interferes in later steps.";
       break;
     case "S":
       gateImpact = inSuperposition
-        ? "The S gate rotated the phase of |1⟩ by 90°. The probabilities are unchanged, but the qubit's phase shifted — this steers interference."
+        ? "The S gate rotated the phase of |1⟩ by 90°. The probabilities are unchanged, but the qubit's phase shifted. This steers interference."
         : "The S gate applied a 90° phase rotation to |1⟩. In a basis state this is invisible, but it becomes significant in superposition.";
       break;
     case "T":
       gateImpact = inSuperposition
         ? "The T gate nudged the phase of |1⟩ by 45°. A subtle but precise rotation that matters in longer circuits."
-        : "The T gate applied a 45° phase rotation to |1⟩. Like S but finer — becomes important when combined with H gates.";
+        : "The T gate applied a 45° phase rotation to |1⟩. Like S but finer. It becomes prominent when combined with H gates.";
       break;
     case "ID":
-      gateImpact = "The ID gate did nothing intentionally — it's a placeholder that keeps the circuit step count without changing the qubit.";
+      gateImpact = "The ID gate did nothing intentionally. It's a placeholder that keeps the circuit step count without changing the qubit.";
       break;
     default:
       gateImpact = "";
@@ -1007,15 +1013,15 @@ function detectCircuitPattern() {
 
   // H on |0⟩ → first superposition
   if (seq.length === 1 && seq[0] === "H" && isEqual && initialStateLabel === "|0⟩") {
-    return { emoji: "🎉", title: "You just created superposition!", body: "Your qubit is no longer 0 or 1 — it's genuinely both at the same time. This is the core trick that makes quantum computers powerful. Until you measure it, the outcome is truly undecided." };
+    return { emoji: "🎉", title: "You just created superposition!", body: "Your qubit is no longer 0 or 1, it's genuinely both at the same time. This is the core trick that makes quantum computers powerful. Until you measure it, the outcome is truly undecided." };
   }
   // H → H returns to start
   if (seq.length >= 2 && seq[seq.length - 1] === "H" && seq[seq.length - 2] === "H" && isClassical0 && initialStateLabel === "|0⟩") {
-    return { emoji: "🔄", title: "H → H brings you back!", body: "Applying H twice cancels out perfectly. This is called self-inverse — the Hadamard gate is its own opposite. No classical gate works like this." };
+    return { emoji: "🔄", title: "H → H brings you back!", body: "Applying H twice cancels out perfectly. This is called self-inverse, as the Hadamard gate is its own opposite. No classical gate works like this." };
   }
   // X on |0⟩ → flipped to |1⟩
   if (seq.length === 1 && seq[0] === "X" && isClassical1) {
-    return { emoji: "🔀", title: "You flipped the qubit!", body: "Just like a classical NOT gate — |0⟩ became |1⟩. X is the simplest quantum gate and behaves identically to a regular bit flip here." };
+    return { emoji: "🔀", title: "You flipped the qubit!", body: "Just like a classical NOT gate, |0⟩ became |1⟩. X is the simplest quantum gate and behaves identically to a regular bit flip here." };
   }
   // X → X returns to start
   if (seq.length >= 2 && seq[seq.length - 1] === "X" && seq[seq.length - 2] === "X" && isClassical0) {
@@ -1023,19 +1029,19 @@ function detectCircuitPattern() {
   }
   // H → Z → H (phase kickback pattern)
   if (seq.join(",").includes("H,Z,H")) {
-    return { emoji: "⚡", title: "That's phase kickback!", body: "H → Z → H is equivalent to an X gate. You just discovered that phase manipulation can produce bit flips — a deep trick used in real quantum algorithms." };
+    return { emoji: "", title: "That's phase kickback!", body: "H → Z → H is equivalent to an X gate. You just discovered that phase manipulation can produce bit flips, which is a vital trick used in real quantum algorithms." };
   }
   // H → X → H
   if (seq.join(",").includes("H,X,H")) {
-    return { emoji: "⚡", title: "That's a phase flip in disguise!", body: "H → X → H is equivalent to a Z gate. By sandwiching X between two H gates you turned a bit flip into a phase flip. This is how quantum gates get repurposed." };
+    return { emoji: "", title: "That's a phase flip in disguise!", body: "H → X → H is equivalent to a Z gate. By sandwiching X between two H gates you turned a bit flip into a phase flip. This is how quantum gates get repurposed." };
   }
   // Long circuit, still in perfect superposition
   if (seq.length >= 4 && isEqual) {
-    return { emoji: "🌊", title: "Still in superposition after all that!", body: "Despite several gates, your qubit is still perfectly balanced between |0⟩ and |1⟩. The gates cancelled each other's probability effects out, even if the phase shifted." };
+    return { emoji: "", title: "Still in superposition after all that!", body: "Despite several gates, your qubit is still perfectly balanced between |0⟩ and |1⟩. The gates cancelled each other's probability effects out, even if the phase shifted." };
   }
   // Long circuit returning to |0⟩
   if (seq.length >= 3 && isClassical0 && initialStateLabel === "|0⟩") {
-    return { emoji: "🔁", title: "Back to where you started!", body: "After all those gates, your qubit returned to |0⟩. The sequence of transformations looped back on itself — this kind of reversibility is fundamental to quantum computing." };
+    return { emoji: "🔁", title: "Back to where you started!", body: "After all those gates, your qubit returned to |0⟩. The sequence of transformations looped back on itself. This kind of reversibility is fundamental to quantum computing." };
   }
 
   return null;
@@ -1102,21 +1108,21 @@ function measureState() {
 
   let collapseExplain;
   if (!wasInSuperposition) {
-    collapseExplain = `Your qubit was already in a definite state, so the outcome was certain — no surprise here.`;
+    collapseExplain = `Your qubit was already in a definite state, so the outcome was certain.`;
   } else if (winPct === "50") {
-    collapseExplain = `Your qubit was in perfect 50/50 superposition, so this was a completely random outcome — like a quantum coin flip. It could just as easily have been ${other}.`;
+    collapseExplain = `Your qubit was in perfect 50/50 superposition, so this was a completely random outcome, almost like a quantum coin flip. It could just as easily have been ${other}.`;
   } else {
-    collapseExplain = `Your qubit had a ${winPct}% chance of landing on ${result} and a ${losePct}% chance of landing on ${other}. It landed on the ${winPct === "100" ? "certain" : "more likely"} side this time — but run it again and the result may differ.`;
+    collapseExplain = `Your qubit had a ${winPct}% chance of landing on ${result} and a ${losePct}% chance of landing on ${other}. It landed on the ${winPct === "100" ? "certain" : "more likely"} side this time, but run it again and the result may differ.`;
   }
 
   gateExplain.classList.remove("empty");
   gateExplain.innerHTML = `
-    <h3>⚛️ Measurement — collapsed to ${result}</h3>
-    <p>In quantum mechanics, <strong>measuring forces the qubit to choose</strong>. Before measurement it existed as a blend of possibilities. The moment you observe it, all that uncertainty resolves to a single definite outcome — and it can never go back.</p>
+    <h3>Measurement collapsed to: ${result}</h3>
+    <p>In quantum mechanics, <strong>measuring forces the qubit to choose</strong>. Before measurement it existed as a blend of possibilities. The moment you observe it, all that uncertainty resolves to a single definite outcome and it can NEVER go back.</p>
     <div class="circuit-impact">
       <div class="circuit-impact-label"><i class="fa-solid fa-bolt-lightning"></i> What just happened</div>
       <p class="circuit-impact-body">${collapseExplain}</p>
-      <p class="circuit-impact-summary">The circuit was cleared because post-measurement the qubit is now a known classical state — there's nothing left to evolve.</p>
+      <p class="circuit-impact-summary">The circuit was cleared because post-measurement the qubit is now a known classical state; there's nothing left to evolve!</p>
     </div>`;
   recomputeState();
 }
@@ -1546,8 +1552,8 @@ function mountBlochSketch() {
       p.textSize(11);
       p.text("North Pole", p.width / 2, 14);
       p.text("South Pole", p.width / 2, p.height - 23);
-      p.text("|0>", p.width / 2, 30);
-      p.text("|1>", p.width / 2, p.height - 10);
+      p.text("|0⟩", p.width / 2, 30);
+      p.text("|1⟩", p.width / 2, p.height - 10);
       p.text("|x>", 36, p.height / 2);
       p.text("|y>", p.width - 36, p.height / 2);
       p.pop();
@@ -1808,7 +1814,7 @@ async function exportImageAdvanced() {
 
     // Header
     ctx.fillStyle = text; ctx.font = "700 20px Space Grotesk";
-    ctx.fillText(`Quantum Sandbox — ${advMode === "expert" ? "Expert" : "Advanced"} Mode Export`, margin, 32);
+    ctx.fillText(`Quantum Sandbox: ${advMode === "expert" ? "Expert" : "Advanced"} Mode Export`, margin, 32);
     ctx.fillStyle = muted; ctx.font = "500 12px Space Grotesk";
     ctx.fillText(new Date().toLocaleString(), margin, 48);
 
@@ -2174,7 +2180,7 @@ document.getElementById("importJsonFile")?.addEventListener("change", function()
       const data = JSON.parse(ev.target.result);
       importCircuitFromJson(data);
     } catch {
-      showDownloadToast("Could not parse JSON — make sure it is a valid Quantum Sandbox export.");
+      showDownloadToast("Could not parse JSON. Make sure it is a valid Quantum Sandbox export.");
     }
   };
   reader.readAsText(file);
@@ -2288,6 +2294,10 @@ measureBtn.addEventListener("click", measureState);
 resetStateBtn.addEventListener("click", resetState);
 undoBtn.addEventListener("click", () => { if (currentMode === "basic") undo(); else advUndo(); });
 redoBtn.addEventListener("click", () => { if (currentMode === "basic") redo(); else advRedo(); });
+document.getElementById("advUndoBtn")?.addEventListener("click", advUndo);
+document.getElementById("advRedoBtn")?.addEventListener("click", advRedo);
+document.getElementById("expUndoBtn")?.addEventListener("click", advUndo);
+document.getElementById("expRedoBtn")?.addEventListener("click", advRedo);
 depthCancelBtn.addEventListener("click", closeDepthEditor);
 depthSaveBtn.addEventListener("click", () => {
   if (setCircuitDepth(depthInput.value.trim(), true)) closeDepthEditor();
@@ -2389,15 +2399,225 @@ const savedSession = loadSavedSession();
 if (hasMeaningfulSession(savedSession)) restoreBtn.hidden = false;
 
 themeIcon.className = currentTheme === "dark" ? "fa-solid fa-sun" : "fa-solid fa-moon";
+
+// ── URL embed / lesson preset parameters ─────────────────────
+let isEmbedMode = false;
+(function initEmbedParams() {
+  const params = new URLSearchParams(window.location.search);
+  isEmbedMode = params.get("embed") === "1";
+
+  if (isEmbedMode) {
+    document.body.classList.add("embed");
+    // Prevent this iframe from reading or writing the main sandbox session
+    suspendAutoPersist = true;
+  }
+
+  // preset: set initial qubit state before first render
+  const presetParam = params.get("preset");
+  if (presetParam && ["ZERO","ONE","PLUS","MINUS","PLUS_I","MINUS_I"].includes(presetParam)) {
+    initialState = normalizeState(presetToState(presetParam));
+    initialStateLabel = presetToLabel(presetParam);
+    qubitBadge.textContent = initialStateLabel;
+    presetSelect.value = presetParam;
+  }
+
+  // depth: resize circuit array (1–16) before sketch mounts
+  const depthParam = parseInt(params.get("depth"), 10);
+  if (!Number.isNaN(depthParam) && depthParam >= 1 && depthParam <= 16 && depthParam !== circuitSlots) {
+    if (depthParam > circuitSlots) {
+      circuit = circuit.concat(new Array(depthParam - circuitSlots).fill(null));
+    } else {
+      circuit = circuit.slice(0, depthParam);
+    }
+    circuitSlots = depthParam;
+  }
+
+  // gates: preload comma-separated gate keys into circuit slots
+  const gatesParam = params.get("gates");
+  if (gatesParam) {
+    gatesParam.split(",").forEach(function(key, i) {
+      const k = key.trim();
+      if (i < circuitSlots && GATES[k]) circuit[i] = k;
+    });
+  }
+
+  // mode: switch simulator mode after full script initialisation
+  const modeParam = params.get("mode");
+  if (modeParam && modeParam !== "basic" && ["advanced","expert"].includes(modeParam)) {
+    setTimeout(function() { switchMode(modeParam); }, 0);
+  }
+
+  // Build compact gate bar for embed mode (shown inside the center panel)
+  if (isEmbedMode) {
+    function buildEmbedBar(panel) {
+      if (!panel) return;
+      const bar = document.createElement("div");
+      bar.className = "embed-gate-bar";
+      const isAdv = currentMode === "advanced" || currentMode === "expert";
+
+      if (isAdv) {
+        // Advanced / Expert: show MQ_GATES appropriate to the mode
+        const keys = currentMode === "expert" ? EXPERT_GATE_KEYS : ADVANCED_GATE_KEYS;
+        const chips = keys.map(function(k) {
+          const g = MQ_GATES[k];
+          return '<button class="embed-gate-chip" data-gate="' + k + '" data-kind="' + g.kind + '" style="--gate-color:' + g.color + '" title="' + g.name + ' — ' + (g.kind === "single" ? "click or drag" : "click to place") + '">' + g.label + '</button>';
+        }).join("");
+        const presetOpts = currentMode === "expert"
+          ? '<option value="none">— preset —</option><option value="bell">Bell State</option><option value="ghz">GHZ State</option><option value="qft2">QFT (2-qubit)</option><option value="teleport">Teleportation</option><option value="grover2">Grover (2-qubit)</option><option value="deutsch">Deutsch Algorithm</option>'
+          : '<option value="none">— preset —</option><option value="bell">Bell State</option><option value="ghz">GHZ State</option><option value="swap_test">SWAP Test</option>';
+        bar.innerHTML =
+          '<div class="embed-bar-gates">' + chips + '</div>' +
+          '<div class="embed-bar-controls">' +
+            '<select class="preset-select embed-alg-preset" id="embedAlgPreset" style="font-size:0.78rem;height:30px">' + presetOpts + '</select>' +
+            '<button class="btn btn-primary embed-measure-btn" id="embedMeasureBtn" style="font-size:0.78rem;padding:4px 10px;height:30px">Measure all</button>' +
+            '<button class="btn btn-soft embed-clear-btn" id="embedClearBtn" style="font-size:0.78rem;padding:4px 10px;height:30px">Clear</button>' +
+          '</div>';
+
+        bar.querySelectorAll(".embed-gate-chip").forEach(function(btn) {
+          const k = btn.dataset.gate;
+          const gDef = MQ_GATES[k];
+
+          btn.addEventListener("click", function() {
+            if (advDragState.started) return;
+            if (gDef.kind === "single") {
+              advPending = { gateKey: k, step: 0 };
+              advShowPendingPrompt("Click a wire in the circuit to place the " + gDef.name + " gate.");
+            } else {
+              advPending = { gateKey: k, step: 0 };
+              var msg = gDef.kind === "two"
+                ? "Click the CONTROL wire, then the TARGET wire to place " + gDef.name + "."
+                : "Click CONTROL 1, CONTROL 2, then TARGET wire for " + gDef.name + ".";
+              advShowPendingPrompt(msg);
+            }
+          });
+
+          // Drag support for single-qubit gates in advanced/expert
+          if (gDef.kind === "single") {
+            btn.addEventListener("mousedown", function(e) {
+              if (e.button !== 0) return;
+              advDragState.active = true;
+              advDragState.started = false;
+              advDragState.type = k;
+              advDragState.fromCircuit = false;
+              advDragState.sourceIndex = null;
+              advDragState.downX = e.clientX;
+              advDragState.downY = e.clientY;
+              advDragState.pointerX = e.clientX;
+              advDragState.pointerY = e.clientY;
+              advShowDragGhost(k, e.clientX, e.clientY);
+              document.body.style.cursor = "grabbing";
+            });
+          }
+
+          btn.addEventListener("mouseenter", function() {
+            if (advDragState.active) return;
+            showGateTooltip(gDef.name, btn.getBoundingClientRect(), gDef.color);
+          });
+          btn.addEventListener("mouseleave", hideGateTooltip);
+        });
+
+        const ecb = bar.querySelector("#embedClearBtn");
+        if (ecb) ecb.addEventListener("click", function() {
+          if (advGateCount() > 0) {
+            advPushHistory();
+            advCircuit = new Array(advCircuitSlots || ADV_DEFAULT_DEPTH).fill(null);
+            advPending = null;
+            advHidePendingPrompt();
+            advSetExplain(null);
+            advRecompute();
+          }
+        });
+        const emb = bar.querySelector("#embedMeasureBtn");
+        if (emb) emb.addEventListener("click", advMeasureAll);
+        const eap = bar.querySelector("#embedAlgPreset");
+        if (eap) eap.addEventListener("change", function() { advLoadPreset(eap.value); });
+
+      } else {
+        // Basic mode: show single-qubit GATES with click + drag
+        const chips = Object.keys(GATES).map(function(k) {
+          return '<button class="embed-gate-chip" data-gate="' + k + '" style="--gate-color:' + GATES[k].color + '" title="' + GATES[k].name + '">' + GATES[k].label + '</button>';
+        }).join("");
+        bar.innerHTML =
+          '<div class="embed-bar-gates">' + chips + '</div>' +
+          '<div class="embed-bar-controls">' +
+            '<select class="preset-select embed-preset" id="embedPreset" title="Initial state">' +
+              '<option value="ZERO">|0⟩</option><option value="ONE">|1⟩</option>' +
+              '<option value="PLUS">|+⟩</option><option value="MINUS">|-⟩</option>' +
+              '<option value="PLUS_I">|i⟩</option><option value="MINUS_I">|-i⟩</option>' +
+            '</select>' +
+            '<button class="btn btn-primary embed-measure-btn" id="embedMeasureBtn" style="font-size:0.78rem;padding:4px 10px;height:30px">Measure</button>' +
+            '<button class="btn btn-soft embed-clear-btn" id="embedClearBtn" style="font-size:0.78rem;padding:4px 10px;height:30px">Clear</button>' +
+          '</div>';
+
+        bar.querySelectorAll(".embed-gate-chip").forEach(function(btn) {
+          const k = btn.dataset.gate;
+
+          btn.addEventListener("click", function() {
+            if (dragState.started) return;
+            addGateToFirstEmpty(k);
+          });
+
+          // Drag from the embed library chips into the canvas
+          btn.addEventListener("mousedown", function(e) {
+            if (e.button !== 0) return;
+            dragState.active = true;
+            dragState.started = false;
+            dragState.type = k;
+            dragState.fromCircuit = false;
+            dragState.sourceSlot = null;
+            dragState.downX = e.clientX;
+            dragState.downY = e.clientY;
+            dragState.pointerX = e.clientX;
+            dragState.pointerY = e.clientY;
+            hideGateTooltip();
+            showDragGhost(k, e.clientX, e.clientY);
+            document.body.style.cursor = "grabbing";
+          });
+
+          btn.addEventListener("mouseenter", function() {
+            if (dragState.active) return;
+            showGateTooltip(GATES[k].name, btn.getBoundingClientRect(), GATES[k].color);
+          });
+          btn.addEventListener("mouseleave", hideGateTooltip);
+        });
+
+        const ep = bar.querySelector("#embedPreset");
+        if (ep) {
+          ep.value = presetParam || "ZERO";
+          ep.addEventListener("change", function() { applyPreset(ep.value); });
+        }
+        const ecb = bar.querySelector("#embedClearBtn");
+        if (ecb) ecb.addEventListener("click", function() {
+          if (circuit.some(Boolean)) {
+            circuit.fill(null); selectedSlot = null; setExplain(null); recomputeState();
+          }
+        });
+        const emb = bar.querySelector("#embedMeasureBtn");
+        if (emb) emb.addEventListener("click", measureState);
+      }
+
+      panel.insertBefore(bar, panel.firstChild);
+    }
+
+    // Defer until after mode switch settles (mode switch also uses setTimeout 0)
+    setTimeout(function() {
+      const panel = document.querySelector("#appRoot .layout:not([hidden]) .center-panel");
+      buildEmbedBar(panel || document.querySelector("#appRoot .center-panel"));
+    }, 0);
+  }
+})();
+
 createLibraryCards();
 mountCircuitSketch();
 mountBlochSketch();
-suspendAutoPersist = true;
+if (!isEmbedMode) suspendAutoPersist = true;
 recomputeState();
-suspendAutoPersist = false;
-if (!hasMeaningfulSession(savedSession)) persistSession();
+if (!isEmbedMode) {
+  suspendAutoPersist = false;
+  if (!hasMeaningfulSession(savedSession)) persistSession();
+}
 
-// Multi-qubit statevector engine — 2^n complex amplitudes, index i = basis |i_{n-1}...i_0⟩
+// Multi-qubit statevector engine: 2^n complex amplitudes, index i = basis |i_{n-1}...i_0⟩
 const SV = (() => {
   function zeros(n) {
     const sv = [];
@@ -2447,7 +2667,7 @@ const SV = (() => {
     return out;
   }
 
-  // CZ: control=c, target=t — phase-flip |11⟩
+  // CZ: control=c, target=t; phase-flip |11⟩
   function applyCZ(sv, n, c, t) {
     const out = clone(sv);
     const size = 1 << n;
@@ -2599,8 +2819,8 @@ const SV = (() => {
 // MULTI-QUBIT GATE DEFINITIONS
 const MQ_GATES = {
   // Single-qubit (applied to a chosen wire)
-  H:    { label:"H",    name:"Hadamard",     color:"#339af0", kind:"single", qubitCount:1, explain:"Creates superposition on the chosen qubit — puts it in an equal blend of |0⟩ and |1⟩.", matrix: GATES.H.matrix },
-  X:    { label:"X",    name:"Pauli-X",      color:"#ff6b6b", kind:"single", qubitCount:1, explain:"Flips the chosen qubit — quantum NOT gate.", matrix: GATES.X.matrix },
+  H:    { label:"H",    name:"Hadamard",     color:"#339af0", kind:"single", qubitCount:1, explain:"Creates superposition on the chosen qubit: puts it in an equal blend of |0⟩ and |1⟩.", matrix: GATES.H.matrix },
+  X:    { label:"X",    name:"Pauli-X",      color:"#ff6b6b", kind:"single", qubitCount:1, explain:"Flips the chosen qubit: quantum NOT gate.", matrix: GATES.X.matrix },
   Y:    { label:"Y",    name:"Pauli-Y",      color:"#f08c00", kind:"single", qubitCount:1, explain:"Bit + phase flip with imaginary phase on the chosen qubit.", matrix: GATES.Y.matrix },
   Z:    { label:"Z",    name:"Pauli-Z",      color:"#6f42c1", kind:"single", qubitCount:1, explain:"Phase-flips the |1⟩ component of the chosen qubit.", matrix: GATES.Z.matrix },
   S:    { label:"S",    name:"Phase-S",      color:"#20c997", kind:"single", qubitCount:1, explain:"90° phase rotation on |1⟩ of the chosen qubit.", matrix: GATES.S.matrix },
@@ -2608,10 +2828,10 @@ const MQ_GATES = {
   // Two-qubit
   CNOT: { label:"CNOT", name:"CNOT",         color:"#ff4da6", kind:"two",    qubitCount:2, explain:"Flips the TARGET qubit only if the CONTROL qubit is |1⟩. The primary entanglement gate." },
   CZ:   { label:"CZ",   name:"Controlled-Z", color:"#c084fc", kind:"two",    qubitCount:2, explain:"Applies a Z phase-flip to the TARGET if CONTROL is |1⟩. Used heavily in phase kickback." },
-  SWAP: { label:"SWAP", name:"SWAP",         color:"#38bdf8", kind:"two",    qubitCount:2, explain:"Completely exchanges the states of two qubits — useful for routing in physical circuits." },
+  SWAP: { label:"SWAP", name:"SWAP",         color:"#38bdf8", kind:"two",    qubitCount:2, explain:"Completely exchanges the states of two qubits. Useful for routing in physical circuits." },
   // Three-qubit (Expert only)
-  CCNOT:{ label:"CCX",  name:"Toffoli",      color:"#f97316", kind:"three",  qubitCount:3, explain:"Flips the TARGET qubit only if BOTH control qubits are |1⟩. Equivalent to a reversible AND gate — universal for classical computation." },
-  CSWAP:{ label:"CSWAP",name:"Fredkin",      color:"#a78bfa", kind:"three",  qubitCount:3, explain:"Swaps two target qubits only if the control qubit is |1⟩. Reversible classical logic — can implement sorting networks." },
+  CCNOT:{ label:"CCX",  name:"Toffoli",      color:"#f97316", kind:"three",  qubitCount:3, explain:"Flips the TARGET qubit only if BOTH control qubits are |1⟩. Equivalent to a reversible AND gate, something universal for classical computation." },
+  CSWAP:{ label:"CSWAP",name:"Fredkin",      color:"#a78bfa", kind:"three",  qubitCount:3, explain:"Swaps two target qubits only if the control qubit is |1⟩. Reversible classical logic → can help implement sorting networks." },
 };
 
 const ADVANCED_GATE_KEYS = ["H","X","Y","Z","S","T","CNOT","CZ","SWAP"];
@@ -2635,7 +2855,7 @@ let advSV       = SV.initZero(2);
 let advSketch   = null;
 let advBlochSketches = [];
 
-// Per-mode circuit snapshots — keeps Advanced and Expert state (incl. depth) independent
+// Per-mode circuit snapshots. Keeps Advanced and Expert state (incl. depth) independent
 // of one another across mode switches within the same session.
 let advModeStates = { advanced: null, expert: null };
 
@@ -2844,8 +3064,18 @@ function advRedo() {
 }
 
 function advSyncUndoRedoBtns() {
-  undoBtn.disabled = advUndoStack.length === 0;
-  redoBtn.disabled = advRedoStack.length === 0;
+  const noUndo = advUndoStack.length === 0;
+  const noRedo = advRedoStack.length === 0;
+  undoBtn.disabled = noUndo;
+  redoBtn.disabled = noRedo;
+  const advU = document.getElementById("advUndoBtn");
+  const advR = document.getElementById("advRedoBtn");
+  const expU = document.getElementById("expUndoBtn");
+  const expR = document.getElementById("expRedoBtn");
+  if (advU) advU.disabled = noUndo;
+  if (advR) advR.disabled = noRedo;
+  if (expU) expU.disabled = noUndo;
+  if (expR) expR.disabled = noRedo;
 }
 
 function advClearHistory() {
@@ -3040,7 +3270,7 @@ function advUpdateReadouts() {
   if (entCard && entBadge) {
     if (entangled) {
       entCard.style.display = "";
-      entBadge.innerHTML = `<span style="font-size:1.2rem;flex-shrink:0">🔗</span><div><strong style="display:block;margin-bottom:3px">Qubits are entangled!</strong>The qubits no longer have independent states. Measuring one instantly determines the others — no matter how far apart they are. Einstein called this "spooky action at a distance."</div>`;
+      entBadge.innerHTML = `<span style="font-size:1.2rem;flex-shrink:0">🔗</span><div><strong style="display:block;margin-bottom:3px">Qubits are entangled!</strong>The qubits no longer have independent states. Measuring one instantly determines the others, no matter how far apart they are. Einstein called this "spooky action at a distance."</div>`;
     } else {
       entCard.style.display = "none";
     }
@@ -3093,8 +3323,8 @@ function advUpdateReadouts() {
     const maxProb = Math.max(...probsArr);
     const topIdx  = probsArr.indexOf(maxProb);
     let plainState;
-    if (maxProb > 0.995) plainState = `Definitely <strong>${basisLabel(topIdx,n)}</strong> — all qubits in known states.`;
-    else if (entangled)  plainState = `Entangled superposition — <strong>no single qubit has a definite state.</strong>`;
+    if (maxProb > 0.995) plainState = `Definitely <strong>${basisLabel(topIdx,n)}</strong>. All qubits in known states.`;
+    else if (entangled)  plainState = `Entangled superposition: <strong>no single qubit has a definite state.</strong>`;
     else                 plainState = `Superposition across ${probsArr.filter(p=>p>0.001).length} basis states.`;
     formulaEl.innerHTML = `<span class="readout-title">Current Quantum State</span><span class="readout-plain">${plainState}</span>`;
   }
@@ -3237,8 +3467,8 @@ function advBuildBlochRow(container, n, entangled) {
         p.textSize(9);
         p.text("North Pole", p.width / 2, 10);
         p.text("South Pole", p.width / 2, p.height - 16);
-        p.text("|0>", p.width / 2, 22);
-        p.text("|1>", p.width / 2, p.height - 6);
+        p.text("|0⟩", p.width / 2, 22);
+        p.text("|1⟩", p.width / 2, p.height - 6);
         p.text("|x>", 26, p.height / 2);
         p.text("|y>", p.width - 26, p.height / 2);
         p.pop();
@@ -3298,7 +3528,7 @@ function advMountCircuit(wrapId) {
 
       p.background(panelAlt);
 
-      // Sticky scroll offset — keeps qubit labels at the visible left edge
+      // Sticky scroll offset. Keeps qubit labels at the visible left edge
       const sx = wrap.scrollLeft;
 
       // Draw wires
@@ -3313,7 +3543,7 @@ function advMountCircuit(wrapId) {
 
       const g = geometry();
 
-      // Draw gates — fill available canvas width with placeholder slots
+      // Draw gates. Fill available canvas width with placeholder slots
       const DEPTH = advCircuitSlots || 1;
       // Empty slot placeholders
       for (let i = 0; i < DEPTH; i++) {
@@ -3702,11 +3932,11 @@ function advDescribeImpact(gateKey) {
   switch (gateKey) {
     case "X": {
       const last = advFlattenCircuit().slice().reverse().find(s => s.gate === "X");
-      return `Flipped qubit Q${last?.qubit ?? "?"} — a quantum NOT. If it was |0⟩ it is now |1⟩, and vice versa.`;
+      return `Flipped qubit Q${last?.qubit ?? "?"}, essentially a quantum NOT. If it was |0⟩ it is now |1⟩, and vice versa.`;
     }
     case "Y": {
       const last = advFlattenCircuit().slice().reverse().find(s => s.gate === "Y");
-      return `Applied Pauli-Y to Q${last?.qubit ?? "?"} — both a bit flip and a phase flip. This introduces an imaginary phase factor that affects future interference.`;
+      return `Applied Pauli-Y to Q${last?.qubit ?? "?"}, which executed both a bit flip and a phase flip. This introduces an imaginary phase factor that affects future interference.`;
     }
     case "Z": {
       const last = advFlattenCircuit().slice().reverse().find(s => s.gate === "Z");
@@ -3714,25 +3944,25 @@ function advDescribeImpact(gateKey) {
     }
     case "S": {
       const last = advFlattenCircuit().slice().reverse().find(s => s.gate === "S");
-      return `Applied 90° phase rotation (S gate) to |1⟩ of Q${last?.qubit ?? "?"}. Incrementally rotates phase — two S gates equal one Z gate.`;
+      return `Applied 90° phase rotation (S gate) to |1⟩ of Q${last?.qubit ?? "?"}. Incrementally rotates phase. Two S gates are equivalent to one Z gate.`;
     }
     case "T": {
       const last = advFlattenCircuit().slice().reverse().find(s => s.gate === "T");
-      return `Applied 45° phase rotation (T gate) to |1⟩ of Q${last?.qubit ?? "?"}. The finest phase increment in the standard gate set — critical for fault-tolerant algorithms.`;
+      return `Applied 45° phase rotation (T gate) to |1⟩ of Q${last?.qubit ?? "?"}. The finest phase increment in the standard gate set: critical for fault-tolerant algorithms.`;
     }
     case "H": {
       const last = advFlattenCircuit().slice().reverse().find(s => s.gate === "H");
       return `Put Q${last?.qubit ?? "?"} into superposition.${entangled ? " Combined with entanglement, this qubit is now part of a complex joint state." : " The qubit now has equal probability of measuring |0⟩ or |1⟩."}`;
     }
     case "CNOT": return entangled
-      ? "The CNOT gate just entangled your qubits. They now share a joint state — measuring one instantly collapses the other."
+      ? "The CNOT gate just entangled your qubits. They now share a joint state, where measuring one instantly collapses the other."
       : "The CNOT flipped the target qubit, but no entanglement was created (control was in a basis state).";
     case "CZ": return entangled
-      ? "The CZ gate introduced a phase relationship between the qubits — a subtle but powerful form of entanglement."
+      ? "The CZ gate introduced a phase relationship between the qubits: a subtle yet powerful form of entanglement."
       : "The CZ gate applied a phase flip only to |11⟩. No measurement-level change yet, but the phase will affect future interference.";
-    case "SWAP": return "The SWAP gate exchanged the complete states of the two qubits — everything about them switched.";
+    case "SWAP": return "The SWAP gate exchanged the complete states of the two qubits. Everything about them switched.";
     case "CCNOT": return "The Toffoli gate flipped the target only if both controls were |1⟩. You just implemented a reversible AND gate.";
-    case "CSWAP": return "The Fredkin gate conditionally swapped two qubits. This is reversible classical computation — an important building block for quantum logic.";
+    case "CSWAP": return "The Fredkin gate conditionally swapped two qubits. This is reversible classical computation: an important building block for quantum logic.";
     default: return `Applied ${MQ_GATES[gateKey]?.name || gateKey} to the circuit.`;
   }
 }
@@ -3745,7 +3975,7 @@ function advDetectPattern() {
 
   // Bell state: H on q0 then CNOT q0→q1
   if (seq === "H,CNOT" && n === 2 && entangled && Math.abs(probs[0]-0.5)<0.01 && Math.abs(probs[3]-0.5)<0.01)
-    return { emoji:"🔔", title:"You created a Bell State!", body:"This is the most fundamental entangled state in quantum computing: |Φ+⟩ = (|00⟩+|11⟩)/√2. Both qubits are in perfect superposition AND correlated — measure either one and the other is instantly determined." };
+    return { emoji:"🔔", title:"You created a Bell State!", body:"This is the most fundamental entangled state in quantum computing: |Φ+⟩ = (|00⟩+|11⟩)/√2. Both qubits are in perfect superposition AND correlated. Measure either one and the other is instantly determined." };
 
   // GHZ state
   if (n === 3 && entangled && Math.abs(probs[0]-0.5)<0.01 && Math.abs(probs[7]-0.5)<0.01)
@@ -3753,11 +3983,11 @@ function advDetectPattern() {
 
   // First entanglement
   if (entangled && advCircuit.length <= 4)
-    return { emoji:"🔗", title:"Entanglement created!", body:"Your qubits no longer have independent states. This is a resource with no classical equivalent — it's what makes quantum computers fundamentally different." };
+    return { emoji:"🔗", title:"Entanglement created!", body:"Your qubits no longer have independent states. This is a resource with no classical equivalent. It's what makes quantum computers fundamentally different and unique!" };
 
   // Phase kickback via H→CZ→H
   if (seq.includes("H,CZ") || seq.includes("CZ,H"))
-    return { emoji:"⚡", title:"Phase kickback in action!", body:"The combination of CZ and Hadamard gates creates phase kickback — phase information from the target propagates back to the control qubit. This is the mechanism behind Grover's and Shor's algorithms." };
+    return { emoji:"", title:"Phase kickback in action!", body:"The combination of CZ and Hadamard gates creates <strong>phase kickback</strong>, where phase information from the target propagates back to the control qubit. This is the mechanism behind Grover's and Shor's algorithms." };
 
   return null;
 }
@@ -3892,7 +4122,7 @@ function advSetQubits(n) {
   document.querySelectorAll(".qubit-count-btn").forEach(b => b.classList.toggle("active", Number(b.dataset.n) === n));
   if (advMode === "expert") updateQubitControlButtons();
 
-  // Clear explain box — circuit is being wiped
+  // Clear explain box, circuit is being wiped
   advSetExplain(null);
 
   // Rebuild bloch row
@@ -3941,8 +4171,8 @@ function advMeasureAll() {
   if (el) {
     el.classList.remove("empty");
     el.innerHTML = `
-      <h3>⚛️ Measurement — collapsed to |${bits}⟩</h3>
-      <p>All qubits collapsed simultaneously to definite values. The full quantum state was destroyed — only a single classical outcome remains.</p>
+      <h3>Measurement collapsed to: |${bits}⟩</h3>
+      <p>All qubits collapsed simultaneously to definite values. The full quantum state was destroyed, only a single classical outcome remains.</p>
       <div class="circuit-impact">
         <div class="circuit-impact-label"><i class="fa-solid fa-bolt-lightning"></i> What just happened</div>
         <p class="circuit-impact-body">Before measurement, the system existed across multiple basis states. The instant you measured, quantum mechanics forced a single outcome according to the Born rule: P(outcome) = |amplitude|². You got |${bits}⟩.</p>
@@ -4040,7 +4270,7 @@ function advOpenBlochPopup() {
   const n = advNumQubits;
   const entangled = SV.isEntangled(advSV, n);
   const snapSV = SV.clone(advSV);
-  const uid = `blp-${Date.now()}`; // unique per popup — prevents ID collisions on re-open
+  const uid = `blp-${Date.now()}`; // unique per popup; prevents ID collisions on re-open
 
   const popup = document.createElement("div");
   popup.className = "adv-popup-overlay";
@@ -4129,8 +4359,8 @@ function advOpenBlochPopup() {
           p.resetMatrix();
           p.fill(textCol); p.noStroke();
           p.textAlign(p.CENTER, p.CENTER); p.textSize(9);
-          p.text("|0>", p.width/2, 10);
-          p.text("|1>", p.width/2, p.height-8);
+          p.text("|0⟩", p.width/2, 10);
+          p.text("|1⟩", p.width/2, p.height-8);
           p.pop();
         };
       });
@@ -4498,21 +4728,21 @@ document.getElementById("expPhaseUnitToggle")?.addEventListener("click", functio
 // PER-MODE ONBOARDING TOURS
 const MODE_TOURS = {
   advanced: [
-    { target:"#advGateLibrary",   title:"🔬 Welcome to Advanced Mode!",    body:"You now have multi-qubit gates. Single-qubit gates (H, X, Z...) apply to one wire. Two-qubit gates (CNOT, CZ, SWAP) connect two wires." },
-    { target:".qubit-count-row",  title:"⚙️ Choose your qubit count",       body:"Start with 2 qubits. Add a third when you're ready for more complex states." },
-    { target:"#advCircuitWrap",   title:"📐 Multi-wire circuit",            body:"Each horizontal line is a qubit wire. Gates sit on wires; two-qubit gates show a vertical connector between the wires they link." },
-    { target:"#advProbBars",      title:"📊 Basis state probabilities",     body:"With 2 qubits there are 4 possible outcomes: |00⟩, |01⟩, |10⟩, |11⟩. These bars show the probability of each." },
-    { target:"#advBlochRow",      title:"🌐 Per-qubit Bloch spheres",       body:"Each qubit gets its own sphere, labelled Q0, Q1, Q2… from left to right — Q0 is always the first qubit (top wire). When qubits are entangled the spheres become approximate — a fundamental limitation of single-qubit descriptions." },
-    { target:"#advPresetSelect",  title:"🧪 Try a preset algorithm",        body:"Load a Bell State or GHZ State to instantly see entanglement in action. These are the foundational circuits of quantum information." },
+    { target:"#advGateLibrary",   title:"Welcome to Advanced Mode!",    body:"You now have multi-qubit gates. Single-qubit gates (H, X, Z...) apply to one wire. Two-qubit gates (CNOT, CZ, SWAP) connect two wires." },
+    { target:".qubit-count-row",  title:"Choose your qubit count",       body:"Start with 2 qubits. Add a third when you're ready for more complex states." },
+    { target:"#advCircuitWrap",   title:"Multi-wire circuit",            body:"Each horizontal line is a qubit wire. Gates sit on wires; two-qubit gates show a vertical connector between the wires they link." },
+    { target:"#advProbBars",      title:"Basis state probabilities",     body:"With 2 qubits there are 4 possible outcomes: |00⟩, |01⟩, |10⟩, |11⟩. These bars show the probability of each." },
+    { target:"#advBlochRow",      title:"Per-qubit Bloch spheres",       body:"Each qubit gets its own sphere, labelled Q0, Q1, Q2… from left to right. Q0 is always the first qubit (top wire). When qubits are entangled the spheres become approximate." },
+    { target:"#advPresetSelect",  title:"Try a preset algorithm",        body:"Load a Bell State or GHZ State to instantly see entanglement in action. These are the foundational circuits of quantum information." },
   ],
   expert: [
-    { target:"#expGateLibrary",   title:"🧠 Expert Mode — full gate set",   body:"You now have Toffoli (CCX) and Fredkin (CSWAP) — three-qubit gates that implement reversible classical logic. Combined with H and CNOT, this set is universal." },
-    { target:"#expQubitControl",  title:"⚙️ Add or remove qubits",          body:"Use the + and - buttons to build systems from 2 to 6 qubits. More qubits = more basis states and more computational power." },
-    { target:"#expCircuitWrap",   title:"📐 Deep circuit construction",     body:"Three-qubit gates show two control dots connected to a target. Build gate sequences that implement real algorithms from the preset menu." },
-    { target:"#expBlochRow",      title:"🌐 Per-qubit Bloch spheres",       body:"Spheres are indexed Q0, Q1, Q2… left to right — Q0 corresponds to the top wire of the circuit. With entanglement, each sphere shows only an approximation of its qubit's state." },
-    { target:"#expPhaseDisplay",  title:"🌀 Phase angle display",           body:"Each basis state has a complex amplitude with a phase angle. The dial shows direction (phase) and length (magnitude). Phase is what drives quantum interference." },
-    { target:"#expProbBars",      title:"📊 Full statevector",              body:"With 3 qubits: 8 basis states. With 4: 16. Watch how multi-qubit gates redistribute probability across the entire space." },
-    { target:"#expPresetSelect",  title:"⚗️ Run a real algorithm",         body:"Choose from Grover's Search, QFT, Quantum Teleportation, Deutsch, and more — these are actual circuits used in quantum computing research." },
+    { target:"#expGateLibrary",   title:"Expert Mode: full gate set unlocked!",   body:"You now have Toffoli (CCX) and Fredkin (CSWAP): three-qubit gates that implement reversible classical logic. Combined with H and CNOT, this set is universal." },
+    { target:"#expQubitControl",  title:"Add or remove qubits",          body:"Use the + and - buttons to build systems from 2 to 6 qubits. More qubits = more basis states and more computational power." },
+    { target:"#expCircuitWrap",   title:"Deep circuit construction",     body:"Three-qubit gates show two control dots connected to a target. Build gate sequences that implement real algorithms from the preset menu." },
+    { target:"#expBlochRow",      title:"Per-qubit Bloch spheres",       body:"Spheres are indexed Q0, Q1, Q2… left to right. Q0 corresponds to the top wire of the circuit. With entanglement, each sphere shows only an approximation of its qubit's state." },
+    { target:"#expPhaseDisplay",  title:"Phase angle display",           body:"Each basis state has a complex amplitude with a phase angle. The dial shows direction (phase) and length (magnitude). Phase is what drives quantum interference." },
+    { target:"#expProbBars",      title:"Full statevector",              body:"With 3 qubits, there are 8 basis states. With 4: 16. Observe how multi-qubit gates redistribute probability across the entire space." },
+    { target:"#expPresetSelect",  title:"Run a real algorithm",         body:"Choose from Grover's Search, QFT, Quantum Teleportation, Deutsch, and more. These are actual circuits used in quantum computing research!" },
   ],
 };
 
@@ -4715,12 +4945,13 @@ function launchModeTour(mode) {
   if (localStorage.getItem(TOUR_KEY)) return;
 
   const STEPS = [
-    { target: "#gateLibrary",      title: "👋 Welcome to Quantum Sandbox!", body: "This is your Gate Library. Click any gate to add it to your circuit, or drag it to a specific slot." },
-    { target: ".circuit-wrap",     title: "⚡ Your Circuit",                 body: "Gates appear here on the qubit wire, left to right. Drag to reorder, or hover a gate and click the red badge to remove it." },
-    { target: ".state-vector-card",title: "📊 State Vector",                 body: "Watch α and β update in real time. The bars show the probability of measuring |0⟩ or |1⟩ — they always add up to 100%." },
-    { target: ".bloch-wrap",       title: "🌐 Bloch Sphere",                 body: "This 3D sphere maps your qubit's state. North pole = |0⟩, south pole = |1⟩, equator = superposition." },
-    { target: "#measureBtn",       title: "🎯 Measure",                      body: "Hit Measure to collapse the qubit to a definite |0⟩ or |1⟩ based on current probabilities — just like a real quantum computer." },
-    { target: "#guideBtn",         title: "📖 Want to learn more?",          body: "Open the Guide anytime for a full walkthrough of quantum concepts and every feature in the Sandbox." },
+    { target: "#gateLibrary",      title: "Welcome to Quantum Sandbox!", body: "This is your Gate Library. Click any gate to add it to your circuit, or drag it to a specific slot." },
+    { target: ".circuit-wrap",     title: "Your Circuit",                 body: "Gates appear here on the qubit wire, left to right. Drag to reorder, or hover a gate and click the red badge to remove it." },
+    { target: ".state-vector-card",title: "State Vector",                 body: "Watch α and β update in real time. The bars show the probability of measuring |0⟩ or |1⟩. They always add up to 100%." },
+    { target: ".bloch-wrap",       title: "Bloch Sphere",                 body: "This 3D sphere maps your qubit's state. North pole = |0⟩, south pole = |1⟩, equator = superposition." },
+    { target: "#measureBtn",       title: "Measure",                      body: "Hit Measure to collapse the qubit to a definite |0⟩ or |1⟩ based on current probabilities, just like a real quantum computer." },
+    { target: "#learnBtn",         title: "Feeling overwhelmed?",          body: "No worries! The Learn section walks you through quantum computing from scratch, one bite-sized lesson at a time. No physics background needed." },
+    { target: "#guideBtn",         title: "Get Started!",          body: "Open the Guide anytime for a full walkthrough of quantum concepts and every feature in the Sandbox." },
   ];
 
   let current = 0;

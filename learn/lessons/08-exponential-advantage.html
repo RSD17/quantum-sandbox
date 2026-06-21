@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Exponential Advantage | Quantum Sandbox</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="../../logo-favicon-32x32.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="stylesheet" href="../../style.css" />
+  <link rel="stylesheet" href="../lesson.css" />
+</head>
+<body class="dark lesson-page">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">
+        <img src="../../quantum-sandbox-logo.png" alt="Quantum Sandbox logo" />
+      </div>
+      <div>
+        <h1>Quantum Sandbox</h1>
+        <p>An Interactive Quantum Circuit Playground</p>
+      </div>
+    </div>
+    <div class="top-actions" style="gap:8px">
+      <a href="../index.html" class="btn btn-soft">
+        <i class="fa-solid fa-graduation-cap"></i>
+        <span>All Lessons</span>
+      </a>
+      <a href="../../index.html" class="btn btn-soft">
+        <i class="fa-solid fa-flask"></i>
+        <span>Sandbox</span>
+      </a>
+      <button id="themeBtn" class="btn btn-soft icon-btn" aria-label="Toggle theme">
+        <i id="themeIcon" class="fa-solid fa-sun"></i>
+      </button>
+    </div>
+  </header>
+
+  <div class="lesson-wrap">
+    <nav class="lesson-breadcrumb">
+      <a href="../index.html">Learn</a>
+      <span class="sep">/</span>
+      <span>Part 2 - How They Work</span>
+      <span class="sep">/</span>
+      <span class="current">The Exponential Advantage</span>
+    </nav>
+
+    <div class="lesson-meta">
+      <span class="lesson-part-label">Part 2 - How They Work</span>
+      <span class="lesson-read-time"><i class="fa-regular fa-clock"></i> 10 min read</span>
+    </div>
+
+    <h1 class="lesson-title">The Exponential Advantage</h1>
+    <p class="lesson-subtitle">Adding one more qubit doubles the state space of a quantum computer. This sounds modest until you realize it means 300 qubits can hold more states simultaneously than there are atoms in the observable universe.</p>
+
+    <section class="lesson-section">
+      <h2>The state space of n qubits</h2>
+      <p>With one classical bit, you have two possible states: 0 or 1. With two bits, four states: 00, 01, 10, 11. With n bits, 2ⁿ possible states - but a classical computer only occupies one of them at any given moment, the way a light switch is either on or off, never tracking every possible switch combination at once.</p>
+      <p>With one qubit in superposition, you have amplitudes for two states. With two qubits, four amplitudes. With n qubits, the quantum state is described by 2ⁿ complex amplitudes - one for each possible combination of 0s and 1s across all qubits. Applying gates manipulates all these amplitudes simultaneously.</p>
+      <p>This is the heart of the quantum advantage: a quantum computer operating on n qubits processes information in a 2ⁿ-dimensional space. At 50 qubits, that is over a quadrillion dimensions. At 300 qubits, it exceeds the number of atoms in the visible universe.</p>
+    </section>
+
+    <!-- Interactive: exponential state space chart -->
+    <div class="exp-growth-wrap">
+      <div class="exp-growth-label"><i class="fa-solid fa-chart-simple"></i> Quantum state space by qubit count - hover each bar</div>
+      <div class="exp-growth-chart">
+        <div class="exp-bar" data-value="2" style="background: linear-gradient(180deg, var(--accent), color-mix(in oklab, var(--accent), var(--accent-2) 30%))"><div class="exp-bar-tooltip">2 states (1 qubit)</div></div>
+        <div class="exp-bar" data-value="4" style="background: linear-gradient(180deg, var(--accent), color-mix(in oklab, var(--accent), var(--accent-2) 45%))"><div class="exp-bar-tooltip">4 states (2 qubits)</div></div>
+        <div class="exp-bar" data-value="8" style="background: linear-gradient(180deg, color-mix(in oklab, var(--accent), var(--accent-2) 40%), var(--accent-2))"><div class="exp-bar-tooltip">8 states (3 qubits)</div></div>
+        <div class="exp-bar" data-value="16" style="background: linear-gradient(180deg, var(--accent-2), color-mix(in oklab, var(--accent-2), #9b59b6 30%))"><div class="exp-bar-tooltip">16 states (4 qubits)</div></div>
+        <div class="exp-bar" data-value="32" style="background: linear-gradient(180deg, var(--accent-2), color-mix(in oklab, var(--accent-2), #9b59b6 55%))"><div class="exp-bar-tooltip">32 states (5 qubits)</div></div>
+        <div class="exp-bar" data-value="64" style="background: linear-gradient(180deg, color-mix(in oklab, var(--accent-2), #9b59b6 55%), #9b59b6)"><div class="exp-bar-tooltip">64 states (6 qubits)</div></div>
+        <div class="exp-bar" data-value="128" style="background: linear-gradient(180deg, #9b59b6, #e74c3c)"><div class="exp-bar-tooltip">128 states (7 qubits)</div></div>
+        <div class="exp-bar" data-value="256" style="background: linear-gradient(180deg, #9b59b6, #e74c3c)"><div class="exp-bar-tooltip">256 states (8 qubits)</div></div>
+        <div class="exp-bar" data-value="512" style="background: linear-gradient(180deg, #e74c3c, #c0392b)"><div class="exp-bar-tooltip">512 states (9 qubits)</div></div>
+        <div class="exp-bar" data-value="1024" style="background: linear-gradient(180deg, #e74c3c, #922b21)"><div class="exp-bar-tooltip">1,024 states (10 qubits)</div></div>
+      </div>
+      <div class="exp-axis-labels">
+        <span>1Q</span><span>2Q</span><span>3Q</span><span>4Q</span><span>5Q</span>
+        <span>6Q</span><span>7Q</span><span>8Q</span><span>9Q</span><span>10Q</span>
+      </div>
+      <p class="exp-caption">Each qubit added doubles the state space. By 50 qubits that is over a quadrillion states. By 300 qubits it exceeds the number of atoms in the observable universe.</p>
+    </div>
+
+    <section class="lesson-section">
+      <h2>The catch: you can only extract limited information</h2>
+      <p>The 2ⁿ amplitudes represent an enormous amount of information - but you cannot read it all out. Measurement collapses the entire state to one of the 2ⁿ basis states, giving you n classical bits. Just n bits of output, even though the computation touched 2ⁿ states during the process. It is like baking a cake with thousands of ingredients interacting in the oven, then being allowed to taste only the single finished slice that lands on your plate - all that complexity collapses down to one outcome.</p>
+      <p>This is why quantum advantage is not as simple as "n qubits = 2ⁿ processing lanes." A quantum computation must be designed so that the interference pattern at the end leaves the correct answer with high probability when you measure. The 2ⁿ states are not all independently readable - they are woven together by the computation and only partially visible at the end.</p>
+      <p>This constraint explains why quantum computers are not simply "faster at everything." They are faster only for specific types of problems where the quantum interference structure can be engineered to highlight the correct answer.</p>
+    </section>
+
+    <section class="lesson-section">
+      <h2>Quantum speedup: how much faster?</h2>
+      <p>The advantage quantum computers provide is measured in computational complexity - how the runtime grows as the problem size increases, the same way you'd judge whether a search method scales well by asking how much longer it takes when the haystack gets ten times bigger, not just how fast it is on today's haystack. Three categories of speedup are known:</p>
+      <p>The landscape of quantum advantage is still being mapped. Researchers continue discovering new problem types where quantum algorithms outperform the best known classical alternatives.</p>
+    </section>
+
+    <div class="expand-cards">
+      <div class="expand-card open">
+        <div class="expand-card-header">
+          <div class="expand-card-icon" style="background: color-mix(in oklab, var(--accent), transparent 82%); color: var(--accent)"><i class="fa-solid fa-rocket"></i></div>
+          <div>
+            <div class="expand-card-title">Exponential Speedup</div>
+            <div class="expand-card-subtitle">The most powerful class - problem of n takes 2ⁿ steps classically, polynomial steps quantumly</div>
+          </div>
+          <i class="fa-solid fa-chevron-down expand-card-chevron"></i>
+        </div>
+        <div class="expand-card-body">
+          <div class="expand-card-inner">
+            <p>Shor's algorithm for factoring large numbers and Harrow-Hassidim-Lloyd (HHL) for certain linear algebra problems achieve exponential speedup. A classical algorithm might take time proportional to 2ⁿ; the quantum algorithm takes time proportional to n² or similar.</p>
+            <p>This is a genuine game-changer. A problem that takes the world's fastest classical computer millions of years could, in principle, run in hours on a fault-tolerant quantum computer. Cryptography, chemistry simulation, and optimization are the primary targets.</p>
+          </div>
+        </div>
+      </div>
+      <div class="expand-card">
+        <div class="expand-card-header">
+          <div class="expand-card-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+          <div>
+            <div class="expand-card-title">Quadratic Speedup</div>
+            <div class="expand-card-subtitle">Still significant - N steps becomes √N steps</div>
+          </div>
+          <i class="fa-solid fa-chevron-down expand-card-chevron"></i>
+        </div>
+        <div class="expand-card-body">
+          <div class="expand-card-inner">
+            <p>Grover's search algorithm achieves a quadratic speedup for unstructured search. If a classical search requires checking N items, Grover's requires only √N quantum queries.</p>
+            <p>For a database with a trillion entries, classical search takes a trillion steps on average. Grover's takes about a million. That is a million times faster - enormous in practice, even though it is not exponential. Quadratic speedups apply surprisingly broadly, touching any problem reducible to searching.</p>
+          </div>
+        </div>
+      </div>
+      <div class="expand-card">
+        <div class="expand-card-header">
+          <div class="expand-card-icon"><i class="fa-solid fa-scale-balanced"></i></div>
+          <div>
+            <div class="expand-card-title">Constant-Factor Improvement</div>
+            <div class="expand-card-subtitle">Some problems get faster by a fixed multiplier, not a scaling advantage</div>
+          </div>
+          <i class="fa-solid fa-chevron-down expand-card-chevron"></i>
+        </div>
+        <div class="expand-card-body">
+          <div class="expand-card-inner">
+            <p>For some problems, quantum algorithms simply use resources more efficiently by a fixed constant amount, with no asymptotic scaling advantage.</p>
+            <p>A constant-factor speedup is still useful in practice - if quantum hardware is 10x faster on a specific computation, that translates directly to cost and energy savings. But it is not a breakthrough in the same sense as exponential or quadratic speedups. The true quantum revolution targets the first two categories.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="lesson-demo-callout">
+      <div class="demo-callout-label"><i class="fa-solid fa-flask"></i> Try it in the Sandbox</div>
+      <div class="demo-callout-title">Watch the state space grow as you add qubits</div>
+      <ol class="demo-steps">
+        <li data-n="1">Start with 2 qubits in Expert mode. Apply H to both and see 4 states at 25% each.</li>
+        <li data-n="2">Click <strong>+</strong> to add a third qubit, apply H to it. Now 8 states at 12.5% each.</li>
+        <li data-n="3">Add a fourth qubit with H. 16 states at 6.25%. Each qubit doubles the state space.</li>
+        <li data-n="4">Keep adding qubits. Watch the basis state count double every time.</li>
+        <li data-n="5">Apply CNOT gates between adjacent qubits. Entanglement reshapes the distribution.</li>
+      </ol>
+      <iframe
+        class="lesson-sandbox"
+        src="../../index.html?embed=1&mode=expert"
+        title="Quantum Sandbox - Exponential state space demo"
+        allow="cross-origin-isolated"
+      ></iframe>
+    </div>
+
+    <section class="lesson-section">
+      <h2>Quantum simulation: the original motivation</h2>
+      <p>Richard Feynman, one of the greatest physicists of the 20th century, proposed the idea of quantum computing in 1981. His argument was simple: classical computers cannot efficiently simulate quantum systems, because the state space grows exponentially. To simulate a quantum system, you need a quantum computer.</p>
+      <p>This is still one of the most compelling applications. Simulating molecular chemistry quantum-mechanically - including all electron interactions without classical approximations - could enable drug discovery, materials science, and catalysis research at a level currently impossible. The 2019 Google quantum supremacy demonstration was a simulation-style benchmark.</p>
+    </section>
+
+    <section class="lesson-section">
+      <h2>Quantum advantage vs. quantum supremacy</h2>
+      <p><strong>Quantum supremacy</strong> (or quantum advantage, as some prefer to call it) refers to a quantum computer performing a specific computation faster than any classical computer could. Google's 2019 claim was this kind of benchmark - a very specific, artificial problem where quantum hardware excels.</p>
+      <p>The more important milestone is <strong>practical quantum advantage</strong>: a quantum computer solving a real-world problem of genuine interest faster or better than any available classical method. As of 2024, no machine has definitively achieved this for a problem that matters outside the lab. The field expects this to happen within the decade - but the precise timeline and first application remain open questions.</p>
+    </section>
+
+    <div class="lesson-takeaway">
+      <div class="takeaway-label"><i class="fa-solid fa-bolt"></i> Key takeaway</div>
+      <p class="takeaway-text">n qubits live in a 2ⁿ-dimensional state space, giving quantum computers exponentially more processing "width" than classical bits. But measurement only extracts n classical bits of output - so the quantum advantage comes from cleverly engineering interference so that the correct answer has high probability at the end, not from simply reading out all 2ⁿ states.</p>
+    </div>
+
+    <div class="lesson-check">
+      <div class="check-label"><i class="fa-solid fa-circle-question"></i> Knowledge check · Question 1 of 5</div>
+      <p class="check-question">A quantum computer has 10 qubits all in superposition. How many basis states does its state vector have amplitudes for simultaneously?</p>
+      <div class="check-options">
+        <button class="check-option" data-correct="false">10 - one per qubit.</button>
+        <button class="check-option" data-correct="false">20 - two states per qubit.</button>
+        <button class="check-option" data-correct="true">1024 - 2¹⁰ basis states, one amplitude each.</button>
+        <button class="check-option" data-correct="false">Infinite - superposition has no finite limit.</button>
+      </div>
+      <div class="check-feedback">With n qubits, there are 2ⁿ possible combinations of 0s and 1s across all qubits. Each has a complex amplitude. For 10 qubits: 2¹⁰ = 1024 basis states.</div>
+    </div>
+
+    <div class="lesson-check">
+      <div class="check-label"><i class="fa-solid fa-circle-question"></i> Knowledge check · Question 2 of 5</div>
+      <p class="check-question">Why can't a quantum computer simply "read out" all 2ⁿ amplitudes it computed with?</p>
+      <div class="check-options">
+        <button class="check-option" data-correct="false">The amplitudes are stored in a format classical computers cannot decode.</button>
+        <button class="check-option" data-correct="true">Measurement collapses the state to a single basis state, yielding only n classical bits.</button>
+        <button class="check-option" data-correct="false">Quantum hardware can only measure one qubit at a time, never all of them.</button>
+        <button class="check-option" data-correct="false">The amplitudes decay to zero before measurement can happen.</button>
+      </div>
+      <div class="check-feedback">Measurement forces the system to collapse to one of its 2ⁿ basis states, so you only ever get n classical bits of output - the rest of the information is never directly observed.</div>
+    </div>
+
+    <div class="lesson-check">
+      <div class="check-label"><i class="fa-solid fa-circle-question"></i> Knowledge check · Question 3 of 5</div>
+      <p class="check-question">Grover's search algorithm, which turns an N-step classical search into roughly √N quantum queries, is an example of which category of speedup?</p>
+      <div class="check-options">
+        <button class="check-option" data-correct="false">Exponential speedup</button>
+        <button class="check-option" data-correct="false">Constant-factor improvement</button>
+        <button class="check-option" data-correct="false">No speedup - search cannot be accelerated quantumly</button>
+        <button class="check-option" data-correct="true">Quadratic speedup</button>
+      </div>
+      <div class="check-feedback">Grover's algorithm reduces N steps to about √N steps, which is the defining signature of a quadratic speedup - smaller than exponential, but still a major practical gain at large N.</div>
+    </div>
+
+    <div class="lesson-check">
+      <div class="check-label"><i class="fa-solid fa-circle-question"></i> Knowledge check · Question 4 of 5</div>
+      <p class="check-question">What was Richard Feynman's original 1981 argument for why quantum computers should exist?</p>
+      <div class="check-options">
+        <button class="check-option" data-correct="false">Quantum computers would be smaller and cheaper to manufacture than classical chips.</button>
+        <button class="check-option" data-correct="false">Quantum computers would solve all NP-hard problems in polynomial time.</button>
+        <button class="check-option" data-correct="true">Classical computers cannot efficiently simulate quantum systems because the state space grows exponentially.</button>
+        <button class="check-option" data-correct="false">Quantum computers would eliminate the need for error correction entirely.</button>
+      </div>
+      <div class="check-feedback">Feynman observed that simulating a quantum system classically requires tracking exponentially many amplitudes, so only a quantum computer can efficiently simulate quantum nature itself.</div>
+    </div>
+
+    <div class="lesson-check">
+      <div class="check-label"><i class="fa-solid fa-circle-question"></i> Knowledge check · Question 5 of 5</div>
+      <p class="check-question">What distinguishes "practical quantum advantage" from the kind of "quantum supremacy" Google demonstrated in 2019?</p>
+      <div class="check-options">
+        <button class="check-option" data-correct="false">Practical quantum advantage requires at least 1,000 qubits, while supremacy only needs 50.</button>
+        <button class="check-option" data-correct="false">Supremacy refers only to error-corrected machines, while practical advantage allows noisy hardware.</button>
+        <button class="check-option" data-correct="false">There is no real difference - the two terms describe the same milestone.</button>
+        <button class="check-option" data-correct="true">Practical advantage means solving a real-world problem of genuine interest better than any classical method, not just winning at an artificial benchmark.</button>
+      </div>
+      <div class="check-feedback">Google's 2019 result was a quantum supremacy benchmark - a specific, artificial problem designed to favor quantum hardware. Practical quantum advantage, solving a problem people actually care about better than classical methods, has not yet been definitively achieved.</div>
+    </div>
+
+    <nav class="lesson-nav">
+      <a href="07-gates-and-circuits.html" class="btn btn-soft">
+        <i class="fa-solid fa-arrow-left"></i> Previous
+      </a>
+      <a href="09-error-correction.html" class="btn btn-primary btn-nav-next">
+        Next: Error Correction <i class="fa-solid fa-arrow-right"></i>
+      </a>
+    </nav>
+  </div>
+
+  <footer class="site-footer">
+    <p>© Quantum Sandbox • Ritayush Suchismita Dey</p>
+  </footer>
+
+  <script src="../lesson.js"></script>
+</body>
+</html>

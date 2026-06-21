@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Learn | Quantum Sandbox</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="../logo-favicon-32x32.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="lesson.css" />
+</head>
+<body class="dark">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">
+        <img src="../quantum-sandbox-logo.png" alt="Quantum Sandbox logo" />
+      </div>
+      <div>
+        <h1>Quantum Sandbox</h1>
+        <p>An Interactive Quantum Circuit Playground</p>
+      </div>
+    </div>
+    <div class="top-actions" style="gap:8px">
+      <a href="../index.html" id="goSandboxBtn" class="btn btn-sandbox-gradient">
+        <i class="fa-solid fa-flask"></i>
+        <span>Go to Sandbox</span>
+      </a>
+      <button id="themeBtn" class="btn btn-soft icon-btn" aria-label="Toggle theme" title="Toggle theme">
+        <i id="themeIcon" class="fa-solid fa-sun"></i>
+      </button>
+    </div>
+  </header>
+
+  <div class="lesson-wrap">
+    <div class="learn-hero">
+      <h1>Learn Quantum Computing</h1>
+      <p>15 lessons from <strong>zero</strong> to <strong>quantum algorithms</strong>. No physics background needed. Each lesson pairs clear explanations with hands-on experiments in the Quantum Sandbox.</p>
+      <div class="learn-hero-tagline">
+        <i class="fa-solid fa-bolt"></i>
+        Ten minutes of learning today puts you ahead of 99% of people in one of the fastest-moving fields in tech.
+      </div>
+    </div>
+
+    <div class="learn-progress-bar-wrap">
+      <div class="learn-progress-bar-fill" id="progressFill" style="width:0%"></div>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;margin:0 0 32px">
+      <p style="font-size:0.82rem;color:var(--muted);margin:0" id="progressLabel">0 of 16 lessons completed</p>
+      <span id="totalScoreChip" class="running-score-chip" style="margin-left:auto"><i class="fa-solid fa-star"></i> 0 / 160 pts</span>
+    </div>
+
+    <!-- Part 1 -->
+    <div class="learn-part">
+      <div class="learn-part-header">
+        <h2 class="learn-part-title">Part 1: Foundations</h2>
+        <span class="learn-part-badge">Lessons 1–6</span>
+      </div>
+      <div class="learn-lessons-grid">
+        <a href="lessons/01-why-quantum.html" class="learn-lesson-card">
+          <span class="learn-lesson-num">01</span>
+          <div class="learn-lesson-info">
+            <div class="learn-lesson-title">What and Why of Quantum Computing</div>
+            <div class="learn-lesson-time"><i class="fa-regular fa-clock"></i> 8 min read</div>
+          </div>
+          <div class="learn-lesson-status" data-lesson="01-why-quantum"></div>
+        </a>
+        <a href="lessons/quantum-notation.html" class="learn-lesson-card">
+          <span class="learn-lesson-num">02</span>
+          <div class="learn-lesson-info">
+            <div class="learn-lesson-title">Quantum Notation</div>
+            <div class="learn-lesson-time"><i class="fa-regular fa-clock"></i> 9 min read</div>
+          </div>
+          <div class="learn-lesson-status" data-lesson="quantum-notation"></div>
+        </a>
+        <a href="lessons/02-superposition.html" class="learn-lesson-card">
+          <span class="learn-lesson-num">03</span>
+          <div class="learn-lesson-info">
+            <div class="learn-lesson-title">Superposition</div>
+            <div class="learn-lesson-time"><i class="fa-regular fa-clock"></i> 10 min read</div>
+          </div>
+          <div class="learn-lesson-status" data-lesson="02-superposition"></div>
+        </a>
+        <a href="lessons/03-measurement.html" class="learn-lesson-card">
+          <span class="learn-lesson-num">04</span>
+          <div class="learn-lesson-info">
+            <div class="learn-lesson-title">Measurement</div>
+            <div class="learn-lesson-time"><i class="fa-regular fa-clock"></i> 10 min read</div>
+          </div>
+          <div class="learn-lesson-status" data-lesson="03-measurement"></div>
+        </a>
+        <a href="lessons/04-interference.html" class="learn-lesson-card">
+          <span class="learn-lesson-num">05</span>
+          <div class="learn-lesson-info">
+            <div class="learn-lesson-title">Interference</div>
+            <div class="learn-lesson-time"><i class="fa-regular fa-clock"></i> 10 min read</div>
+          </div>
+          <div class="learn-lesson-status" data-lesson="04-interference"></div>
+        </a>
+        <a href="lessons/10-quantum-vs-classical.html" class="learn-lesson-card">
+          <span class="learn-lesson-num">06</span>
+          <div class="learn-lesson-info">
+            <div class="learn-lesson-title">Quantum vs. Classical</div>
+            <div class="learn-lesson-time"><i class="fa-regular fa-clock"></i> 9 min read</div>
+          </div>
+          <div class="learn-lesson-status" data-lesson="10-quantum-vs-classical"></div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Part 2 -->
+    <div class="learn-part">
+      <div class="learn-part-header">
+        <h2 class="learn-part-title">Part 2: How They Work</h2>
+        <span class="learn-part-badge">Lessons 7–11</span>
+      </div>
+      <div class="learn-lessons-grid">
+        <a href="lessons/05-entanglement.html" class="learn-lesson-card">
+          <span class="learn-lesson-num">07</span>
+          <div class="learn-lesson-info">
+            <div class="learn-lesson-title">Entanglement</div>
+            <div class="learn-lesson-time"><i class="fa-regular fa-clock"></i> 11 min read</div>
+          </div>
+          <div class="learn-lesson-status" data-lesson="05-entanglement"></div>
+        </a>
+        <a href="lessons/06-real-qubits.html" class="learn-lesson-card">
+          <span class="learn-lesson-num">08</span>
+          <div class="learn-lesson-info">
+            <div class="learn-lesson-title">Real Qubits</div>
+            <div class="learn-lesson-time"><i class="fa-regular fa-clock"></i> 9 min read</div>
+          </div>
+          <div class="learn-lesson-status" data-lesson="06-real-qubits"></div>
+        </a>
+        <a href="lessons/07-gates-and-circuits.html" class="learn-lesson-card">
+          <span class="learn-lesson-num">09</span>
+          <div class="learn-lesson-info">
+            <div class="learn-lesson-title">Gates and Circuits</div>
+            <div class="learn-lesson-time"><i class="fa-regular fa-clock"></i> 12 min read</div>
+          </div>
+          <div class="learn-lesson-status" data-lesson="07-gates-and-circuits"></div>
+        </a>
+        <a href="lessons/08-exponential-advantage.html" class="learn-lesson-card">
+          <span class="learn-lesson-num">10</span>
+          <div class="learn-lesson-info">
+            <div class="learn-lesson-title">The Exponential Advantage</div>
+            <div class="learn-lesson-time"><i class="fa-regular fa-clock"></i> 10 min read</div>
+          </div>
+          <div class="learn-lesson-status" data-lesson="08-exponential-advantage"></div>
+        </a>
+        <a href="lessons/09-error-correction.html" class="learn-lesson-card">
+          <span class="learn-lesson-num">11</span>
+          <div class="learn-lesson-info">
+            <div class="learn-lesson-title">Error Correction</div>
+            <div class="learn-lesson-time"><i class="fa-regular fa-clock"></i> 10 min read</div>
+          </div>
+          <div class="learn-lesson-status" data-lesson="09-error-correction"></div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Part 3 -->
+    <div class="learn-part">
+      <div class="learn-part-header">
+        <h2 class="learn-part-title">Part 3: Algorithms</h2>
+        <span class="learn-part-badge">Lessons 12–16</span>
+      </div>
+      <div class="learn-lessons-grid">
+        <a href="lessons/11-grovers-algorithm.html" class="learn-lesson-card">
+          <span class="learn-lesson-num">12</span>
+          <div class="learn-lesson-info">
+            <div class="learn-lesson-title">Grover's Algorithm</div>
+            <div class="learn-lesson-time"><i class="fa-regular fa-clock"></i> 11 min read</div>
+          </div>
+          <div class="learn-lesson-status" data-lesson="11-grovers-algorithm"></div>
+        </a>
+        <a href="lessons/12-shors-algorithm.html" class="learn-lesson-card">
+          <span class="learn-lesson-num">13</span>
+          <div class="learn-lesson-info">
+            <div class="learn-lesson-title">Shor's Algorithm</div>
+            <div class="learn-lesson-time"><i class="fa-regular fa-clock"></i> 12 min read</div>
+          </div>
+          <div class="learn-lesson-status" data-lesson="12-shors-algorithm"></div>
+        </a>
+        <a href="lessons/13-teleportation.html" class="learn-lesson-card">
+          <span class="learn-lesson-num">14</span>
+          <div class="learn-lesson-info">
+            <div class="learn-lesson-title">Quantum Teleportation</div>
+            <div class="learn-lesson-time"><i class="fa-regular fa-clock"></i> 11 min read</div>
+          </div>
+          <div class="learn-lesson-status" data-lesson="13-teleportation"></div>
+        </a>
+        <a href="lessons/14-cryptography.html" class="learn-lesson-card">
+          <span class="learn-lesson-num">15</span>
+          <div class="learn-lesson-info">
+            <div class="learn-lesson-title">Quantum Cryptography</div>
+            <div class="learn-lesson-time"><i class="fa-regular fa-clock"></i> 11 min read</div>
+          </div>
+          <div class="learn-lesson-status" data-lesson="14-cryptography"></div>
+        </a>
+        <a href="lessons/15-the-future.html" class="learn-lesson-card">
+          <span class="learn-lesson-num">16</span>
+          <div class="learn-lesson-info">
+            <div class="learn-lesson-title">The Future of Quantum Computing</div>
+            <div class="learn-lesson-time"><i class="fa-regular fa-clock"></i> 9 min read</div>
+          </div>
+          <div class="learn-lesson-status" data-lesson="15-the-future"></div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <p>© Quantum Sandbox • Ritayush Suchismita Dey</p>
+  </footer>
+
+  <script>
+    (function () {
+      var SESSION_KEY = "quantum_sandbox_session_v1";
+      var PROGRESS_KEY = "qs_learn_progress";
+
+      // Theme
+      function applyTheme(theme) {
+        document.body.classList.toggle("dark", theme === "dark");
+        var icon = document.getElementById("themeIcon");
+        if (icon) icon.className = theme === "dark" ? "fa-solid fa-sun" : "fa-solid fa-moon";
+      }
+      function loadTheme() {
+        try {
+          var s = localStorage.getItem(SESSION_KEY);
+          if (s) { var o = JSON.parse(s); if (o.currentTheme) return o.currentTheme; }
+        } catch(e) {}
+        return "dark";
+      }
+      function saveTheme(t) {
+        try {
+          var s = localStorage.getItem(SESSION_KEY);
+          var o = s ? JSON.parse(s) : {};
+          o.currentTheme = t;
+          localStorage.setItem(SESSION_KEY, JSON.stringify(o));
+        } catch(e) {}
+      }
+      var theme = loadTheme();
+      applyTheme(theme);
+      var btn = document.getElementById("themeBtn");
+      if (btn) btn.addEventListener("click", function () {
+        theme = theme === "dark" ? "light" : "dark";
+        applyTheme(theme); saveTheme(theme);
+      });
+
+      // Progress
+      var SCORES_KEY = "qs_learn_scores";
+      function loadProgress() {
+        try { var r = localStorage.getItem(PROGRESS_KEY); return r ? JSON.parse(r) : {}; }
+        catch(e) { return {}; }
+      }
+      function loadScores() {
+        try { var r = localStorage.getItem(SCORES_KEY); return r ? JSON.parse(r) : {}; }
+        catch(e) { return {}; }
+      }
+      var progress = loadProgress();
+      var scores = loadScores();
+      var total = 16;
+      var done = 0;
+      document.querySelectorAll(".learn-lesson-status").forEach(function (el) {
+        var id = el.dataset.lesson;
+        if (progress[id]) { el.classList.add("done"); done++; }
+      });
+      var pct = Math.round((done / total) * 100);
+      document.getElementById("progressFill").style.width = pct + "%";
+      document.getElementById("progressLabel").textContent = done + " of " + total + " lessons completed";
+      var totalPts = Object.values(scores).reduce(function(s, v) { return s + (v.pts || 0); }, 0);
+      var maxPts = total * 10;
+      var chip = document.getElementById("totalScoreChip");
+      if (chip) chip.innerHTML = '<i class="fa-solid fa-star"></i> ' + totalPts + ' / ' + maxPts + ' pts';
+    })();
+  </script>
+</body>
+</html>

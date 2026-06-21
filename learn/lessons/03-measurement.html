@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Measurement | Quantum Sandbox</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="../../logo-favicon-32x32.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="stylesheet" href="../../style.css" />
+  <link rel="stylesheet" href="../lesson.css" />
+</head>
+<body class="dark lesson-page">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">
+        <img src="../../quantum-sandbox-logo.png" alt="Quantum Sandbox logo" />
+      </div>
+      <div>
+        <h1>Quantum Sandbox</h1>
+        <p>An Interactive Quantum Circuit Playground</p>
+      </div>
+    </div>
+    <div class="top-actions" style="gap:8px">
+      <a href="../index.html" class="btn btn-soft">
+        <i class="fa-solid fa-graduation-cap"></i>
+        <span>All Lessons</span>
+      </a>
+      <a href="../../index.html" class="btn btn-soft">
+        <i class="fa-solid fa-flask"></i>
+        <span>Sandbox</span>
+      </a>
+      <button id="themeBtn" class="btn btn-soft icon-btn" aria-label="Toggle theme">
+        <i id="themeIcon" class="fa-solid fa-sun"></i>
+      </button>
+    </div>
+  </header>
+
+  <div class="lesson-wrap">
+    <nav class="lesson-breadcrumb">
+      <a href="../index.html">Learn</a>
+      <span class="sep">/</span>
+      <span>Part 1 - Foundations</span>
+      <span class="sep">/</span>
+      <span class="current">Measurement</span>
+    </nav>
+
+    <div class="lesson-meta">
+      <span class="lesson-part-label">Part 1 - Foundations</span>
+      <span class="lesson-read-time"><i class="fa-regular fa-clock"></i> 10 min read</span>
+    </div>
+
+    <h1 class="lesson-title">Measurement</h1>
+    <p class="lesson-subtitle">Every quantum computation ends with a measurement. Understanding what happens in that moment - and why it is irreversible - is essential to understanding how quantum algorithms actually produce answers.</p>
+
+    <section class="lesson-section">
+      <h2>The moment everything collapses</h2>
+      <p>You have a qubit in superposition: some mixture of |0⟩ and |1⟩. You want to know what it is. So you measure it. And the superposition - the careful, precise quantum state you have been manipulating with gates - is instantly gone.</p>
+      <p>Measurement <strong>collapses</strong> the qubit. The moment you measure, the qubit jumps into one of the two classical states: either 0 or 1. Which one it jumps to is determined by the amplitudes. If the qubit had a 70% amplitude for |0⟩ (meaning 70% probability), it will collapse to |0⟩ about 70% of the time and to |1⟩ about 30% of the time - across many repeated trials. Think of a spinning coin balanced on its edge: while it spins, it is not "heads" or "tails," it is some blend of both possibilities. The instant it lands, that blend resolves into one definite face - and you cannot un-land it.</p>
+      <p>After the collapse, the qubit is in a definite classical state. All the quantum information about the phase and superposition is gone. This is called the <strong>measurement problem</strong>, and it is one of the deepest mysteries in physics. Why does the act of observation cause this collapse? Physicists have several interpretations of what is actually happening, and they still argue about it. But the math - what the probabilities are and how collapse works - is precise and experimentally verified.</p>
+    </section>
+
+    <section class="lesson-section">
+      <h2>Born's rule: connecting amplitudes to probabilities</h2>
+      <p>The rule that converts amplitudes to measurement probabilities is called <strong>Born's rule</strong>, named after physicist Max Born. It states: the probability of measuring a particular outcome is the square of the magnitude of the corresponding amplitude.</p>
+      <p>If the amplitude for |0⟩ is a complex number α, then the probability of measuring 0 is |α|² (the magnitude of α, squared). The same for |1⟩: probability equals |β|². Since probabilities must sum to 1, we always have |α|² + |β|² = 1. This is called normalization - the state vector is always normalized. It is the same bookkeeping rule as slicing a pie: however you cut the amplitudes between the two outcomes, the squared pieces always add back up to one whole pie.</p>
+      <p>The amplitude itself can be negative or complex, but probabilities are always positive real numbers between 0 and 1. This is why phase - the imaginary part and sign of the amplitude - does not directly appear in measurement outcomes but still matters enormously for interference.</p>
+    </section>
+
+    <section class="lesson-section">
+      <h2>Repeated measurement and sampling</h2>
+      <p>Because measurement is probabilistic, a single measurement of a qubit in superposition tells you very little. You get one random outcome. To verify the actual state, you must prepare the same quantum state many times and measure it many times, collecting statistics. It is like trying to figure out if a coin is weighted by flipping it once - one flip tells you almost nothing, but a thousand flips reveal the true odds.</p>
+      <p>This is a fundamental constraint on quantum computing: you cannot simply "read out" the full state of a qubit. The state is rich with information - amplitudes, phases - but a single measurement only reveals one classical bit (0 or 1). Quantum algorithms are engineered so that the final state, right before measurement, makes the correct answer have very high probability. You still measure randomly, but the right answer is overwhelmingly likely.</p>
+    </section>
+
+    <div class="lesson-demo-callout">
+      <div class="demo-callout-label"><i class="fa-solid fa-flask"></i> Try it in the Sandbox</div>
+      <div class="demo-callout-title">Watch the collapse in action</div>
+      <ol class="demo-steps">
+        <li data-n="1">Start: qubit is in |+⟩. Bloch sphere on the equator, 50/50 probabilities.</li>
+        <li data-n="2">Click <strong>Measure</strong>. The qubit collapses to |0⟩ or |1⟩, Bloch sphere jumps to a pole.</li>
+        <li data-n="3">Click <strong>Measure</strong> again. Same result. A collapsed qubit stays classical until reset.</li>
+        <li data-n="4">Click <strong>Reset State</strong>, then measure ten times and count your 0s and 1s.</li>
+        <li data-n="5">Switch preset to <strong>|0⟩</strong> and measure. A definite state always collapses the same way.</li>
+      </ol>
+      <iframe
+        class="lesson-sandbox"
+        src="../../index.html?embed=1&preset=PLUS&mode=basic&depth=4"
+        title="Quantum Sandbox - Measurement demo"
+        allow="cross-origin-isolated"
+      ></iframe>
+    </div>
+
+    <section class="lesson-section">
+      <h2>The no-cloning theorem</h2>
+      <p>Here is a surprising consequence of how measurement works: you cannot copy a qubit. If you could, you could copy the state, measure the copy, and leave the original intact, learning the full quantum state without destroying it. But the math of quantum mechanics does not allow copying an unknown quantum state. This is called the <strong>no-cloning theorem</strong>.</p>
+      <p>In classical computing, copying is free - you copy files all the time. In quantum computing, each qubit's state is unique and cannot be duplicated. This has profound implications for quantum error correction (which we cover in Lesson 9) and for quantum cryptography (Lesson 14).</p>
+    </section>
+
+    <section class="lesson-section">
+      <h2>How quantum algorithms deal with measurement</h2>
+      <p>Given that measurement destroys superposition, quantum algorithm design is largely about answering one question: how do you engineer the quantum state so that, right before you measure, the answer you want has an overwhelmingly high probability?</p>
+      <p>This is where interference - the topic of Lesson 4 - becomes essential. The algorithm needs to guide the quantum calculation so that all the paths that lead to wrong answers destructively interfere (cancel each other out), while all the paths leading to the correct answer constructively interfere (reinforce each other). It is similar to noise-cancelling headphones, but run in reverse and aimed at answers instead of sound waves: wrong-answer waves are arranged to cancel each other out, while the right-answer wave is arranged to build up. Then you measure, get the answer with high probability, and you are done.</p>
+      <p>This interference-based amplification of correct answers is the core design principle behind most useful quantum algorithms.</p>
+    </section>
+
+    <div class="lesson-takeaway">
+      <div class="takeaway-label"><i class="fa-solid fa-bolt"></i> Key takeaway</div>
+      <p class="takeaway-text">Measurement collapses a qubit's superposition into a single definite classical state (0 or 1) with probabilities determined by the amplitudes squared. This collapse is irreversible and destroys all quantum information - which is why quantum algorithms must be designed so the correct answer has very high probability before measurement.</p>
+    </div>
+
+    <div class="lesson-check">
+      <div class="check-label"><i class="fa-solid fa-circle-question"></i> Knowledge check · Question 1 of 4</div>
+      <p class="check-question">A qubit is in a superposition where it has a 75% chance of measuring as |0⟩. You measure it and get |0⟩. You then measure again immediately. What do you get?</p>
+      <div class="check-options">
+        <button class="check-option" data-correct="false">|0⟩ with 75% probability again - the state resets to the original superposition.</button>
+        <button class="check-option" data-correct="true">|0⟩ with 100% certainty - after measuring, the qubit collapsed to |0⟩ and stays there.</button>
+        <button class="check-option" data-correct="false">|1⟩ with 25% probability - the complementary outcome becomes more likely.</button>
+        <button class="check-option" data-correct="false">A random result - each measurement is always fully random regardless of history.</button>
+      </div>
+      <div class="check-feedback">After measurement, the qubit collapses to a definite classical state. Measuring again gives the same result with 100% certainty - the superposition is gone, and you now have a classical bit.</div>
+    </div>
+
+    <div class="lesson-check">
+      <div class="check-label"><i class="fa-solid fa-circle-question"></i> Knowledge check · Question 2 of 4</div>
+      <p class="check-question">A qubit's amplitude for |1⟩ is α = -0.6i (a negative imaginary number). According to Born's rule, what is the probability of measuring |1⟩?</p>
+      <div class="check-options">
+        <button class="check-option" data-correct="true">0.36, because Born's rule takes the squared magnitude |α|², which is always a positive real number.</button>
+        <button class="check-option" data-correct="false">-0.6, since the probability matches the amplitude directly.</button>
+        <button class="check-option" data-correct="false">The measurement is undefined, because probabilities cannot come from a negative or imaginary amplitude.</button>
+        <button class="check-option" data-correct="false">0.6, by simply dropping the negative sign and the imaginary unit.</button>
+      </div>
+      <div class="check-feedback">Born's rule says probability equals the squared magnitude of the amplitude, |α|². For α = -0.6i, the magnitude is 0.6, and squaring it gives 0.36 - a positive real probability, regardless of the amplitude's sign or phase.</div>
+    </div>
+
+    <div class="lesson-check">
+      <div class="check-label"><i class="fa-solid fa-circle-question"></i> Knowledge check · Question 3 of 4</div>
+      <p class="check-question">Why can't you simply measure a qubit once, write down its amplitudes, and call it done - the way you'd read a value out of a classical variable?</p>
+      <div class="check-options">
+        <button class="check-option" data-correct="false">You can - a single measurement always reveals the full complex amplitudes of the qubit.</button>
+        <button class="check-option" data-correct="false">Qubits do not have amplitudes until you decide to measure them.</button>
+        <button class="check-option" data-correct="true">A single measurement only yields one classical bit (0 or 1); the amplitudes themselves must be inferred statistically from many repeated trials.</button>
+        <button class="check-option" data-correct="false">Measurement is only possible on classical bits, not on qubits.</button>
+      </div>
+      <div class="check-feedback">A single measurement collapses the qubit and gives only one classical outcome. To estimate the underlying amplitudes, you must prepare and measure the same state many times and look at the statistics across trials.</div>
+    </div>
+
+    <div class="lesson-check">
+      <div class="check-label"><i class="fa-solid fa-circle-question"></i> Knowledge check · Question 4 of 4</div>
+      <p class="check-question">Why can't you make a perfect copy of an unknown qubit's state by measuring it and then preparing a fresh qubit in the same state?</p>
+      <div class="check-options">
+        <button class="check-option" data-correct="false">You can - copying qubits works exactly like copying a classical file, with no restrictions.</button>
+        <button class="check-option" data-correct="false">Copying is possible, but only for qubits already in the |0⟩ or |1⟩ state.</button>
+        <button class="check-option" data-correct="false">Hardware noise makes copies impossible today, but the math of quantum mechanics permits it in principle.</button>
+        <button class="check-option" data-correct="true">Measuring an unknown qubit collapses and destroys its superposition before you ever learn enough to recreate it, which is what the no-cloning theorem formalizes.</button>
+      </div>
+      <div class="check-feedback">Measurement only gives one classical bit and destroys the original superposition in the process, so you never get enough information to prepare an identical copy. This impossibility is exactly what the no-cloning theorem states.</div>
+    </div>
+
+    <nav class="lesson-nav">
+      <a href="02-superposition.html" class="btn btn-soft">
+        <i class="fa-solid fa-arrow-left"></i> Previous
+      </a>
+      <a href="04-interference.html" class="btn btn-primary btn-nav-next">
+        Next: Interference <i class="fa-solid fa-arrow-right"></i>
+      </a>
+    </nav>
+  </div>
+
+  <footer class="site-footer">
+    <p>© Quantum Sandbox • Ritayush Suchismita Dey</p>
+  </footer>
+
+  <script src="../lesson.js"></script>
+</body>
+</html>
