@@ -3979,7 +3979,7 @@ function advDetectPattern() {
 
   // GHZ state
   if (n === 3 && entangled && Math.abs(probs[0]-0.5)<0.01 && Math.abs(probs[7]-0.5)<0.01)
-    return { emoji:"🌌", title:"GHZ State achieved!", body:"The Greenberger–Horne–Zeilinger state: (|000⟩+|111⟩)/√2. All three qubits are maximally entangled. Used in quantum error correction and tests of quantum mechanics itself." };
+    return { emoji:"🌌", title:"GHZ State achieved!", body:"The Greenberger–Horne–Zeilinger state: (|000⟩+|111⟩)/√2. All three qubits are maximally entangled. This is used in quantum error correction and tests of quantum mechanics itself." };
 
   // First entanglement
   if (entangled && advCircuit.length <= 4)
