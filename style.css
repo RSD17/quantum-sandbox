@@ -393,7 +393,7 @@ body {
   font-size: 0.76rem;
 }
 
-/* ── Circuit Pattern Callout ─────────────────────────────────── */
+/* Circuit Pattern Callout */
 .circuit-pattern {
   display: flex;
   align-items: flex-start;
@@ -537,7 +537,7 @@ body {
   font-weight: 700;
 }
 
-/* ── Circuit Impact Box ──────────────────────────────────────── */
+/* Circuit Impact Box */
 .circuit-impact {
   margin-top: 10px;
   padding: 10px 12px;
@@ -1551,7 +1551,7 @@ body:not(.dark) #learnBtn::after {
   box-shadow: 0 2px 10px color-mix(in oklab, #b83232, transparent 48%);
 }
 
-/* ── Advanced / Expert Gate Library ─────────────────────────── */
+/* Advanced / Expert Gate Library */
 .adv-gate-library {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
@@ -1593,7 +1593,7 @@ body:not(.dark) #learnBtn::after {
   border-color: transparent;
 }
 
-/* ── Add/Remove Qubit Buttons (Expert Mode) ─────────────────── */
+/* Add/Remove Qubit Buttons (Expert Mode) */
 .qubit-control-row {
   display: flex;
   gap: 6px;
@@ -1655,7 +1655,7 @@ body:not(.dark) #learnBtn::after {
   opacity: 1;
 }
 
-/* ── Multi-qubit circuit canvas ──────────────────────────────── */
+/* Multi-qubit circuit canvas */
 .adv-circuit-wrap {
   min-height: 320px;
   overflow-x: auto;
@@ -1716,7 +1716,7 @@ body:not(.dark) #learnBtn::after {
 }
 
 
-/* ── Basis state probability bars ────────────────────────────── */
+/* Basis state probability bars */
 .adv-prob-bars {
   display: flex;
   flex-direction: column;
@@ -1764,7 +1764,7 @@ body:not(.dark) #learnBtn::after {
   text-align: left;
 }
 
-/* ── Per-qubit Bloch sphere row ──────────────────────────────── */
+/* Per-qubit Bloch sphere row */
 .adv-bloch-row {
   display: grid;
   gap: 10px;
@@ -1807,7 +1807,7 @@ body:not(.dark) #learnBtn::after {
   opacity: 0.65;
 }
 
-/* ── Entanglement badge ──────────────────────────────────────── */
+/* Entanglement badge */
 .entanglement-badge {
   display: flex;
   align-items: flex-start;
@@ -1822,7 +1822,7 @@ body:not(.dark) #learnBtn::after {
   animation: pattern-pop 280ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-/* ── Expert phase display ────────────────────────────────────── */
+/* Expert phase display */
 .exp-phase-display {
   display: flex;
   flex-direction: column;
@@ -1911,7 +1911,7 @@ body:not(.dark) #learnBtn::after {
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.32), 0 0 0 6px color-mix(in oklab, var(--accent-2), transparent 72%);
 }
 
-/* ── Contact Modal ───────────────────────────────────────────── */
+/* Contact Modal */
 .contact-modal {
   position: fixed;
   inset: 0;
@@ -2041,7 +2041,7 @@ body:not(.dark) #learnBtn::after {
   color: var(--muted);
 }
 
-/* ── Info Buttons ────────────────────────────────────────────── */
+/* Info Buttons */
 .info-btn {
   display: inline-grid;
   place-items: center;
@@ -2081,7 +2081,7 @@ body:not(.dark) #learnBtn::after {
   pointer-events: none;
 }
 
-/* ── Onboarding Tour ─────────────────────────────────────────── */
+/* Onboarding Tour */
 .tour-overlay {
   position: fixed;
   inset: 0;
@@ -2358,9 +2358,7 @@ body:not(.dark) #learnBtn::after {
   }
 }
 
-/* ════════════════════════════════════════════════════════════
-   ADVANCED/EXPERT POPUP OVERLAYS
-════════════════════════════════════════════════════════════ */
+/* Advanced/Expert popup overlays */
 .adv-popup-overlay {
   position: fixed;
   top: 0;
@@ -2515,7 +2513,7 @@ body:not(.dark) #learnBtn::after {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-/* ── Embed mode (iframe lesson embeds) ──────────────────────── */
+/* Embed mode (iframe lesson embeds) */
 body.embed .topbar,
 body.embed .site-footer,
 body.embed .left-panel,

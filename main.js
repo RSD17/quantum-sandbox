@@ -2400,7 +2400,7 @@ if (hasMeaningfulSession(savedSession)) restoreBtn.hidden = false;
 
 themeIcon.className = currentTheme === "dark" ? "fa-solid fa-sun" : "fa-solid fa-moon";
 
-// ── URL embed / lesson preset parameters ─────────────────────
+// URL embed / lesson preset parameters
 let isEmbedMode = false;
 (function initEmbedParams() {
   const params = new URLSearchParams(window.location.search);

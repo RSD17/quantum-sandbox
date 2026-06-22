@@ -5,7 +5,7 @@
   const PROGRESS_KEY = "qs_learn_progress";
   const SCORES_KEY   = "qs_learn_scores";   // { lessonId: { pts: N, max: 10 } }
 
-  // ── Theme sync ──────────────────────────────────────────────
+  // Theme sync
   function applyTheme(theme) {
     document.body.classList.toggle("dark", theme === "dark");
     var icon = document.getElementById("themeIcon");
@@ -48,7 +48,7 @@
     });
   }
 
-  // ── Progress tracking ────────────────────────────────────────
+  // Progress tracking
   function loadProgress() {
     try {
       var raw = localStorage.getItem(PROGRESS_KEY);
@@ -79,7 +79,7 @@
     if (link) link.hidden = false;
   }
 
-  // ── Score tracking ───────────────────────────────────────────
+  // Score tracking
   function loadScores() {
     try {
       var raw = localStorage.getItem(SCORES_KEY);
@@ -105,9 +105,7 @@
     badge.hidden = false;
   }
 
-  // ── MCQ interaction (a lesson may contain several knowledge-check
-  // questions; the 10 lesson points are split evenly across all of
-  // them and awarded once the last one is answered) ─────────────
+  // MCQ interaction — points split evenly, awarded after the last check
   var allChecks = document.querySelectorAll(".lesson-check");
   var totalChecks = allChecks.length;
   var answeredChecks = 0;
@@ -163,7 +161,7 @@
     });
   }
 
-  // ── Score badge DOM injection (appended after the final question) ─
+  // Score badge DOM injection (appended after the final question)
   (function injectScoreBadge() {
     if (!totalChecks) return;
     var lastCheck = allChecks[allChecks.length - 1];
@@ -174,7 +172,7 @@
     lastCheck.appendChild(badge);
   })();
 
-  // ── Running score chip injected into lesson header actions ───
+  // Running score chip injected into lesson header actions
   (function renderRunningScore() {
     var scores = loadScores();
     var total = Object.values(scores).reduce(function(s, v) { return s + (v.pts || 0); }, 0);
@@ -192,7 +190,7 @@
   // Show congrats button immediately if this lesson was already completed before
   if (loadProgress()[getLessonId()]) revealCongratsLink();
 
-  // ── Expand / accordion cards ─────────────────────────────────
+  // Expand / accordion cards
   document.querySelectorAll(".expand-card").forEach(function (card) {
     var header = card.querySelector(".expand-card-header");
     if (!header) return;
@@ -201,7 +199,7 @@
     });
   });
 
-  // ── Gate reference cards (click to expand detail) ─────────────
+  // Gate reference cards (click to expand detail)
   document.querySelectorAll(".gate-ref-card").forEach(function (card) {
     card.addEventListener("click", function () {
       var wasOpen = card.classList.contains("expanded");
@@ -210,7 +208,7 @@
     });
   });
 
-  // ── Probability slider ────────────────────────────────────────
+  // Probability slider
   document.querySelectorAll(".prob-slider").forEach(function (slider) {
     var wrap = slider.closest(".prob-slider-wrap");
     if (!wrap) return;
@@ -241,7 +239,7 @@
     update();
   });
 
-  // ── Exponential growth chart ──────────────────────────────────
+  // Exponential growth chart
   document.querySelectorAll(".exp-growth-chart").forEach(function (chart) {
     var bars = chart.querySelectorAll(".exp-bar");
     if (!bars.length) return;

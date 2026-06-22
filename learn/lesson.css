@@ -2,13 +2,13 @@
    All colors via CSS variables defined in ../../style.css
    No hardcoded color values. */
 
-/* ── Page scaffold ───────────────────────────────────────────── */
+/* Page scaffold */
 .lesson-page {
   min-height: 100vh;
   color: var(--text);
 }
 
-/* ── Learn index gradient background ─────────────────────────── */
+/* Learn index gradient background */
 body.dark:not(.lesson-page) {
 background:
   radial-gradient(
@@ -75,7 +75,7 @@ body:not(.dark):not(.lesson-page) {
   background-attachment: fixed;
 }
 
-/* ── Sandbox gradient button (Go to Sandbox) ─────────────────── */
+/* Sandbox gradient button (Go to Sandbox) */
 .btn-sandbox-gradient {
   background: linear-gradient(120deg, #1a7fcb, #6e3cba);
   color: #fff !important;
@@ -92,7 +92,7 @@ body.dark .btn-sandbox-gradient {
   filter: brightness(1.12);
 }
 
-/* ── Hero tagline ─────────────────────────────────────────────── */
+/* Hero tagline */
 .learn-hero-tagline {
   display: inline-flex;
   align-items: center;
@@ -119,7 +119,7 @@ body.dark .btn-sandbox-gradient {
   padding: 32px 20px 64px;
 }
 
-/* ── Breadcrumb ──────────────────────────────────────────────── */
+/* Breadcrumb */
 .lesson-breadcrumb {
   display: flex;
   align-items: center;
@@ -149,7 +149,7 @@ body.dark .btn-sandbox-gradient {
   font-weight: 500;
 }
 
-/* ── Lesson meta (part + read time) ─────────────────────────── */
+/* Lesson meta (part + read time) */
 .lesson-meta {
   display: flex;
   align-items: center;
@@ -179,7 +179,7 @@ body.dark .btn-sandbox-gradient {
   gap: 5px;
 }
 
-/* ── Title + subtitle ────────────────────────────────────────── */
+/* Title + subtitle */
 .lesson-title {
   font-size: 2rem;
   font-weight: 700;
@@ -197,7 +197,7 @@ body.dark .btn-sandbox-gradient {
   padding-left: 14px;
 }
 
-/* ── Content sections ────────────────────────────────────────── */
+/* Content sections */
 .lesson-section {
   margin-bottom: 32px;
 }
@@ -237,7 +237,7 @@ body.dark .btn-sandbox-gradient {
   color: var(--text);
 }
 
-/* ── Sandbox demo callout ────────────────────────────────────── */
+/* Sandbox demo callout */
 .lesson-demo-callout {
   border: 1px solid color-mix(in oklab, var(--accent), transparent 45%);
   border-radius: 14px;
@@ -299,7 +299,7 @@ body.dark .btn-sandbox-gradient {
   margin-top: 1px;
 }
 
-/* ── Lesson sandbox iframe ───────────────────────────────────── */
+/* Lesson sandbox iframe */
 .lesson-sandbox {
   width: 100%;
   height: 420px;
@@ -310,7 +310,7 @@ body.dark .btn-sandbox-gradient {
   background: var(--panel);
 }
 
-/* ── Knowledge check ─────────────────────────────────────────── */
+/* Knowledge check */
 .lesson-check {
   background: var(--panel);
   border: 1px solid var(--border);
@@ -420,7 +420,7 @@ body.dark .btn-sandbox-gradient {
   color: var(--text);
 }
 
-/* ── Score badge (shown after MCQ answer) ─────────────────────── */
+/* Score badge (shown after MCQ answer) */
 .lesson-score-badge {
   display: inline-flex;
   align-items: center;
@@ -455,7 +455,7 @@ body.dark .lesson-score-badge.pts-partial {
   to   { opacity: 1; transform: scale(1); }
 }
 
-/* ── Running score chip in topbar ─────────────────────────────── */
+/* Running score chip in topbar */
 .running-score-chip {
   display: inline-flex;
   align-items: center;
@@ -470,7 +470,7 @@ body.dark .lesson-score-badge.pts-partial {
   white-space: nowrap;
 }
 
-/* ── Takeaway block ──────────────────────────────────────────── */
+/* Takeaway block */
 .lesson-takeaway {
   border: 1px solid color-mix(in oklab, var(--accent-2), transparent 45%);
   border-left: 4px solid var(--accent-2);
@@ -500,7 +500,7 @@ body.dark .lesson-score-badge.pts-partial {
   margin: 0;
 }
 
-/* ── Lesson navigation ───────────────────────────────────────── */
+/* Lesson navigation */
 .lesson-nav {
   display: flex;
   justify-content: space-between;
@@ -520,7 +520,7 @@ body.dark .lesson-score-badge.pts-partial {
   margin-left: auto;
 }
 
-/* ── Learn index page ────────────────────────────────────────── */
+/* Learn index page */
 .learn-hero {
   padding: 40px 0 24px;
   margin-bottom: 12px;
@@ -664,7 +664,7 @@ body.dark .lesson-score-badge.pts-partial {
   display: block;
 }
 
-/* ── Responsive ──────────────────────────────────────────────── */
+/* Responsive */
 @media (max-width: 640px) {
   .lesson-wrap {
     padding: 20px 14px 48px;
@@ -698,7 +698,7 @@ body.dark .lesson-score-badge.pts-partial {
   }
 }
 
-/* ── Congratulations page ────────────────────────────────────── */
+/* Congratulations page */
 .congrats-hero {
   text-align: center;
   padding: 48px 0 36px;
@@ -822,7 +822,7 @@ body.dark .lesson-score-badge.pts-partial {
   text-decoration: none;
   font-family: "Space Grotesk", sans-serif;
 }
-/* ── Gradient nav buttons (matching root Guide button style) ──── */
+/* Gradient nav buttons (matching root Guide button style) */
 .btn-nav-next {
   background: linear-gradient(120deg, var(--accent), var(--accent-2)) !important;
   color: #fff !important;
@@ -836,7 +836,7 @@ body.dark .btn-nav-next {
   filter: brightness(1.1);
 }
 
-/* ── Expand / Accordion cards ─────────────────────────────────── */
+/* Expand / Accordion cards */
 .expand-cards {
   display: flex;
   flex-direction: column;
@@ -887,7 +887,7 @@ body.dark .btn-nav-next {
 .expand-card-inner p { margin: 0 0 10px; }
 .expand-card-inner p:last-child { margin-bottom: 0; }
 
-/* ── Flowchart ────────────────────────────────────────────────── */
+/* Flowchart */
 .lesson-flowchart {
   display: flex; flex-direction: column; align-items: center;
   margin: 24px 0;
@@ -923,7 +923,7 @@ body.dark .btn-nav-next {
   flex-wrap: wrap;
 }
 
-/* ── Quantum Timeline ─────────────────────────────────────────── */
+/* Quantum Timeline */
 .lesson-timeline { position: relative; margin: 24px 0; padding-left: 28px; }
 .lesson-timeline::before {
   content: ""; position: absolute; left: 8px; top: 0; bottom: 0;
@@ -947,7 +947,7 @@ body.dark .btn-nav-next {
 .tl-title { font-size: 0.95rem; font-weight: 700; color: var(--text); margin-bottom: 3px; }
 .tl-desc { font-size: 0.86rem; color: var(--muted); line-height: 1.55; }
 
-/* ── Comparison grid (classical vs quantum) ───────────────────── */
+/* Comparison grid (classical vs quantum) */
 .lesson-compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 20px 0; }
 .compare-col { border: 1px solid var(--border); border-radius: 12px; background: var(--panel); overflow: hidden; }
 .compare-col-head {
@@ -963,7 +963,7 @@ body.dark .btn-nav-next {
 .compare-col.classical .compare-row i { color: var(--muted); }
 .compare-col.quantum .compare-row i { color: var(--accent); }
 
-/* ── Probability slider visualizer ───────────────────────────── */
+/* Probability slider visualizer */
 .prob-slider-wrap { background: var(--panel); border: 1px solid var(--border); border-radius: 14px; padding: 20px; margin: 24px 0; }
 .prob-slider-label {
   font-size: 0.72rem; font-weight: 700; letter-spacing: 0.05em;
@@ -994,7 +994,7 @@ body.dark .btn-nav-next {
 }
 .prob-slider-caption { font-size: 0.82rem; color: var(--muted); text-align: center; line-height: 1.5; margin-top: 4px; }
 
-/* ── Gate reference cards ─────────────────────────────────────── */
+/* Gate reference cards */
 .gate-ref-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(145px, 1fr)); gap: 10px; margin: 20px 0; }
 .gate-ref-card {
   border: 2px solid var(--gate-ref-color, var(--border));
@@ -1008,7 +1008,7 @@ body.dark .btn-nav-next {
 .gate-ref-detail { display: none; font-size: 0.8rem; color: var(--text); margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border); line-height: 1.55; }
 .gate-ref-card.expanded .gate-ref-detail { display: block; }
 
-/* ── Exponential growth chart ─────────────────────────────────── */
+/* Exponential growth chart */
 .exp-growth-wrap { background: var(--panel); border: 1px solid var(--border); border-radius: 14px; padding: 20px; margin: 24px 0; }
 .exp-growth-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--accent-2); margin-bottom: 14px; display: flex; align-items: center; gap: 6px; }
 .exp-growth-chart { display: flex; align-items: flex-end; gap: 5px; height: 120px; margin-bottom: 10px; }

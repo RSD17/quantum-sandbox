@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="../../style.css" />
   <link rel="stylesheet" href="../lesson.css" />
   <style>
-    /* ── Notation explorer ─────────────────────────── */
+    /* Notation explorer */
     .notation-card {
       background: var(--panel);
       border: 1px solid var(--border);
@@ -88,7 +88,7 @@
       margin-bottom: 2px;
     }
 
-    /* ── Amplitude calculator ──────────────────────── */
+    /* Amplitude calculator */
     .amp-calc {
       background: var(--panel);
       border: 1px solid var(--border);
@@ -182,7 +182,7 @@
     .amp-norm-note.valid   { color: var(--accent); font-style: normal; }
     .amp-norm-note.invalid { color: #e34d4d;       font-style: normal; }
 
-    /* ── State equation display ──────────────────── */
+    /* State equation display */
     .state-eq-display {
       font-family: 'IBM Plex Mono', monospace;
       font-size: 1.05rem;
@@ -197,7 +197,7 @@
       letter-spacing: 0.02em;
     }
 
-    /* ── Ket flip card ───────────────────────────── */
+    /* Ket flip card */
     .ket-flip-wrap {
       display: flex;
       flex-wrap: wrap;
@@ -527,7 +527,7 @@
 
   <script src="../lesson.js"></script>
   <script>
-    // ── Ket flip cards ──────────────────────────────────────────
+    // Ket flip cards
     document.querySelectorAll(".ket-flip-card").forEach(function(card) {
       function toggle() { card.classList.toggle("flipped"); }
       card.addEventListener("click", toggle);
@@ -536,7 +536,7 @@
       });
     });
 
-    // ── Notation part highlight ─────────────────────────────────
+    // Notation part highlight
     document.querySelectorAll(".notation-part").forEach(function(part) {
       function activate() {
         document.querySelectorAll(".notation-part").forEach(function(p) { p.classList.remove("active"); });
@@ -548,7 +548,7 @@
       });
     });
 
-    // ── Amplitude calculator ─────────────────────────────────────
+    // Amplitude calculator
     (function() {
       var alphaSlider = document.getElementById("alphaSlider");
       var betaSlider  = document.getElementById("betaSlider");
@@ -561,8 +561,7 @@
 
       function fmt(v) { return v.toFixed(3); }
 
-      // Renders the read-outs for a given (a, b) pair. Does NOT touch the
-      // sliders, so it's safe to call from either slider's own handler.
+      // Renders read-outs for (a, b); doesn't touch the sliders, so it's safe to call from either handler.
       function render(a, b) {
         var pAp = Math.round(a * a * 100);
         var pBp = Math.round(b * b * 100);
@@ -577,12 +576,7 @@
         normNote.className = "amp-norm-note valid";
       }
 
-      // The two amplitudes are not independent: normalization (|α|²+|β|²=1)
-      // means fixing one fixes the other (up to sign, which this demo
-      // ignores). So dragging one slider derives the other from
-      // b = sqrt(1 - a²) directly in full precision — never by rounding
-      // through the dependent slider's own step — which keeps the sum
-      // exactly 1 instead of "almost 1" by luck of slider granularity.
+      // Normalization links the sliders: dragging one derives the other via sqrt(1 - x²).
       function fromAlpha() {
         var a = Number(alphaSlider.value) / 1000;
         var b = Math.sqrt(Math.max(0, 1 - a * a));
